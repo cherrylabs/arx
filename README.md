@@ -7,7 +7,7 @@ Arx - PHP Constructor Kit
 
 1. Upload `/arx`, `/arxmin`, `a-config.php` and `index.php` to your server:
 2. Run you browser and type your URL into it.
-
+* * *
 
 # Setup
 
@@ -26,16 +26,16 @@ By default, Arx run with SQLite.
 
 
 ### Server
-
+* * *
 
 # Methods
-
+* * *
 
 # Pattern
-
+* * *
 
 # Demonstration
-
+* * *
 
 # Requirements
 
