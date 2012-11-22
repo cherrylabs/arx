@@ -7,8 +7,11 @@ Arx - PHP Constructor Kit
 
 1. Upload those file to your server:
 > /arx
+>
 > /arxmin
+>
 > a-config.php
+>
 > index.php
 
 2. Run you browser and type your URL into it.
