@@ -5,15 +5,7 @@ Arx - PHP Constructor Kit
 
 # Starting
 
-1. Upload those file to your server:
-> /arx
->
-> /arxmin
->
-> a-config.php
->
-> index.php
-
+1. Upload `/arx`, `/arxmin`, `a-config.php` and `index.php` to your server:
 2. Run you browser and type your URL into it.
 
 
