@@ -1,0 +1,256 @@
+html, body{
+	height: 100%;
+	margin: 0;
+}
+body{
+	color: #666;
+	font-family: 'RobotoSansRegular', Arial, sans-serif;
+	min-width: 980px;
+}
+
+.input-append .add-on{
+	margin-bottom: 0;
+	margin-left: -5px;
+}
+
+@font-face {
+	font-family: 'RobotoSansRegular';
+	src: url('RobotoSans-webfont.eot');
+	src: url('RobotoSans-webfont.eot?#iefix') format('embedded-opentype'),
+		url('RobotoSans-webfont.woff') format('woff'),
+		url('RobotoSans-webfont.ttf') format('truetype'),
+		url('RobotoSans-webfont.svg#RobotoSansRegular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+:focus, *:focus{outline: none;}
+
+h1, h2, h3, h4, h5, h6{
+	color: #333;
+}
+
+h1{
+	font-size: 20px;
+}
+
+h2{
+	font-size: 18px;
+}
+
+a{
+	color: #1b6aad;
+	text-decoration: none;
+	-webkit-transition: all 160ms linear;
+	-khtml-transition: all 160ms linear;
+	-moz-transition: all 160ms linear;
+	-ms-transition: all 160ms linear;
+	-o-transition: all 160ms linear;
+	transition: all 160ms linear;
+}
+a:hover{
+	text-decoration: underline;
+}
+
+.blue{
+	color: #1b6aad;
+}
+.green{
+	color: #69ae30;
+}
+.orange{
+	color: #f6810f;
+}
+.red{
+	color: #f32f2f;
+}
+
+.app-notification{
+	background: url(../img/app-notification.png) no-repeat 0 0;
+	color: #fff;
+	display: inline-block;
+	font: normal normal 11px/16px Arial, Helvetica, sans-serif;
+	height: 16px;
+	text-align: center;
+	width: 16px;
+}
+
+.container{
+	height: 100%;
+	width: auto;
+}
+
+
+.arx-sidebar, .arx-content{
+	float: left;
+	display: inline-block;
+	height: 100%;
+}
+
+/* -------- ARX-SIDEBAR -------- */
+.arx-sidebar{
+	background: #f7f7f7;
+	border-right: 1px solid #ebebeb;
+	width: 260px;
+}
+
+header{
+	min-height: 40px;
+	padding: 5px 10px;
+}
+
+.arx-list{}
+	.arx-list ul{
+		border-top: 1px solid #ebebeb;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+		.arx-list li{
+			border-bottom: 1px solid #ebebeb;
+			border-top: 1px solid #fff;
+		}
+			.arx-list li a{
+				color: #666;
+				display: block;
+				height: 40px;
+				line-height: 40px;
+				padding-left: 20px;
+				position: relative;
+				text-decoration: none;
+				-webkit-transition: all 160ms linear;
+				-khtml-transition: all 160ms linear;
+				-moz-transition: all 160ms linear;
+				-ms-transition: all 160ms linear;
+				-o-transition: all 160ms linear;
+				transition: all 160ms linear;
+			}
+				.arx-list li a .app-name{}
+					.arx-list li a .app-name .app-notification{
+						margin: 0 0 0 5px;
+					}
+				.arx-list li a .app-image{
+					-webkit-opacity: .7;
+					-khtml-opacity: .7;
+					-moz-opacity: .7;
+					-o-opacity: .7;
+					-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+					filter: alpha(opacity=70);
+					opacity: .7;
+					position: absolute;
+					right: 20px;
+					-webkit-transition: all 160ms linear;
+					-khtml-transition: all 160ms linear;
+					-moz-transition: all 160ms linear;
+					-ms-transition: all 160ms linear;
+					-o-transition: all 160ms linear;
+					transition: all 160ms linear;
+				}
+			.arx-list li a:hover{
+				background: #f4f4f4;
+				color: #333;
+			}
+				.arx-list li a:hover .app-image{
+					-webkit-opacity: 1;
+					-khtml-opacity: 1;
+					-moz-opacity: 1;
+					-o-opacity: 1;
+					-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+					filter: alpha(opacity=100);
+					opacity: 1;
+				}
+		.arx-list li.active{
+			background: #ea533f;
+			border-top: none;
+		}
+			.arx-list li.active a{
+				background: #fff;
+				color: #333;
+				left: 5px;
+				padding-left: 15px;
+				width: 241px;
+			}
+				.arx-list li.active a .app-image{
+					-webkit-opacity: 1;
+					-khtml-opacity: 1;
+					-moz-opacity: 1;
+					-o-opacity: 1;
+					-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+					filter: alpha(opacity=100);
+					opacity: 1;
+					right: 21px;
+				}
+
+/* -------- ARX-CONTENT -------- */
+.arx-content{
+	width: auto;
+}
+
+.app-menu{
+	border-bottom: 1px solid #ebebeb;
+}
+	.app-menu ul{
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.app-menu ul.left{
+		float: left;
+	}
+		.app-menu ul.left li{
+			border-right: 1px solid #ebebeb;
+		}
+	.app-menu ul.right{
+		float: right;
+	}
+		.app-menu ul.right li{
+			border-left: 1px solid #ebebeb;
+		}
+		.app-menu ul li{
+			display: inline-block;
+			float: left;
+		}
+			.app-menu ul li a{
+				display: block;
+				float: left;
+				height: 50px;
+				line-height: 50px;
+				position: relative;
+				text-align: center;
+				width: 50px;
+			}
+			.app-menu ul li a.fullwidth{
+				margin: 0 10px;
+				width: auto;
+			}
+				.app-menu ul li a i{
+					-webkit-opacity: .7;
+					-khtml-opacity: .7;
+					-moz-opacity: .7;
+					-o-opacity: .7;
+					-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+					filter: alpha(opacity=70);
+					opacity: .7;
+					-webkit-transition: all 160ms linear;
+					-khtml-transition: all 160ms linear;
+					-moz-transition: all 160ms linear;
+					-ms-transition: all 160ms linear;
+					-o-transition: all 160ms linear;
+					transition: all 160ms linear;
+				}
+				.app-menu ul li a:hover i{
+					-webkit-opacity: 1;
+					-khtml-opacity: 1;
+					-moz-opacity: 1;
+					-o-opacity: 1;
+					-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+					filter: alpha(opacity=100);
+					opacity: 1;
+				}
+				.app-menu ul li a .app-notification{
+					position: absolute;
+					right: 10px;
+					top: 10px;
+				}
+
+.app-content{}
