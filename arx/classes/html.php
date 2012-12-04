@@ -125,7 +125,7 @@ class c_HTML extends Kohana_HTML {
 	
 	static function getParams($structure)
 	{
-		preg_match_all("/\:(.*?):/", $structure, $out);
+		preg_match_all("/\{(.*?)}/", $structure, $out);
 		return $out;
 	}
 

@@ -6,12 +6,12 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<BASE href="<?= u::getURLPath() ?>">
-	<?= $this->_css; ?>
-	<?= $this->_head; ?>
+	<BASE href="<?php echo u::getURLPath() ?>">
+	<?php echo $this->_css; ?>
+	<?php echo $this->_head; ?>
 </head>
-<body <?= c_html::attributes($this->_body->_attributes) ?>>
-	<?= $this->_body ?>
-	<?= $this->_js ?>
+<body <?php echo c_html::attributes($this->_body->_attributes) ?>>
+	<?php echo $this->_body ?>
+	<?php echo $this->_js ?>
 </body>
 </html>

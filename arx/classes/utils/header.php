@@ -1,13 +1,12 @@
-array(
+<?php
+$aHeader = array(
 
-"js" => 'header("Content-type: application/x-javascript");',
+	'js' => 'Content-type: application/x-javascript; charset=utf-8',
 
-"pdf" => 'header("Content-type: application/x-javascript");',
+	'pdf' => 'Content-type: application/x-javascript; charset=utf-8',
 
-"doc" => 'header("Content-type: application/x-javascript");',
+	'doc' => 'Content-type: application/x-javascript; charset=utf-8',
 
-"xls" => 'header("Content-type: application/x-javascript");',
-
-"utf-8" => 'header("Content-Type: text/plain; charset=utf-8");',
+	'xls' => 'Content-type: application/x-javascript; charset=utf-8'
 
 );

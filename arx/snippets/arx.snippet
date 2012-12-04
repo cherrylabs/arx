@@ -5,22 +5,27 @@
     <scope></scope>
     <description>My Fancy Snippet</description>
 </snippet>
+
 <snippet>
-    <content><![CDATA[ <?= lg('$1',1, array("$2" => "$3", "$4" => "$5")); ?> ]]></content>
+    <content><![CDATA[ <?php echo lg('$1',1, array("$2" => "$3", "$4" => "$5")); ?> ]]></content>
     <tabTrigger>lg</tabTrigger>
     <scope>source.php</scope>
     <description>Language creation</description>
 </snippet>
 
 <snippet>
-    <content><![CDATA[
-    <snippet>
-    <content><![CDATA[$1]$2]></content>
-    <tabTrigger></tabTrigger>
-    <scope></scope>
-    <description> </description>
-</snippet>]]></content>
-    <tabTrigger>snippet</tabTrigger>
-    <scope></scope>
-    <description>Snippet to snippet (/!\ delete the [)</description>
+   <content>
+	<![CDATA[
+	<snippet>
+	    <content><![CDATA[$1]$2]></content>
+	    <tabTrigger></tabTrigger>
+	    <scope></scope>
+	    <description> </description>
+	</snippet>
+	]]>
+	</content>
+   <tabTrigger>snippet</tabTrigger>
+   <scope></scope>
+   <description>Snippet to snippet (/!\ delete the [)</description>
 </snippet>
+

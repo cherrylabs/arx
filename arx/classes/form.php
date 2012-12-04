@@ -15,7 +15,7 @@ class Form extends Kohana_Form {}
 	 * @comments :
 */
 
-class c_form extends Form
+class c_form
 {
 	private $_form, $_isClosed = false;
 
@@ -44,29 +44,45 @@ class c_form extends Form
 		
 	}
 	
-	static function close()
+	static function open($action = null, $attributes = null)
 	{
-		$this->_form .= Form::close();
-		
-		return $this->_form;
+			return Form::open($action, $attributes);
 	}
 	
-	function output()
+	static function close()
+	{
+		if(isset($this))
+		{
+			$this->_form .= Form::close();
+		
+			return $this->_form;
+		}
+		else
+		{
+			return Form::close();
+		}
+	}
+	
+	function output($type = null)
 	{
 	
-		$this->_form .= Form::close();
+		$this->_form .= self::close();
 		
-		return $this->_form;
+		switch(true)
+		{
+			case ($type == 'html'):
+				return nl2br(htmlspecialchars($this->_form));
+			break;
+			default:
+				return $this->_form;
+			break;
+		}
 		
 	}
 	
 	function outputHTML()
 	{
-	
-		$this->_form .= Form::close();
-		
-		return nl2br(htmlspecialchars($this->_form));
-		
+		return self::output('html');
 	}
 	
 	

@@ -16,5 +16,7 @@
 
 interface i_class 
 {  
-	static function help();
+	static function help(){
+		
+	}
 }

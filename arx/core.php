@@ -39,6 +39,7 @@ class Arx{
 	
 	
 	public function __construct( $aConfig = array() ) {
+		
 		global $cfg;
 		
 		$aConfig = u::toArray( $aConfig );
@@ -53,7 +54,7 @@ class Arx{
 		
 		$this->tpl->error = array();
 		
-		$this->db = new a_db();
+		//$this->db = new a_db();
 		
 	} // __construct
 	
@@ -92,23 +93,10 @@ class Arx{
 				break;
 			
 			// Load
-			case 'query':
-				
-				return $this->orm->query($mArgs[0], $mArgs[1] );
-		
-				break;
-			
-			// Load
 			case 'loadPHP':
 			case 'loadCSS':
 			case 'loadJS':
 				$this->_oLoad->{ $sName }( $mArgs[0], $mArgs[1] );
-				break;
-			
-			// Utils
-			case 'global':
-			case 'globals':
-				// return
 				break;
 		}
 	} // __call
@@ -173,8 +161,38 @@ class Arx{
 	} // __set
 	
 	static public function uses($mFiles)
-	{
+	{	
 		injects_once($mFiles);
+	}
+	
+	/**
+	 * require_config
+	 * force a class to check if a global config is defined
+	 * @param $
+	 *	
+	 * @return
+	 *	
+	 * @code 
+	 *	
+	 * @endcode
+	 */
+	static public function require_config($mValues)
+	{
+		$aValues = u::toarray($mValues);
+		
+		$aUndefinedVars = array();
+		
+		foreach($aValues as $key=>$value)
+		{
+			if(! isset($GLOBALS[$key]))
+			{
+				$aUndefinedVars[] = $key;
+			}
+		}
+		
+		if(!empty($aUndefinedVars))
+			c_debug::warning('Missing configuration', $aUndefinedVars);
+		
 	}
 	
 } // class::arx
@@ -208,7 +226,7 @@ class asession
 }
 
 /**
-	 * Arx
+	 * Arx injector => will add the script orderly in the same path, then in the root, then in the ARX directory
 	 * @author Daniel Sum
 	 * @version 0.1
 	 * @package arx
@@ -220,20 +238,25 @@ function inject_once( $mFiles = null ){
 	
 	if(empty($mFiles))	trigger_error("error");
 	
-	$sPath = DIR_ARX . DS . str_replace(
-				array('kohana_', 'classes_','c_','adapters_','a_', 'ctrl_')
-				, array(CLASSES.DS.'kohana'.DS, CLASSES.DS,CLASSES.DS,ADAPTERS.DS,ADAPTERS.DS,CTRL.DS, CTRL.DS) 
+	$sFilename = str_replace(
+				array('kohana_', 'classes_','c_','adapters_','a_', 'ctrl_', 'm_')
+				, array(CLASSES.DS.'kohana'.DS, CLASSES.DS,CLASSES.DS,ADAPTERS.DS,ADAPTERS.DS,CTRL.DS, MODELS.DS.'m_') 
 				, $mFiles
 				).EXT_PHP;
 	
 	switch(true)
 	{	
-		case ( is_file( $sPath ) ):
-			include_once( $sPath );
+		//This function 
+		case ( is_file(  $sFilename ) ):
+			include_once( $sFilename );
 		break;
 		
-		case ( is_file(DIR_ARX . DS . $mFiles)):
-			include_once( DIR_ARX . DS . $mFiles );
+		case ( is_file( DIR_ROOT . DS . $sFilename ) ):
+			include_once( DIR_ROOT . DS . $sFilename );
+		break;
+		
+		case ( is_file(DIR_ARX . DS . $sFilename)):
+			include_once( DIR_ARX . DS . $sFilename );
 		break;
 		
 		default:
@@ -246,11 +269,15 @@ function inject_once( $mFiles = null ){
 function injects_once($mArray)
 {
 	try{
-		$aFiles = u::toArray($mArray);
 		
+		$aFiles = u::toArray($mArray);
+			
 		if(is_array($aFiles))
 		{
-			foreach($aFiles as $file)	inject_once($file);
+			foreach($aFiles as $file)
+			{
+				inject_once($file);
+			}
 		} 	
 		else inject_once($mArray);
 
@@ -258,7 +285,6 @@ function injects_once($mArray)
 }
 
 /*----- AUTOLOAD REGISTER -----*/
-
 
 function arx_autoload( $className )
 {
@@ -295,8 +321,9 @@ function arx_autoload( $className )
 	}
 }
 
-//little class to add automatically a class by default
+//if class is not found => call this function
 spl_autoload_register('arx_autoload');
 
-//Application Hook looks for every additionnal scripts to load in apps (by default load all appFiles in DIR_APPS . APPS /inc/xxx.load.php)
+// Application Hook looks for every additionnal scripts to load in apps (by default load all appFiles 
+# in DIR_APPS . APPS /inc/xxx.load.php, /css/xxx.load.css, /js/xxx.load.php)
 c_hook::preload();

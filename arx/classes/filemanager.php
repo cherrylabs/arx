@@ -103,8 +103,8 @@ class c_fm
 	 */
 	public function setPath($path=""){
 		if($path != ""){ 
-			$this->_path = str_replace("\\", "/", $path);
-			$this->_path = (substr($this->_path, -1) == "/") ? substr($this->_path, 0, -1) : $this->_path;
+			$this->_path = str_replace("\\", DS, $path);
+			$this->_path = (substr($this->_path, -1) == DS) ? substr($this->_path, 0, -1) : $this->_path;
 		}
 	}
 
@@ -150,21 +150,21 @@ class c_fm
 	public function create($is_dir=false, $create_if_exists=false){
 		if(file_exists($this->_path) && !$create_if_exists) return false;
 		if(!$is_dir){
-			$parts = explode("/", $this->_path);
+			$parts = explode(DS, $this->_path);
 			$path = "";
 			foreach ($parts as $part){
 				if($part == end($parts)) break;
-				$path .= $part . "/";
+				$path .= $part . DS;
 				@mkdir($path, "0700");
 			}
 			if($handle = fopen($this->_path, 'w')){
 				fclose($handle);
 			}
 		}else{
-			$parts = explode("/", $this->_path);
+			$parts = explode(DS, $this->_path);
 			$path = "";
 			foreach ($parts as $part){
-				$path .= $part . "/";
+				$path .= $part . DS;
 				@mkdir($path, "0700");
 			}
 		}
@@ -223,8 +223,8 @@ class c_fm
 	public function copy($destination){
 		if($destination == "") throw new Exception("Destination is not specified.");
 			
-		$destination = str_replace("\\", "/", $destination);
-		$destination = (substr($destination, -1) == "/") ? substr($destination, 0, -1) : $destination;
+		$destination = str_replace("\\", DS, $destination);
+		$destination = (substr($destination, -1) == DS) ? substr($destination, 0, -1) : $destination;
 		if(is_dir($this->_path)){
 			
 			// Create paths recursively
@@ -236,14 +236,14 @@ class c_fm
 					$paths[] = str_replace($this->_path, "", $item['fullpath']);
 				}else{
 					$file = str_replace($this->_path, "", $item['fullpath']);
-					$files[] = (substr($file, 0, 1) == "/") ? $file : "/" . $file;
+					$files[] = (substr($file, 0, 1) == DS) ? $file : DS . $file;
 				}
 			}
 			uasort($paths, array($this, "lengthSort"));
 			
 			// Create directory structure
 			foreach ($paths as $path){
-				$path = (substr($path, 0, 1) == "/") ? $path : "/" . $path;
+				$path = (substr($path, 0, 1) == DS) ? $path : DS . $path;
 				$new_directory = $destination . $path;
 				@mkdir($destination);
 				if(!file_exists($new_directory)){
@@ -308,7 +308,7 @@ class c_fm
 		$exclude_dir = array_map("strtolower", $exclude_dir);
 		
 		$dir = ($dir == "") ? $this->_path : $dir;
-		if(substr($dir, -1) != "/") $dir .= "/";
+		if(substr($dir, -1) != DS) $dir .= DS;
 
 		// Open the folder 
 		$dir_handle = @opendir($dir) or die("Unable to open $dir"); 
@@ -370,7 +370,7 @@ class c_fm
 		$dir = array_map("strtolower", $dir);
 		
 		$dir = ($dir == "") ? $this->_path : $dir;
-		if(substr($dir, -1) != "/") $dir .= "/";
+		if(substr($dir, -1) != DS) $dir .= DS;
 
 		// Open the folder 
 		$dir_handle = @opendir($dir) or die("Unable to open $dir"); 
@@ -549,7 +549,7 @@ class c_fm
 	 */
 	public static function parentDir()
 	{
-		$parentDir = join(array_slice(split( "/" ,dirname($_SERVER['PHP_SELF'])),0,-1),"/").'/';
+		$parentDir = join(array_slice(split( DS ,dirname($_SERVER['PHP_SELF'])),0,-1),DS).'/';
 		return $parentDir;
 	}
 	
@@ -643,7 +643,7 @@ class c_fm
 		{
 			if ($file != "." && $file != "..")
 			{
-				$typepath = $mypath . "/" . $file ;
+				$typepath = $mypath . DS . $file ;
 				if (filetype ($typepath) == 'dir')
 				{
 					$this->recurse_chown_chgrp ($typepath, $uid, $gid);
@@ -712,7 +712,7 @@ class c_fm
 		}
 		else
 		{
-			$df = disk_free_space("/");
+			$df = disk_free_space(DS);
 		}
 		return $df;
 	}

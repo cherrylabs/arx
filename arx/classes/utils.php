@@ -28,7 +28,7 @@ abstract class u{
 			break;
 			
 		}
-	}	 
+	}   
 
 //A :
 	
@@ -59,9 +59,9 @@ abstract class u{
 			return false;
 		}
 		$bodyFunc = 'function ' . $aliasName . '() {
-					 $args = func_get_args();
-					 return call_user_func_array("' . $realfunc . '", $args);
-			 }';
+	        $args = func_get_args();
+	        return call_user_func_array("' . $realfunc . '", $args);
+	    }';
 		eval($bodyFunc);
 		return true;
 	}
@@ -274,28 +274,36 @@ abstract class u{
 		if(!isset($_SESSION)) session_start();
 	}
 	
-	public static function cleanParam($array, $mysql = false)
-	{
-		if (isset($array) && is_array($array))
-		{
-			if	($mysql === true)
-			{
-				foreach
-				($array as $key => $val) $array[$key] = mysql_real_escape_string($val);
-			} else
-			{
-				foreach
-				($array as $key => $val) $array[$key] = Utils::cleanVar($val);
+	public static function cleanParam($array, $mysql = false) {
+		if (isset($array) && is_array($array)) {
+			if	($mysql === true) {
+				foreach ($array as $key => $val) {
+					$array[$key] = mysql_real_escape_string($val);
+				}
+			} else {
+				foreach ($array as $key => $val) {
+					$array[$key] = u::cleanVar($val);
+				}
 			}
+
 			return $array;
 		}
 
 		return false;
-	}
+	} // cleanParam
 
-	public static function cleanVar($var, $charset = 'UTF-8')
-	{
+	public static function cleanVar($var, $charset = 'UTF-8') {
 		return htmlentities($var, ENT_QUOTES, $charset);
+	} // cleanVar
+	
+	public static function curl_get($url) {
+	    $curl = curl_init($url);
+	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	    curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+	    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+	    $return = curl_exec($curl);
+	    curl_close($curl);
+	    return $return;
 	}
 
 //D :
@@ -307,68 +315,6 @@ abstract class u{
 		$new_mt = ((float)$new_usec + (float)$new_sec);
 		return $new_mt - $old_mt;
 	}
-
-	public static function download($sPath, $sName) {
-		if (!file_exists($sPath)) {
-			return false;
-		}
-		
-		switch (strrchr(basename($sPath), '.')) {
-			case '.gz':
-			case '.tgz':
-				$type = 'application/x-gzip';
-				break;
-			
-			case '.zip':
-				$type = 'application/zip';
-				break;
-			
-			case '.pdf':
-				$type = 'application/pdf';
-				break;
-			
-			case '.png':
-				$type = 'image/png';
-				break;
-			
-			case '.gif':
-				$type = 'image/gif';
-				break;
-			
-			case '.jpg':
-				$type = 'image/jpeg';
-				break;
-			
-			case '.txt':
-				$type = 'text/plain';
-				break;
-			
-			case '.htm':
-			case '.html':
-				$type = 'text/html';
-				break;
-			
-			default:
-				$type = 'application/octet-stream';
-		}
-		
-		if (!isset($sName)) {
-			$sName = $sPath;
-		}
-		
-		header('Content-Disposition: attachment; filename="' . $sName .'"');
-		header('Content-Type: application/force-download');
-		header('Content-Transfer-Encoding: ' . $type . "\n");
-		header('Content-Length: '.filesize($sPath));
-		header('Pragma: no-cache');
-		header('Cache-Control: must-revalidate, post-check=0, pre-check=0, public');
-		header('Expires: 0');
-		header('Connection: close');
-		
-		readfile($sPath);
-		
-		return true;
-	} // download
 
 //E :
 
@@ -389,7 +335,7 @@ abstract class u{
 
 	public static function epre($v)
 	{
-		return '<pre>'.print_r($v, TRUE).'</pre>';
+		return '<pre style="background: #fff;border: 1px solid grey;clear: both;color: black;display: block;margin: 5px;padding: 5px;position: relative;width: 50%;z-index: 9999;">'.print_r($v, TRUE).'</pre>';
 	}
 
 
@@ -434,7 +380,8 @@ abstract class u{
 	
 	public static function get_json($file, $as_array = false)
 	{
-		return json_decode(@file_get_contents(u::getURL($file)), $as_array);
+		if(!empty($file))
+			return json_decode(@file_get_contents(u::getURL($file)), $as_array);
 	}
 	
 	public static function get_contents($file)
@@ -469,12 +416,12 @@ abstract class u{
 		
 		if(is_file($file))
 		{
-			return str_replace(DIR_ROOT, URL_ROOT, $file);
+			return str_replace(array(DIR_ROOT, DS), array(URL_ROOT, "/"), $file);
 		}
 		elseif(is_dir($file))
-			return str_replace(DIR_ROOT, URL_ROOT, $file);
+			return str_replace(array(DIR_ROOT, DS), array(URL_ROOT, "/"), $file);
 		
-		return $_SERVER['HTTP_HOST'].str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
+		return str_replace(DS, "/", $_SERVER['HTTP_HOST'].str_replace('index.php', '', $_SERVER['SCRIPT_NAME']));
 	}
 	
 	
@@ -496,43 +443,41 @@ abstract class u{
 	
 	public static function header($type)
 	{
-		$array = eval(file_get_contents(dirname(__FILE__).DS.'utils'.DS.'header.php'));
+		include_once(dirname(__FILE__).DS.'utils'.DS.'header.php');
 		
-		predie($array);
-		
-		return $array[$type];
+		header($aHeader[$type]);
 	}
 
 //I :
 	public static function is_json($str)
 	{ 
-	 	return json_decode($str) != null;
+   	return json_decode($str) != null;
 	}
 	
 	public static function is_md5($str)
 	{
-	 	return (bool) preg_match('/^[0-9a-f]{32}$/i', $str);
+   	return (bool) preg_match('/^[0-9a-f]{32}$/i', $str);
 	}
 	
 	public static function is_sha1($str)
 	{
-	 	return (bool) preg_match('/^[0-9a-f]{40}$/i', $str);
+   	return (bool) preg_match('/^[0-9a-f]{40}$/i', $str);
 	}
 	
 	public static function is_sha256($str)
 	{
-	 	return (bool) preg_match('/^[0-9a-f]{64}$/i', $str);
+   	return (bool) preg_match('/^[0-9a-f]{64}$/i', $str);
 	}
 	
 	public static function is_multi_array($arr)
 	{
 		if (count($myarray) == count($myarray, COUNT_RECURSIVE)) 
 		{
-			return false;
+		  return false;
 		}
 		else
 		{
-			return true;
+		  return true;
 		}
 	}
 
@@ -544,8 +489,8 @@ abstract class u{
 	}
 	
 	public static function json_die($array) {
-				header("content-type: application/json");
-				die(json_encode($array, true));
+        header("content-type: application/json");
+        die(json_encode($array, true));
 	}
 
 //K :
@@ -858,7 +803,7 @@ abstract class u{
 			$source = imagecreatefrompng($image);
 			break;
 		}
-		//	$source = imagecreatefromjpeg($image) || imagecreatefromgif($image) || imagecreatefrompng($image);
+		//  $source = imagecreatefromjpeg($image) || imagecreatefromgif($image) || imagecreatefrompng($image);
 		imagecopyresampled($newImage, $source, 0, 0, 0, 0, $newImageWidth, $newImageHeight, $width, $height);
 		imagejpeg($newImage, $image, 90);
 		chmod($image, 0777);
@@ -898,6 +843,22 @@ abstract class u{
 		return $success;
 	}
 	
+
+	/**
+	 * [slug Slugify a string]
+	 * @param  string  $phrase
+	 * @param  integer $maxLength
+	 * @return string
+	 */
+	public static function slug($phrase, $maxLength = 200) {
+	    $result = strtolower($phrase);
+	    $result = preg_replace("/[^a-z0-9\s-]/", "", $result);
+	    $result = trim(preg_replace("/[\s-]+/", " ", $result));
+	    $result = trim(substr($result, 0, $maxLength));
+	    $result = preg_replace("/\s/", "-", $result);
+	    return $result;
+	} // slug
+	
 	/**
 	 * strpos with array needle
 	 *
@@ -921,6 +882,27 @@ abstract class u{
 		return min($chr);
 	}
 	
+	/**
+	 * Same function as strtr but add a { matches }
+	 *
+	 * @param $
+	 *	
+	 * @return
+	 *	
+	 * @code 
+	 *	
+	 * @endcode
+	 */
+	public static function strtr($haystack, $aMatch, $aDelimiter = array("{","}"))
+	{
+		$aCleaned = array();
+		foreach($aMatch as $key => $v)
+		{
+			$aCleaned[$aDelimiter[0].$key.$aDelimiter[1]] = $v;
+		}
+		
+		return strtr($haystack, $aCleaned);
+	}
 	
 
 	public static function str_to_hex($string)

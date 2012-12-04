@@ -1,18 +1,19 @@
-;(function($){ // ex.: $.notifications.add({title: 'That is cool!', text: 'And it is really simple indeed!'});
+
+;(function($){
 	$.notifications = {
 		defaults: {
-			className: 'notification'
-			, alive: 5000
-			, fadeIn: 600
-			, fadeOut: 800
-			, tpl: '<div class="{className}">{image}<div class="{className}-title">{title}</div><div class="{className}-text">{text}</div></div>'
-			, callback: function(){}
+			className: 'notification',
+			alive: 5000,
+			fadeIn: 600,
+			fadeOut: 800,
+			tpl: '<div class="{className}"><div class="{className}-img"><img src="{image}" alt="" /></div><div class="{className}-title">{title}</div><div class="{className}-text">{text}</div></div>',
+			callback: function(){},
 			
-			, sticky: false
+			sticky: false,
 			
-			, image: ''
-			, title: ''
-			, text: ''
+			image: '',
+			title: '',
+			text: ''
 		}, // defaults
 		
 		private: {

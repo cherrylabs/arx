@@ -1,6 +1,6 @@
 <?php global $hooked_css, $hooked_js ; ?>
-<form method="post" action="" <?= C_HTML::attributes($this->_formAttributes) ?>>
-<table id="<?= $this->id ?>" class="arx_datatable table table-striped table-bordered <?= $this->class ?>" border="1">
+<form method="post" action="" <?php echo C_HTML::attributes($this->_formAttributes) ?>>
+<table id="<?php echo $this->id ?>" class="arx-table table table-striped table-bordered <?php echo $this->class ?>" border="1">
 	<thead>
 		<tr>
 			<?php 
@@ -14,7 +14,11 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?php 
+		<?php
+		
+		if($this->_ajax != true)
+		{
+		
 			foreach($this->data as $key=>$row)
 			{
 				
@@ -24,15 +28,20 @@
 					{
 						echo '<td>'.$col.'</td>';
 					}
-					echo '<td class="a-delete" id="row-'.$row['id'].'"><i class="arx-delete icon-trash"></i></td>';
-					echo '<td class="a-update" id="row-'.$row['id'].'"><i class="arx-update icon-pencil"></i></td>';
+					echo '<td class="a-delete" id="row-'.$row['id'].'"><a href="?action=delete&id='.$row['id'].'"><i class="arx-delete icon-trash"></i></a></td>';
+					echo '<td class="a-update" id="row-'.$row['id'].'"><a href="?action=edit&id='.$row['id'].'"><i class="arx-update icon-pencil"></i></a></td>';
 				echo '</tr>';
 			}
+		}
+		else
+		{
+			echo '<!--AJAXCALL-->';
+		}
 		?>
 	</tbody>
 </table>
 <div>
-	<button>Delete Selection</button>
-	<button>Add</button>
+	<button><?php echo ('Delete') ?></button>
+	<button><?php echo ('Add') ?></button>
 </div>
 </form>

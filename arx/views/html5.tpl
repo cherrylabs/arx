@@ -4,33 +4,18 @@
 <!--[if (IE 7)&(!IEMobile)]><html class="ie7" lang="fr" dir="ltr"><![endif]-->
 <!--[if IE 8]><html class="ie8" lang="fr" dir="ltr"><![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!-->
-<html lang="<?= ZE_LANG ?>" dir="ltr"><!--<![endif]-->
+<html lang="<?php echo ZE_LANG ?>" dir="ltr"><!--<![endif]-->
 <head>
-<?= $this->fetch('head');?>
+	<meta charset="UTF-8" />
+	<?php echo $this->_head ?>
+	<?php echo $this->_css ?>
+<?php echo c_hook::output('css') ?>
 </head>
-<body>
-
-	<?= $this->fetch('helpers'.DS.'navbar'); ?>
+<body <?php echo $this->_body->attr ?>>
 	
 	<div class="container">
-		<div>
-			
-			<section>
-				<article>
-				
-				</article>
-				<aside>
-				
-				</aside>
-			</section>
-			
-		</div>
-		<footer>
-			
-		</footer>
+		<?php echo $this->_body ?>
 	</div>
-	
-	<?= $this->fetch('bottom'); ?>
-	
+<?php echo c_hook::output('js') ?>
 </body>
 </html>

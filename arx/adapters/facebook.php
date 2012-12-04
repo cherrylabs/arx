@@ -6,10 +6,13 @@
 	 * @package arx
 	 * @comments :
 */
-require_once(dirname(__FILE__).'/../a-config.php');
-require_once(DIR_LIBS.'/FacebookSDK/facebook.php');
+require_once(dirname(__FILE__).'/../config.php');
+require_once(dirname(__FILE__).'/Facebook/facebook.php');
 
-class cFacebook extends Facebook
+// define what config need to be implemented in a-config.php
+arx::require_config(array('ZE_FACEBOOK' => array('APPID', 'APPSECRET')));
+
+class a_facebook extends Facebook
 {
 	public $facebook;
 	/**
@@ -32,8 +35,8 @@ class cFacebook extends Facebook
 		}
 		else
 		{
-			$FACEBOOK_APPID = $GLOBALS['FACEBOOK']['APPID'];
-			$FACEBOOK_APPSECRET = $GLOBALS['FACEBOOK']['APPSECRET'];
+			$FACEBOOK_APPID = $GLOBALS['ZE_FACEBOOK']['APPID'];
+			$FACEBOOK_APPSECRET = $GLOBALS['ZE_FACEBOOK']['APPSECRET'];
 		}
  		
  		parent::__construct(array(
@@ -42,5 +45,4 @@ class cFacebook extends Facebook
 		));
 
  	}
-	}
-?>
+}

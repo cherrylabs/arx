@@ -1,32 +1,27 @@
 <?php
 /**
-	 * Loader System
-	 * @author Daniel Sum
-	 * @version 0.1
-	 * @package arx
-	 * @var : 
-	 	- JS
-	 	- CSS
-	 	- CORE
-	 	- CACHE
-	 * @comments :
+	* Hooked CSS
+	* @file
+	*	
+	* @package
+	* @author Daniel Sum
+	* @link 	@endlink
+	* @see 
+	* @description
+	* 
+	* @code 	@endcode
+	* @comments
+	* @todo 
 */
 
 require_once(dirname(__FILE__).'/../'.'core.php');
 require_once(dirname(__FILE__).'/'.'filemanager.php');
 
-
-
-/**
-	 * Class extension
-	 * @author Daniel Sum
-	 * @version 0.1
-	 * @package arx
-	 * @comments :
-*/
-
 class c_hook
 {
+	
+	static $pref = "hooked_";
+
 	public function __construct()
 	{
 		
@@ -44,16 +39,26 @@ class c_hook
 	
 	static public function add($name, $value)
 	{
-		$GLOBALS['all_hooked_name'][] = $name;
+		if(!isset($GLOBALS['hooked_'.$name]))
+		{
+			$GLOBALS['hooked_'.$name] = array();
+		}
 		
 		if(is_array($value))
 		{
 			foreach($value as $v)
 			{
-				return $GLOBALS['hooked_'.$name][] = $v;
+				if(!in_array($v, $GLOBALS['hooked_'.$name]))
+					$GLOBALS['hooked_'.$name][] = $v;
 			}
+			
+			return $GLOBALS['hooked_'.$name];
 		}	
-		else	return $GLOBALS['hooked_'.$name][] = $value;
+		else
+		{
+			if(!in_array($value, $GLOBALS['hooked_'.$name]))
+				return $GLOBALS['hooked_'.$name][] = $value;
+		}
 		
 	}
 	
@@ -70,7 +75,7 @@ class c_hook
 	}
 	
 	/**
-		 * Load PHP CLASSES
+		 * Load JS
 		 * @author Daniel Sum
 		 * @version 0.1
 		 * @package arx
@@ -82,7 +87,7 @@ class c_hook
 	}
 	
 	/**
-		 * Load PHP CLASSES
+		 * Load CSS
 		 * @author Daniel Sum
 		 * @version 0.1
 		 * @package arx
@@ -91,6 +96,34 @@ class c_hook
 	public static function css($value)
 	{
 		return self::add('css', $value);
+	}
+	
+		/**
+		 * Load JS
+		 * @author Daniel Sum
+		 * @version 0.1
+		 * @package arx
+		 * @comments :
+	*/
+	public static function get_js($value)
+	{
+		$output = c_load::JS($GLOBALS[self::$pref.$c]);
+		
+		return $output;
+	}
+	
+	/**
+		 * Load CSS
+		 * @author Daniel Sum
+		 * @version 0.1
+		 * @package arx
+		 * @comments :
+	*/
+	public static function get_css($value)
+	{
+		$output = c_load::CSS($GLOBALS[self::$pref.$c]);
+		
+		return $output;
 	}
 	
 	/**
@@ -103,6 +136,29 @@ class c_hook
 	public static function getAll($c = null)
 	{
 		return $GLOBALS['all_hooked_name'];
+	}
+	
+	public static function output($c = null)
+	{
+		
+		switch(true)
+		{
+			case ($c == 'js'):
+	
+				$output = c_load::JS($GLOBALS[self::$pref.$c]);
+				
+			break;
+			case ($c == 'css'):
+	
+				$output = c_load::CSS($GLOBALS[self::$pref.$c]);
+				
+			break;
+			default:
+				$output = $GLOBALS[self::$pref.$c];
+			break;
+		}
+		
+		return $output;
 	}
 	
 	/**
@@ -124,7 +180,8 @@ class c_hook
 		$GLOBALS['hooked_css'] = c_fm::findrIn(DIR_APPS . DS, array('pattern' => '*/'.CSS.'/*.load.css'));
 		
 		$GLOBALS['hooked_js'] = c_fm::findrIn(DIR_APPS . DS, array('pattern' => '*/'.JS.'/*.load.js'));
-	
+		
+		return true;
 	}
 	
 	/**
@@ -132,7 +189,7 @@ class c_hook
 		 * @author Daniel Sum
 		 * @version 0.1
 		 * @package arx
-		 * @comments :
+		 * @comments : TODO
 	*/
 	public static function postload($c = null)
 	{
@@ -141,11 +198,7 @@ class c_hook
 		
 }
 
-if(isset($arx_hook))
-{
-	c_debug::notice('$arx_hook already instanciate');
-}
-else
+if(!isset($arx_hook))
 {
 	$GLOBALS['arx_hook'] = new c_hook();
 }

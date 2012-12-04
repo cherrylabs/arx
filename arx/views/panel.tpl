@@ -1,5 +1,5 @@
 <div class="arx-panel">
-	<?= $this->_css ?>
-	<?= $this->_body ?>
-	<?= $this->_js ?>
+	<?php echo $this->_css ?>
+	<?php echo $this->_body ?>
+	<?php echo $this->_js ?>
 </div>
