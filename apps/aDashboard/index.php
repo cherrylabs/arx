@@ -1,35 +1,35 @@
 <?php
-/**
-	 * A Dashboard manager
-	 * @author Daniel Sum
-	 * @version 0.1
-	 * @package arx
-	 * @description : 
-	 * @comments :
-*/
-
-
 require_once(dirname(__FILE__).'/../core.php');
 
-arx::uses('c_feed,c_html,c_user,c_text');
+//LOAD MODELS 87seconds
 
-$arx = new arx();
+arx::uses('c_fileExplorer,a_idiorm');
 
-if(LEVEL_ENV < 2)
-{
+require_once(DIR_ROOT . DS . MODELS . DS . 'm_users.php'); // User model used for 87seconds
+
+global $app;
+
+$app = new arx();
+
+$app->route->map('/:controller', function($controller) use ($app){
 	
-	$arx->tpl->addFilters('filter_admin');
+	include( CTRL.DS.$controller.CTL );
 	
-	function filter_admin($str)
-	{
-		$html = str_get_html($str); 
+	// Check if there is a views for the controller (if not by default html5 tpl)
+	if(is_file(VIEWS.DS.$controller.TPL))
+		$app->display(VIEWS.DS.$controller.TPL);
+	else
+		$app->display(ARX_VIEWS.DS.'html5'.TPL);
 		
-		return $html;
-		//return str_replace('</body>','<div class="a_debug">'.epre($GLOBALS['DEBUG']).'</div></body>', $str);
-	}
-}
 
-if(isset($_GET['debug']))
-	$arx->display('/tests/index.tpl.php');
+})->via('GET', 'POST', 'DELETE', 'PUT');
 
-$arx->display(VIEWS.DS.'index.tpl.php');
+$app->route->map('/', function() use ($app){
+	
+	include( CTRL.DS.'index'.CTL );
+	
+	$app->display(VIEWS.DS.'index'.TPL);
+
+})->via('GET', 'POST', 'DELETE', 'PUT');
+
+$app->run();

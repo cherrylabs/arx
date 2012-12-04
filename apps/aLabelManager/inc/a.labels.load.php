@@ -18,17 +18,21 @@
 	
 	class lg{
 		
-		public function __construct(){
-			$GLOBALS['lb'] = ORM::for_table('t_labels')->where('isocode', $GLOBALS['lang'])->find_many();
+		public function __construct( $lang = null){
+		
+			if(! $lang)
+				$lang = $GLOBALS['lang'];
+			
+			$GLOBALS['lb'] = ORM::for_table('t_labels')->where('isocode', $lang)->find_many();
 			
 			//predie($GLOBALS['lb']);
 			
 			foreach($GLOBALS['lb'] as $key=>$l){
-				$keyi = $l->uniquename;
+				$keyi = $l->name;
 				$GLOBALS['lb'][$keyi] = $this->{$keyi} = $l->value;
 			}
 			
-			//predie($GLOBALS['lb']);
+			return $GLOBALS['lb'];
 		}
 		
 	}
@@ -53,29 +57,78 @@
 				$v = ORM::for_table('t_labels')->find_one($u)->value;
 			else
 				$v = $GLOBALS['lb'][$u];
-			return utf8_decode($v);
+			
+			// add context tagging
+			if(LEVEL_ENV < 1){
+			
+				if($_GET['labelMode'] == 'flag')
+				{
+					$oLabel = ORM::for_table('t_labels')->find_one($u.'|'.$l);
+					
+					$aContext = json_decode($oLabel->context, TRUE);
+					
+					$aContext['FLAG'][$_SERVER['REQUEST_URI']] = date('YmdHis');
+					
+					$oLabel->context = json_encode($aContext);
+					
+					$oLabel->save();
+				}
+				
+				elseif($_GET['labelMode'] == 'edit')
+				{
+					return '<div class="labelMode">'. $v .'</div>';
+				}
+				
+				elseif($_GET['labelMode'] == 'info')
+				{
+					return ($u.'|'.$l);
+				}
+				
+			}
+			
+			return $v;
 		}
 		elseif($t == 'w' || $t == 1){
-		
+			if(empty($p))
+			{
+				$p = $u;
+			}
 			if(is_array($p))
 			{
+				$aLanguages = array();
 				foreach($p as $l=>$v)
 				{
 					try{
 						//Trying to create 
 						$a = ORM::for_table('t_labels')->create();
 						$a->id = $u.'|'.$l;
-						$a->uniquename = $u;
+						$a->name = $u;
 						$a->value = $v;
 						$a->isocode = $l;
-						$context = $c;
+						$a->context = $c;
 						$a->save();
+						$aLanguages[] = $l;
 					}catch (Exception $e) {
 						//Trying to update
 						if(ZE_ENVIRONNMENT == 'dev')
 							return ('<span class="error">error creating the label : ' . $u.'|'.$l ."/n". $e."</span>");
 						return lg($u);
 					}
+					
+					foreach($GLOBALS['cfg']['languages'] as $key=>$name){
+						if(!in_array($key, $aLanguages))
+						{
+								$a = ORM::for_table('t_labels')->create();
+								$a->id = $u.'|'.$key;
+								$a->name = $u;
+								$a->value = $p;
+								$a->isocode = $key;
+								$a->context = $c;
+								$a->save();
+						}
+					
+					}
+					
 				}
 				
 				return lg($u);
@@ -86,14 +139,27 @@
 				try{
 						$a = ORM::for_table('t_labels')->create();
 						$a->id = $u.'|'.$l;
-						$a->uniquename = $u;
+						$a->name = $u;
 						$a->value = $p;
 						$a->isocode = $lang;
-						$context = $c;
+						$a->context = $c;
 						$a->save();
+						
+						foreach($GLOBALS['cfg']['languages'] as $key=>$name){
+							if($key != $l)
+							{
+								$a = ORM::for_table('t_labels')->create();
+								$a->id = $u.'|'.$key;
+								$a->name = $u;
+								$a->value = $p;
+								$a->isocode = $key;
+								$a->context = $c;
+								$a->save();
+							}
+						}
 						return $p;
 				}catch (Exception $e) {
-						die('error creating the single label : ' . $u.'|'.$l);	
+						die('error creating the single label : ' . $u.'|'.$l."/n". $e);	
 				}
 				return str_replace('&apos;', '\'', $p);
 			}
@@ -131,7 +197,7 @@
 		$id = $_POST['id'];
 		$c = explode('|',$_POST['id']); //id explode
 		$t = $c[0]; //type
-		$u = $c[1]; //uniquename
+		$u = $c[1]; //name
 		$i = $c[2]; //isocode
 		
 		$v = str_replace('&quot;&amp;quot;','',$v);
@@ -146,16 +212,16 @@
 				$label->save();
 				die(stripslashes($v));
 			break;
-			case 'uniquename':
-				$result = ORM::for_table('t_labels')->raw_query("UPDATE t_labels SET uniquename = '".str_replace('|','',$v)."' WHERE uniquename = '".$u."' AND isocode = '".$i."'");
+			case 'name':
+				$result = ORM::for_table('t_labels')->raw_query("UPDATE t_labels SET name = '".str_replace('|','',$v)."' WHERE name = '".$u."' AND isocode = '".$i."'");
 				die(stripslashes($v));
 			break;
 			case 'isocode':
-				$result = ORM::for_table('t_labels')->raw_query("UPDATE t_labels SET isocode = '".$v."' WHERE uniquename = '".$u."' AND isocode = '".$i."'");
+				$result = ORM::for_table('t_labels')->raw_query("UPDATE t_labels SET isocode = '".$v."' WHERE name = '".$u."' AND isocode = '".$i."'");
 				die(stripslashes($v));
 			break;
 			case 'context':
-				$result = ORM::for_table('t_labels')->raw_query("UPDATE t_labels SET context = '".$v."' WHERE uniquename = '".$u."' AND isocode = '".$i."'");
+				$result = ORM::for_table('t_labels')->raw_query("UPDATE t_labels SET context = '".$v."' WHERE name = '".$u."' AND isocode = '".$i."'");
 				die(stripslashes($v));
 			break;
 		}

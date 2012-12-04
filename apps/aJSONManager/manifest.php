@@ -1,4 +1,0 @@
-{
-	"title" : "aJSONManager",
-	"description" : "d"
-}

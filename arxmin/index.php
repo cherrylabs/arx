@@ -13,7 +13,7 @@ if( isset( $_GET['logout'] ) ) {
 if( c_user::granted($_POST['login'], $_POST['password']) ) {
 	$a->user = $_SESSION[ ZE_USER ];
 	
-	$a->title = 'ARXMIN';
+	$a->title = '87Seconds Admin';
 	
 	
 	$aFound = c_fm::findIn( DIR_APPS, array( 'pattern' => '/*/manifest.php' ) );
@@ -22,6 +22,13 @@ if( c_user::granted($_POST['login'], $_POST['password']) ) {
 	
 	$aMenu = array();
 	
+	$menuTemplate = '<li class="{class}">
+										<a href="index.php?path={path}" title="{title}">
+											<span class="name">{name}</span>
+											<span class="image">{image}</span>
+										</a>
+									</li>';
+
 	foreach ( $aFound as $key => $app ) {
 		
 		$path = u::getUrlPath($app);
@@ -37,11 +44,14 @@ if( c_user::granted($_POST['login'], $_POST['password']) ) {
 		
 		if( empty( $r->icon ) )
 			$r->icon = 'icon-cog';
-		
-		$aMenu[] =  '<li class="first'. (($path === $_GET['path']) ? ' active' : '') .'"><a class="app" href="index.php?path=' . $path . '" title="' . $r->description . '">'
-			.'<span class="app-name">' . $r->title . '</span>'
-			.'<span class="app-image"><i class="' . $r->icon . '"></i></span>'
-			.'</a></li>';
+
+		$aMenu[] = u::strtr($menuTemplate, array(
+			'class' => (($path === $_GET['path']) ? 'active' : ''),
+			'path' => $path,
+			'title' => $r->description,
+			'name' => $r->title,
+			'image' => '<i class="'. $r->icon .'"></i>'
+		));
 		
 		$aApps[ $key ] = array( 'title' => $r-title, 'description' => $r->description, 'path' => $path) ;
 	}
@@ -59,9 +69,11 @@ if( c_user::granted($_POST['login'], $_POST['password']) ) {
 		break;
 	}
 	
-	$a->display( 'index', array('sidemenu' => $aMenu, 'apps' => $aApps));
+	$a->display( VIEWS.DS. 'arxmin.tpl', array('sidemenu' => $aMenu, 'apps' => $aApps));
+	
+	
 	
 }
 else{
-	$a->display('login.tpl');
+	$a->display( VIEWS.DS. 'login.tpl' );
 }

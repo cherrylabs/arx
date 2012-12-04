@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/87seconds.com/!svn/ver/831/apps/aFileManager/php
+END
+connector.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/87seconds.com/!svn/ver/831/apps/aFileManager/php/connector.php
+END
+elFinderVolumeMySQL.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/87seconds.com/!svn/ver/827/apps/aFileManager/php/elFinderVolumeMySQL.class.php
+END
+elFinder.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/87seconds.com/!svn/ver/827/apps/aFileManager/php/elFinder.class.php
+END
+elFinderVolumeDriver.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/87seconds.com/!svn/ver/827/apps/aFileManager/php/elFinderVolumeDriver.class.php
+END
+MySQLStorage.sql
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/87seconds.com/!svn/ver/827/apps/aFileManager/php/MySQLStorage.sql
+END
+elFinderVolumeLocalFileSystem.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/87seconds.com/!svn/ver/827/apps/aFileManager/php/elFinderVolumeLocalFileSystem.class.php
+END
+mime.types
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/87seconds.com/!svn/ver/827/apps/aFileManager/php/mime.types
+END
+elFinderConnector.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/87seconds.com/!svn/ver/827/apps/aFileManager/php/elFinderConnector.class.php
+END

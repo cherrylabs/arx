@@ -32,32 +32,29 @@
 		
 		
 		<div class="login">
+
 			<form action="index.php" method="post" accept-charset="utf-8">
-				<fieldset>
-					<div class="input-append">
-						<input id="login" name="login" type="text" value="" placeholder="Username or Email" required="required" />
-						<label class="add-on" for="login">@</label>
-					</div>
-					<div class="input-append">
-						<input id="password" name="password" type="password" value="" placeholder="Password" required="required" />
-						<label class="add-on" for="password"><i class="icon-lock"></i></label>
-					</div>
-					
-					<label class="checkbox" for="remember"><input id="remember" name="remember" type="checkbox" /> Remember me</label>
-					<button class="btn btn-primary" type="submit"><i class="icon-star-empty icon-white"></i> Login</button>
-				</fieldset>
+			<fieldset>
+				<div class="input-append">
+					<input id="login" name="login" type="text" value="" placeholder="Username or Email" required="required" />
+					<label class="add-on" for="login">@</label>
+				</div>
+
+				<div class="input-append">
+					<input id="password" name="password" type="password" value="" placeholder="Password" required="required" />
+					<label class="add-on" for="password"><i class="icon-lock"></i></label>
+				</div>
+				
+				<label class="checkbox" for="remember"><input id="remember" name="remember" type="checkbox" /> Remember me</label>
+
+				<button class="btn btn-primary" type="submit"><i class="icon-star-empty icon-white"></i> Login</button>
+			</fieldset>
 			</form>
+
 		</div>
 		
 		
 	</div>
-	
-	
-	<!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6. - chromium.org/developers/how-tos/chrome-frame-getting-started -->
-	<!--[if lt IE 7]>
-	<script defer src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-	<script defer>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-	<![endif]-->
 
 </body>
 </html>

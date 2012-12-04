@@ -7,8 +7,6 @@
 		 * @comments : modified for arx
 		 * @licence : GPL
 	*/
-	
-
 	header('Content-type: text/html; charset=UTF-8'); // force header UTF-8
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Easy set variables
@@ -19,17 +17,16 @@
 	 */
 	 
 	require_once(dirname(__FILE__).'/../core.php');
-	
+	u::header('json');
 	//predie(count(ORM::for_table('t_labels')->raw_query('SELECT * FROM t_labels')->find_many()));
 	
 	/* DB table to use */
 	$sTable = "t_labels";
 	
-	$aColumns = array('id','uniquename',  'isocode', 'value', 'context');
+	$aColumns = array('id','name', 'isocode', 'value', 'context');
 	
 	/* Indexed column (used for fast and accurate table cardinality) */
-	$sIndexColumn = "uniquename";
-	
+	$sIndexColumn = "name";
 	
 	/* 
 	 * Paging
@@ -141,34 +138,24 @@
 	/*
 	 * Output
 	 */
-	$sOutput = '{';
-	$sOutput .= '"sEcho": '.intval($_GET['sEcho']).', ';
-	$sOutput .= '"iTotalRecords": '.$iTotal.', ';
-	$sOutput .= '"iTotalDisplayRecords": '.$iFilteredTotal.', ';
-	$sOutput .= '"aaData": [ ';
 	
-	foreach( $rResult as $aRow )
+	$aJson = array();
+	
+	$aJson['sEcho'] =  intval($_GET['sEcho']);
+	
+	$aJson['iTotalRecords'] =  $iTotal;
+	
+	$aJson['iTotalDisplayRecords'] = $iFilteredTotal;
+	
+
+	
+	foreach($rResult as $key=>$oRow )
 	{
-		$aRow = $aRow->as_array();
-		$sOutput .= "[";
-		for ( $i=0 ; $i<count($aColumns) ; $i++ )
+		$aRow = $oRow->as_array();
+		
+		foreach($aRow as $key2=>$v )
 		{
-			if ( $aColumns[$i] == "version" )
-			{
-				/* Special output formatting for 'version' */
-				$sOutput .= ($aRow[ $aColumns[$i] ]=="0") ?
-					'"-",' :
-					'"'.str_replace('"', '\"', $aRow[ $aColumns[$i] ]).'",';
-			}
-			else if ( $aColumns[$i] != ' ' )
-			{
-				//echo $aRow[$aColumns[$i]].' ff/n';
-				/* General output */
-				$sOutput .= '"'.str_replace(
-					array( '"', "\n", "\r","<br>","	","’"), 
-					array( '\\"', "", "\\n","","",'&#039;'),
-					((trim((($aRow[$aColumns[$i]])))))).'",';
-			}
+			$aJson['aaData'][$key][] = $v;
 		}
 		
 		/*
@@ -177,12 +164,13 @@
 		 * database - you can do it here
 		 */
 		
-		
-		$sOutput = substr_replace( $sOutput, "", -1 );
-		$sOutput .= "],";
+		if(isset($_GET['extraColumnsNb']))
+		{
+			for($i = 0; $i < $_GET['extraColumnsNb']; $i++)
+			{
+				$aJson['aaData'][$key][] = "";
+			}
+		}
 	}
-	$sOutput = substr_replace( $sOutput, "", -1 );
-	$sOutput .= '] }';
 	
-	echo str_replace(array('&lt;','&gt;'),array('<','>'),$sOutput);
-?>
+	u::json_die($aJson);

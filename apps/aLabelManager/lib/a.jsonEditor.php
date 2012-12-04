@@ -1,11 +1,13 @@
-<html>
+<?php
+require_once(dirname(__FILE__).'/../core.php');
+header('Content-type: text/html; charset=UTF-8'); // force header UTF-8
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
 <head>
 <title>Json Editor Demo</title>
-	<script src="js/jquery.js"></script>
-	<script src="js/jquery.ui.js"></script>
-	<script src="js/php.default.min.js"></script>
-	<script src="js/jquery.jsoneditor.js"></script>
-	<script type="text/javascript" src="js/jquery.fancybox.js"></script>
+	<script src="<?= ARX_JS ?>/jquery.js"></script>
+	<script src="<?= ARX_JS ?>/php.default.js"></script>
+	<script src="<?= ARX_JS ?>/jquery.jsoneditor.js"></script>
 <style>
 .json_editor_div .json_remove { color: #FF0000;font-weight:bold;cursor:pointer;float:right; }
 .json_editor_div .json_create_value { color:#0000C0;cursor:pointer }
@@ -64,15 +66,15 @@
 $( function( ){
 	var test_val = <?php echo (!empty($_GET['value'])?stripslashes($_GET['value']):'{"valid":false,"maxChar":160,"Remarks":""}');?>;
 
-	$( "#json_div" )
-		.json_editor( test_val, {
-				enable_drag:	false,
-				enable_remove:	true,
-				enable_export:	true,
-				enable_import:	true,
-				enable_new_val:	true,
-				enable_new_array:	true }
-		);
+	$('#json_div')
+	.json_editor(test_val, {
+		enable_drag:	false,
+		enable_remove:	true,
+		enable_export:	true,
+		enable_import:	true,
+		enable_new_val:	true,
+		enable_new_array:	true
+	});
 
 	$( "#example" ).change( function( ){
 		var selected_index = parseInt( $( this ).val( ) );
