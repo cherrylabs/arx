@@ -166,7 +166,7 @@ class Arx {
      * requireaConfig
      * force a class to check if a global config is defined
      */
-    static public function requireaConfig($mValues) {
+    static public function requireConfig($mValues) {
         $aValues = u::toarray($mValues);
         
         $aUndefinedVars = array();

@@ -23,7 +23,7 @@ class c_debug{
 		$GLOBALS['c_debug']['notice'] = $msg;
 		
 		
-		trigger_error($msg . ' in file '.$file. ' @ line '.$line, E_USER_NOTICE);
+		//trigger_error($msg . ' in file '.$file. ' @ line '.$line, E_USER_NOTICE);
 		
 	}
 	

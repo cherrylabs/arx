@@ -175,6 +175,8 @@ class c_hook
 
 		$aInc = $GLOBALS['hooked_apps'] = c_fm::findrIn(DIR_APPS . DS, array('pattern' => '*/inc/*.load.php'));
 		
+		$aInc = $GLOBALS['hooked_apps'] = c_fm::findrIn(DIR_APPS . DS, array('pattern' => '*/autoload.php'));
+
 		if($aInc)	c_load::loadPHP($aInc);
 		
 		$GLOBALS['hooked_css'] = c_fm::findrIn(DIR_APPS . DS, array('pattern' => '*/'.CSS.'/*.load.css'));

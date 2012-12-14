@@ -1,12 +1,2 @@
 <?php
-/**
-	 * 
-	 * @author Daniel Sum
-	 * @version 0.1
-	 * @package 
-	 * @description : 
-	 * @comments :
-	 * @TODO: Internationalization system
-*/
-
-?>
+/** LANG FR : please put comment in one line*/

@@ -16,7 +16,7 @@ global $app, $_config;
 
 $app = new arx();
 
-predie($GLOBALS);
+predie( _L('hello_world') );
 
 $app->route->map('/:mix', function ($mix) use ($app, $_config) {
 
