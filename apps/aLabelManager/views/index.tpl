@@ -39,7 +39,7 @@ header('Content-type: text/html; charset=UTF-8'); // force header UTF-8
 				iDisplayLength: 1000,
 				bProcessing: true,
 				bServerSide: true,
-				sAjaxSource: "lib/a.dataProcessing.php?extraColumnsNb=2",
+				sAjaxSource: "ajax?extraColumnsNb=2",
 				fnDrawCallback: function () {
 
 					$('#labelsTable tbody tr')

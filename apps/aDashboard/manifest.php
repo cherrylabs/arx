@@ -20,9 +20,9 @@ $manifest->description = "Lorem ipsum sic doloret";
 
 $manifest->icon = "icon-home";
 
-$manifest->submenu[] = array("url" => "panels/users.php", "icon" => "icon-user");
+$manifest->submenu[] = array("url" => "users", "icon" => "icon-user");
 
-$manifest->topmenu[] = array("url" => "panels/users.php", "icon" => "icon-wrench");
+$manifest->submenu[] = array("url" => "settings", "icon" => "icon-user");
 
 $manifest->modes = array('widget','full','lightbox');
 

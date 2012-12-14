@@ -4,16 +4,20 @@ require_once(dirname(__FILE__) . '/core.php');
 
 arx::uses('c_i18n,c_user');
 
-$a = new arx();
+$app = new arx();
 
-if( isset( $_GET['logout'] ) ) {
+$app->get('/logout', 'map_logout');
+
+function map_logout()
+{
 	c_user::destruct();
 }
 
 if( c_user::granted($_POST['login'], $_POST['password']) ) {
-	$a->user = $_SESSION[ ZE_USER ];
+
+	$app->user = $_SESSION[ ZE_USER ];
 	
-	$a->title = '87Seconds Admin';
+	$app->title = '87Seconds Admin';
 
 	$aFound = c_fm::findIn( DIR_APPS, array( 'pattern' => '/*/manifest.php' ) );
 	
@@ -28,13 +32,13 @@ if( c_user::granted($_POST['login'], $_POST['password']) ) {
 										</a>
 									</li>';
 
-	foreach ( $aFound as $key => $app ) {
+	foreach ( $aFound as $key => $oApp ) {
 		
-		$path = u::getUrlPath($app);
+		$path = u::getUrlPath($oApp);
 
 		//predie(u::getUrlFile($app));
 		
-		$r = u::get_json($app);
+		$r = u::get_json($oApp);
 		
 		if( !empty( $r->url ) )
 			$path = $r->url;
@@ -48,7 +52,7 @@ if( c_user::granted($_POST['login'], $_POST['password']) ) {
 
 		$aMenu[] = u::strtr($menuTemplate, array(
 			'class' => (($path === $_GET['path']) ? 'active' : ''),
-			'path' => $path,
+			'path' => str_replace(DIR_URL, '', $path),
 			'title' => $r->description,
 			'name' => $r->title,
 			'image' => '<i class="'. $r->icon .'"></i>'
@@ -60,9 +64,10 @@ if( c_user::granted($_POST['login'], $_POST['password']) ) {
 	switch(true)
 	{
 		case (isset($_GET['app'])):
-			$panel = str_get_html($a->fetch(DIR_APPS.DS.$_GET['app']));
 			
-			$a->panel = $panel;
+			$panel = str_get_html($app->fetch(DIR_APPS.DS.$_GET['app']));
+			
+			$app->panel = $panel;
 			
 		break;
 		default:
@@ -70,11 +75,14 @@ if( c_user::granted($_POST['login'], $_POST['password']) ) {
 		break;
 	}
 	
-	$a->display( VIEWS.DS. 'arxmin.tpl', array('sidemenu' => $aMenu, 'apps' => $aApps));
+	$app->display( VIEWS.DS. 'arxmin.tpl', array('sidemenu' => $aMenu, 'apps' => $aApps));
 	
 	
 	
 }
 else{
-	$a->display( VIEWS.DS. 'login.tpl' );
+	$app->display( VIEWS.DS. 'login.tpl' );
 }
+
+
+$app->run();

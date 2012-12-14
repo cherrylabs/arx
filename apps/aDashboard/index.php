@@ -1,11 +1,11 @@
 <?php
-require_once(dirname(__FILE__).'/../core.php');
+require_once dirname(__FILE__).'/../core.php';
 
 //LOAD MODELS 87seconds
 
 arx::uses('c_fileExplorer,a_idiorm');
 
-require_once(DIR_ROOT . DS . MODELS . DS . 'm_users.php'); // User model used for 87seconds
+require_once dirname(__FILE__).DS.'models'.DS.'m_users.php';
 
 global $app;
 
@@ -22,7 +22,7 @@ $app->route->map('/:controller', function($controller) use ($app){
 		$app->display(ARX_VIEWS.DS.'html5'.TPL);
 		
 
-})->via('GET', 'POST', 'DELETE', 'PUT');
+});
 
 $app->route->map('/', function() use ($app){
 	

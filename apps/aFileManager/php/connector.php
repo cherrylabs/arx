@@ -33,8 +33,8 @@ $opts = array(
 	'roots' => array(
 		array(
 			'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
-			'path'          => DIR_ROOT.DS.'users',         // path to files (REQUIRED)
-			'URL'           => URL_ROOT.'/users', // URL to files (REQUIRED)
+			'path'          => DIR_ROOT.DS,         // path to files (REQUIRED)
+			'URL'           => URL_ROOT, // URL to files (REQUIRED)
 			'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
 			
 		),

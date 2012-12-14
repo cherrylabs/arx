@@ -1,18 +1,11 @@
 <?php
-/** La Cerise Numérique : ARX
- *
- */
 
+/**
+ * 
+ */
 class c_config extends c_singleton {
 	
 	private $_aDatas = array();
-	
-	
-	public function apply( $aValues ) {
-		$this->_aDatas = array_merge( $this->_aDatas, $aValues );
-		
-		return $this->_aDatas;
-	} // apply
 	
 	
 	public function __construct() {
@@ -20,6 +13,13 @@ class c_config extends c_singleton {
 		
 		$this->apply( $cfg );
 	} // __construct
+	
+	
+	public function apply( $aValues ) {
+		$this->_aDatas = array_merge( $this->_aDatas, $aValues );
+		
+		return $this->_aDatas;
+	} // apply
 	
 	
 	public function __get( $sName ) {
@@ -45,4 +45,3 @@ class c_config extends c_singleton {
 	} // __unset
 	
 } // class::Config
-?>
