@@ -18,9 +18,9 @@ $aConfig = array(
 
     // System
     'system' => array(
-        'orm' => 'redbean',   // ORM used
-        'tpl' => 'savant3',   // template engine used
-        'route' => 'slim',    // routing system used
+        'orm' => 'a_idiorm',   // ORM used
+        'tpl' => 'a_savant3',   // template engine used
+        'route' => 'a_slim',    // routing system used
         //'acl' => 'c_acl',
     ),
 

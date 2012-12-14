@@ -51,6 +51,20 @@ class _l{
 	
 }
 
+class lg extends _l{
+
+	public function __construct($lang = null)
+	{
+		parent::__construct($lang);
+
+		if(ARX_VERSION > 1)
+		{
+			arx::notice("LG function is deprecated");
+		}
+
+	}
+}
+
 function lg($u = '' ,$t = 'r',$p = '',$i = '',$c = ''){
 
 	if(!empty($_GET['lang']))
@@ -179,20 +193,6 @@ function lg($u = '' ,$t = 'r',$p = '',$i = '',$c = ''){
 	elseif($t == 'd' || $t == 0){
 		
 	}
-}
-
-function jlg($u=''){
-	return addslashes(htmlspecialchars_decode(str_replace('&apos;', '\'', $lb[$u]['value'])));
-}
-
-function plg($u=''){
-	$b = array('[br]','[h1]','[/h1]','[b]','[/b]','[strong]','[/strong]','[i]','[/i]','[em]','[/em]', '&apos;','&lt;','&gt;','[url={','}]','[/url]','[spancolor={','[/span]');
-	$h = array('<br />','<h1>','</h1>','<strong>','</strong>','<strong>','</strong>','<em>','</em>','<em>','</em>','\'','<','>','<a rel="external" href="','">','</a>','<span style="color:','</span>');
-	return str_replace($b,$h,htmlspecialchars_decode(str_replace('&apos;', '\'', $lb[$u]['value'])));
-}
-
-function tlg($u=''){
-	echo str_replace(htmlspecialchars_decode(str_replace('&apos;', '\'', $lb[$u]['value'])));
 }
 
 

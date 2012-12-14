@@ -16,6 +16,7 @@ global $app, $_config;
 
 $app = new arx();
 
+echo lg('hello_world');
 
 $app->route->map('/:mix', function ($mix) use ($app, $_config) {
 
