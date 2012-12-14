@@ -11,10 +11,10 @@
 // @todo:
 // - delete public members -> use accessor !
 // - Arx -> clean accessors
-// `require_config` will be use in app, so maybe we have to put in into app interface
+// `requireaConfig` will be use in app, so maybe we have to put in into app interface
 
 require_once(dirname(__FILE__). '/config.php');
-require_once(DIR_ROOT . DS . 'a-config.php');
+require_once(DIR_ROOT . DS . 'aConfig.php');
 
 // Minimum requirements:
 require_once(DIR_CLASSES . DS . 'utils.php');
@@ -31,7 +31,7 @@ require_once(DIR_CLASSES . DS . 'debug.php');
 /**
  * @class           Arx
  * @description     Core class
- * @dependency      /a-config.php (global $_config), /classes/utils.php
+ * @dependency      /a-config.php (global $aConfig), /classes/utils.php
  * @example:
  *      $app = new Arx(array('orm' => 'redbean'));
  *  or
@@ -42,11 +42,11 @@ class Arx {
     // --- Magic methods
     
     public function __construct($mConfig = array()) {
-        global $_config;
+        global $aConfig;
         
         $mConfig = u::toArray($mConfig);
         
-        $this->_aConfig = array_merge($_config, $mConfig);
+        $this->_aConfig = array_merge($aConfig, $mConfig);
         
         arx::uses($this->_aConfig['system']);
         
@@ -163,10 +163,10 @@ class Arx {
     
 
     /**
-     * require_config
+     * requireaConfig
      * force a class to check if a global config is defined
      */
-    static public function require_config($mValues) {
+    static public function requireaConfig($mValues) {
         $aValues = u::toarray($mValues);
         
         $aUndefinedVars = array();
@@ -180,7 +180,7 @@ class Arx {
         if (!empty($aUndefinedVars)) {
             c_debug::warning('Missing configuration', $aUndefinedVars);
         }
-    } // require_config
+    } // requireaConfig
 
 
     // --- Private memebers
