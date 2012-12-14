@@ -1,10 +1,16 @@
 <?php
 /**
- * Utils functions
- * @author Daniel Sum, Stephan Zych
- * @package arx
- * @comments : please order it alphabetically !
+ * ARX
+ * PHP File - /arx/classes/utils.php
+ * @description 	Utils functions
+ * @package       	arx
+ * @author 			Daniel Sum, Stéphan Zych
+ * @comments		Please, order it alphabetically !
  */
+
+// @todo:
+// - separate utils into multiple files (string manipulation, math, array manipulation, etc.)
+// - start with `Utils` and make an alias `u`
 
 abstract class u{
 	

@@ -1,6 +1,6 @@
 <?php 
 
-require_once(dirname(__FILE__).'/core.php');
+require_once(dirname(__FILE__) . '/core.php');
 
 arx::uses('c_i18n,c_user');
 

@@ -1,18 +1,18 @@
 <?php
 /**
-	* An USER class
-	* @file
-	*	
-	* @package
-	* @author Daniel Sum
-	* @link 	@endlink
-	* @see acl.php for more information
-	* @description
-	* 
-	* @code 	@endcode
-	* @comments
-	* @todo 
-*/
+ * An USER class
+ * @file
+ *	
+ * @package
+ * @author Daniel Sum
+ * @link 	@endlink
+ * @see acl.php for more information
+ * @description
+ * 
+ * @code 	@endcode
+ * @comments
+ * @todo 
+ */
 
 arx::uses('c_acl');
 

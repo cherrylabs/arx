@@ -1,18 +1,18 @@
 <?php
 /**
-	* ACL arx class
-	* @file
-	*	include the default orm
-	* @package
-	* @author Daniel Sum
-	* @link 	@endlink
-	* @see 
-	* @description
-	* 
-	* @code 	@endcode
-	* @comments
-	* @todo 
-*/
+ * ACL arx class
+ * @file
+ *	include the default orm
+ * @package
+ * @author Daniel Sum
+ * @link 	@endlink
+ * @see 
+ * @description
+ * 
+ * @code 	@endcode 
+ * @comments
+ * @todo 
+ */
 
 global $cfg;
 
