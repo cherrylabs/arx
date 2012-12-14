@@ -16,28 +16,40 @@ $GLOBALS['lang'] = ZE_LANG;
 if(!empty($_GET['lang']))
 	$GLOBALS['lang'] = $_GET['lang'];
 
-class lg{
-	
-	public function __construct( $lang = null){
-	
+
+global $lb;
+
+class _l{
+
+	public function __construct( $lang = null ){
+		
+		global $lb;
+
 		if(! $lang)
 			$lang = $GLOBALS['lang'];
 		
-		$GLOBALS['lb'] = ORM::for_table('t_labels')->where('isocode', $lang)->find_many();
+		if(!is_array($lb))	$lb = array();
+
+		$oLabels = ORM::for_table('t_labels')->where('isocode', $lang)->find_many();
 		
-		//predie($GLOBALS['lb']);
+		//predie($lb);
 		
-		foreach($GLOBALS['lb'] as $key=>$l){
-			$keyi = $l->name;
-			$GLOBALS['lb'][$keyi] = $this->{$keyi} = $l->value;
+		foreach($oLabels as $key=>$l){
+			$key = $l->name;
+			$lb[$key] = $this->{$key} = $l->value;
 		}
 		
-		return $GLOBALS['lb'];
+		return $lb;
+
+	}
+
+	public function __get($name)
+	{
+
+
 	}
 	
 }
-
-$lg = new lg();
 
 function lg($u = '' ,$t = 'r',$p = '',$i = '',$c = ''){
 
@@ -56,7 +68,7 @@ function lg($u = '' ,$t = 'r',$p = '',$i = '',$c = ''){
 		if(strpos($u,'|'))
 			$v = ORM::for_table('t_labels')->find_one($u)->value;
 		else
-			$v = $GLOBALS['lb'][$u];
+			$v = $lb[$u];
 		
 		// add context tagging
 		if(LEVEL_ENV < 1){
@@ -170,17 +182,17 @@ function lg($u = '' ,$t = 'r',$p = '',$i = '',$c = ''){
 }
 
 function jlg($u=''){
-	return addslashes(htmlspecialchars_decode(str_replace('&apos;', '\'', $GLOBALS['lb'][$u]['value'])));
+	return addslashes(htmlspecialchars_decode(str_replace('&apos;', '\'', $lb[$u]['value'])));
 }
 
 function plg($u=''){
 	$b = array('[br]','[h1]','[/h1]','[b]','[/b]','[strong]','[/strong]','[i]','[/i]','[em]','[/em]', '&apos;','&lt;','&gt;','[url={','}]','[/url]','[spancolor={','[/span]');
 	$h = array('<br />','<h1>','</h1>','<strong>','</strong>','<strong>','</strong>','<em>','</em>','<em>','</em>','\'','<','>','<a rel="external" href="','">','</a>','<span style="color:','</span>');
-	return str_replace($b,$h,htmlspecialchars_decode(str_replace('&apos;', '\'', $GLOBALS['lb'][$u]['value'])));
+	return str_replace($b,$h,htmlspecialchars_decode(str_replace('&apos;', '\'', $lb[$u]['value'])));
 }
 
 function tlg($u=''){
-	echo str_replace(htmlspecialchars_decode(str_replace('&apos;', '\'', $GLOBALS['lb'][$u]['value'])));
+	echo str_replace(htmlspecialchars_decode(str_replace('&apos;', '\'', $lb[$u]['value'])));
 }
 
 
