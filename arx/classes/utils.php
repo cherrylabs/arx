@@ -389,6 +389,12 @@ abstract class u{
 		if(!empty($file))
 			return json_decode(@file_get_contents(u::getURL($file)), $as_array);
 	}
+
+	public static function getJson($file, $as_array = false)
+	{
+		if(!empty($file))
+			return json_decode(@file_get_contents(u::getURL($file)), $as_array);
+	}
 	
 	public static function get_contents($file)
 	{

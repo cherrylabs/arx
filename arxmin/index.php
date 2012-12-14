@@ -14,8 +14,7 @@ if( c_user::granted($_POST['login'], $_POST['password']) ) {
 	$a->user = $_SESSION[ ZE_USER ];
 	
 	$a->title = '87Seconds Admin';
-	
-	
+
 	$aFound = c_fm::findIn( DIR_APPS, array( 'pattern' => '/*/manifest.php' ) );
 	
 	$aApps = array();
@@ -32,8 +31,10 @@ if( c_user::granted($_POST['login'], $_POST['password']) ) {
 	foreach ( $aFound as $key => $app ) {
 		
 		$path = u::getUrlPath($app);
+
+		//predie(u::getUrlFile($app));
 		
-		$r = json_decode( file_get_contents(u::getUrlFile($app)) );
+		$r = u::get_json($app);
 		
 		if( !empty( $r->url ) )
 			$path = $r->url;

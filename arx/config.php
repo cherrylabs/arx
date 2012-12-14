@@ -34,7 +34,7 @@ if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_
 
 define( 'HTTP', 'http'.(defined('IS_HTTPS') ? 's' : '').'://');
 
-define( 'URL_ROOT', HTTP.$_SERVER['HTTP_HOST']);
+define( 'URL_ROOT', HTTP.$_SERVER['HTTP_HOST'] . str_replace($_SERVER['DOCUMENT_ROOT'],'',dirname(dirname(__FILE__))) );
 
 define( 'DIR_FILE', str_replace('//', '/' , $_SERVER['DOCUMENT_ROOT'].$_SERVER['REQUEST_URI']) );
 define( 'URL_FILE', URL_ROOT.$_SERVER['REQUEST_URI'] );
