@@ -29,7 +29,7 @@ class _l{
 			$lang = $GLOBALS['lang'];
 		
 		if(!is_array($lb))	$lb = array();
-
+  
 		$oLabels = ORM::for_table('t_labels')->where('isocode', $lang)->find_many();
 		
 		//predie($lb);
