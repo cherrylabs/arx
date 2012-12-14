@@ -14,8 +14,8 @@
 	* @todo 
 */
 
-require_once(dirname(__FILE__).'/../'.'core.php');
-require_once(dirname(__FILE__).'/'.'filemanager.php');
+require_once(dirname(dirname(__FILE__)).DS.'core.php');
+require_once(dirname(__FILE__).DS.'filemanager.php');
 
 class c_hook
 {
@@ -173,7 +173,7 @@ class c_hook
 		
 		$c = u::toarray($c);
 
-		$aInc = c_fm::findrIn(DIR_APPS . DS, array('pattern' => '*/inc/*.load.php'));
+		$aInc = $GLOBALS['hooked_apps'] = c_fm::findrIn(DIR_APPS . DS, array('pattern' => '*/inc/*.load.php'));
 		
 		if($aInc)	c_load::loadPHP($aInc);
 		
