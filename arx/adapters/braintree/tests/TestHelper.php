@@ -7,7 +7,7 @@ set_include_path(
   realpath(dirname(__FILE__)) . '/../lib'
 );
 
-require_once "Braintree.php";
+require_once 'Braintree.php';
 
 Braintree_Configuration::environment('development');
 Braintree_Configuration::merchantId('integration_merchant_id');
@@ -33,6 +33,7 @@ class Braintree_TestHelper
         $trData = Braintree_TransparentRedirect::transactionData(
             array_merge($trParams, array("redirectUrl" => "http://www.example.com"))
         );
+
         return Braintree_TestHelper::submitTrRequest(
             TransparentRedirect::url(),
             $regularParams,
@@ -56,6 +57,7 @@ class Braintree_TestHelper
         $response = curl_exec($curl);
         curl_close($curl);
         preg_match('/Location: .*\?(.*)/', $response, $match);
+
         return trim($match[1]);
     }
 
@@ -64,7 +66,7 @@ class Braintree_TestHelper
         set_error_handler("Braintree_TestHelper::_errorHandler", E_USER_NOTICE);
     }
 
-    static function _errorHandler($errno, $errstr, $errfile, $errline)
+    public static function _errorHandler($errno, $errstr, $errfile, $errline)
     {
         if (preg_match('/^DEPRECATED/', $errstr) == 0) {
             trigger_error('Unknown error received: ' . $errstr, E_USER_ERROR);
@@ -78,6 +80,7 @@ class Braintree_TestHelper
                 return true;
             }
         }
+
         return false;
     }
 
@@ -95,8 +98,7 @@ class Braintree_TestHelper
     {
         $eastern = new DateTimeZone('America/New_York');
         $now = new DateTime('now', $eastern);
+
         return $now->format('Y-m-d');
     }
 }
-
-?>

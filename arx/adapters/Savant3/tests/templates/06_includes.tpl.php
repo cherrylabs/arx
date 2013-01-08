@@ -11,4 +11,4 @@
 <ul>
 <?php foreach ($this->set as $key => $val) echo "<li>$key = $val</li>\n" ?>
 </ul>
-<?php include $this->template('footer.tpl.php') ?>
+<?php include $this->template('footer.tpl.php')

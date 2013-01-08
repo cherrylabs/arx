@@ -2,4 +2,4 @@
 
 require_once DIR_CLASSES .DS . 'kohana/core.php';
 
-class Kohana extends Kohana_Core {}
+class kohana extends Kohana_Core {}

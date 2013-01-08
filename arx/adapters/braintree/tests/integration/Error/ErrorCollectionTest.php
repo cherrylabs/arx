@@ -3,7 +3,7 @@ require_once realpath(dirname(__FILE__)) . '/../../TestHelper.php';
 
 class Braintree_Error_ErrorCollectionTest extends PHPUnit_Framework_TestCase
 {
-    function testDeepSize_withNestedErrors()
+    public function testDeepSize_withNestedErrors()
     {
         $result = Braintree_Customer::create(array(
             'email' => 'invalid',
@@ -19,7 +19,7 @@ class Braintree_Error_ErrorCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(4, $result->errors->deepSize());
     }
 
-    function testOnHtmlField()
+    public function testOnHtmlField()
     {
         $result = Braintree_Customer::create(array(
             'email' => 'invalid',
@@ -40,7 +40,7 @@ class Braintree_Error_ErrorCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::ADDRESS_COUNTRY_NAME_IS_NOT_ACCEPTED, $errors[0]->code);
     }
 
-    function testOnHtmlField_returnsEmptyArrayIfNone()
+    public function testOnHtmlField_returnsEmptyArrayIfNone()
     {
         $result = Braintree_Customer::create(array(
             'email' => 'invalid',
@@ -59,7 +59,7 @@ class Braintree_Error_ErrorCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $result->errors->onHtmlField('customer[credit_card][billing_address][country_name]'));
     }
 
-    function testOnHtmlField_returnsEmptyForCustomFieldsIfNoErrors()
+    public function testOnHtmlField_returnsEmptyForCustomFieldsIfNoErrors()
     {
         $result = Braintree_Customer::create(array(
             'email' => 'invalid',
@@ -73,4 +73,3 @@ class Braintree_Error_ErrorCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $result->errors->onHtmlField('customer[custom_fields][store_me]'));
     }
 }
-?>

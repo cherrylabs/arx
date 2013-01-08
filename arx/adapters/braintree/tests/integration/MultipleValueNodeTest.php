@@ -4,7 +4,7 @@ require_once realpath(dirname(__FILE__)) . '/SubscriptionTestHelper.php';
 
 class Braintree_MultipleValueNodeTest extends PHPUnit_Framework_TestCase
 {
-    function testIn_singleValue()
+    public function testIn_singleValue()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -34,7 +34,7 @@ class Braintree_MultipleValueNodeTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Braintree_TestHelper::includes($collection, $canceledSubscription));
     }
 
-    function testIs()
+    public function testIs()
     {
         $found = false;
         $collection = Braintree_Subscription::search(array(
@@ -47,7 +47,7 @@ class Braintree_MultipleValueNodeTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($found);
     }
 
-    function testSearch_statusIsExpired()
+    public function testSearch_statusIsExpired()
     {
         $found = false;
         $collection = Braintree_Subscription::search(array(
@@ -60,7 +60,7 @@ class Braintree_MultipleValueNodeTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($found);
     }
 
-    function testIn_multipleValues()
+    public function testIn_multipleValues()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -87,4 +87,3 @@ class Braintree_MultipleValueNodeTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(Braintree_TestHelper::includes($collection, $canceledSubscription));
     }
 }
-

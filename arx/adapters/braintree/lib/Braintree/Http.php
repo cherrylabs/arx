@@ -15,7 +15,7 @@ class Braintree_Http
     public static function delete($path)
     {
         $response = self::_doRequest('DELETE', $path);
-        if($response['status'] === 200) {
+        if ($response['status'] === 200) {
             return true;
         } else {
             Braintree_Util::throwStatusCodeException($response['status']);
@@ -25,7 +25,7 @@ class Braintree_Http
     public static function get($path)
     {
         $response = self::_doRequest('GET', $path);
-        if($response['status'] === 200) {
+        if ($response['status'] === 200) {
             return Braintree_Xml::buildArrayFromXml($response['body']);
         } else {
             Braintree_Util::throwStatusCodeException($response['status']);
@@ -36,7 +36,7 @@ class Braintree_Http
     {
         $response = self::_doRequest('POST', $path, self::_buildXml($params));
         $responseCode = $response['status'];
-        if($responseCode === 200 || $responseCode === 201 || $responseCode === 422) {
+        if ($responseCode === 200 || $responseCode === 201 || $responseCode === 422) {
             return Braintree_Xml::buildArrayFromXml($response['body']);
         } else {
             Braintree_Util::throwStatusCodeException($responseCode);
@@ -47,7 +47,7 @@ class Braintree_Http
     {
         $response = self::_doRequest('PUT', $path, self::_buildXml($params));
         $responseCode = $response['status'];
-        if($responseCode === 200 || $responseCode === 201 || $responseCode === 422) {
+        if ($responseCode === 200 || $responseCode === 201 || $responseCode === 422) {
             return Braintree_Xml::buildArrayFromXml($response['body']);
         } else {
             Braintree_Util::throwStatusCodeException($responseCode);
@@ -81,7 +81,7 @@ class Braintree_Http
             curl_setopt($curl, CURLOPT_CAINFO, Braintree_Configuration::caFile());
         }
 
-        if(!empty($requestBody)) {
+        if (!empty($requestBody)) {
             curl_setopt($curl, CURLOPT_POSTFIELDS, $requestBody);
         }
 
@@ -94,6 +94,7 @@ class Braintree_Http
                 throw new Braintree_Exception_SSLCertificate();
             }
         }
+
         return array('status' => $httpStatus, 'body' => $response);
     }
 }

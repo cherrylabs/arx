@@ -46,20 +46,20 @@ class Braintree_Error_ValidationErrorCollection extends Braintree_Collection
     public function deepAll()
     {
         $validationErrors = array_merge(array(), $this->_errors);
-        foreach($this->_nested as $nestedErrors)
-        {
+        foreach ($this->_nested as $nestedErrors) {
             $validationErrors = array_merge($validationErrors, $nestedErrors->deepAll());
         }
+
         return $validationErrors;
     }
 
     public function deepSize()
     {
         $total = sizeof($this->_errors);
-        foreach($this->_nested as $_nestedErrors)
-        {
+        foreach ($this->_nested as $_nestedErrors) {
             $total = $total + $_nestedErrors->deepSize();
         }
+
         return $total;
     }
 
@@ -77,13 +77,13 @@ class Braintree_Error_ValidationErrorCollection extends Braintree_Collection
     {
         $matches = array();
         foreach ($this->_errors AS $key => $error) {
-           if($error->attribute == $attribute) {
+           if ($error->attribute == $attribute) {
                $matches[] = $error;
            }
         }
+
         return $matches;
     }
-
 
     public function shallowAll()
     {
@@ -97,6 +97,7 @@ class Braintree_Error_ValidationErrorCollection extends Braintree_Collection
     public function  __get($name)
     {
         $varName = "_$name";
+
         return isset($this->$varName) ? $this->$varName : null;
     }
 
@@ -116,6 +117,7 @@ class Braintree_Error_ValidationErrorCollection extends Braintree_Collection
                 $output[] = $this->_inspect($this->_nested);
             }
         }
+
         return join(', ', $output);
     }
 
@@ -125,7 +127,7 @@ class Braintree_Error_ValidationErrorCollection extends Braintree_Collection
     private function _inspect($errors, $scope = null)
     {
         $eOutput = '[' . __CLASS__ . '/errors:[';
-        foreach($errors AS $error => $errorObj) {
+        foreach ($errors AS $error => $errorObj) {
             $outputErrs[] = "({$errorObj->error['code']} {$errorObj->error['message']})";
         }
         $eOutput .= join(', ', $outputErrs) . ']]';

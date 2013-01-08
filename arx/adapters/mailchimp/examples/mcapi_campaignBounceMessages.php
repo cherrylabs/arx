@@ -10,18 +10,16 @@ $api = new MCAPI($apikey);
 
 $msgs = $api->campaignBounceMessages($campaignId);
 
-if ($api->errorCode){
-	echo "Unable to run campaignBounceMessages()!\n";
-	echo "\tCode=".$api->errorCode."\n";
-	echo "\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+    echo "Unable to run campaignBounceMessages()!\n";
+    echo "\tCode=".$api->errorCode."\n";
+    echo "\tMsg=".$api->errorMessage."\n";
 } else {
-	echo "Total bounces:".$msgs['total']."\n";
-	echo "Bounces returned:".sizeof($msgs['data'])."\n";
-	foreach ($msgs['data'] as $msg){
+    echo "Total bounces:".$msgs['total']."\n";
+    echo "Bounces returned:".sizeof($msgs['data'])."\n";
+    foreach ($msgs['data'] as $msg) {
         echo $msg['date']." - ".$msg['email']."\n";
         echo substr($msg['message'],0,150)."\n\n";
     }
 
 }
-
-?> 

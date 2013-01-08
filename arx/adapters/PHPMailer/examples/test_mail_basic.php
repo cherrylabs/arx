@@ -6,7 +6,7 @@
 
 <?php
 
-require_once('../class.phpmailer.php');
+require_once '../class.phpmailer.php';
 
 $mail             = new PHPMailer(); // defaults to using php "mail()"
 
@@ -31,7 +31,7 @@ $mail->MsgHTML($body);
 $mail->AddAttachment("images/phpmailer.gif");      // attachment
 $mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
 
-if(!$mail->Send()) {
+if (!$mail->Send()) {
   echo "Mailer Error: " . $mail->ErrorInfo;
 } else {
   echo "Message sent!";

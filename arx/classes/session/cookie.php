@@ -1,3 +1,3 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Session_Cookie extends Kohana_Session_Cookie {}
+class session_cookie extends Kohana_Session_Cookie {}

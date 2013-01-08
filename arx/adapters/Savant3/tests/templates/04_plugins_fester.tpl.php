@@ -2,5 +2,4 @@
 
 <?php echo $this->fester('Morticia') ?>
 
-<?php echo $this->fester('Thing') ?>
-
+<?php echo $this->fester('Thing')

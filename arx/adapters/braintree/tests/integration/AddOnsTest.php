@@ -3,7 +3,7 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_AddOnTest extends PHPUnit_Framework_TestCase
 {
-    function testAll_returnsAllAddOns()
+    public function testAll_returnsAllAddOns()
     {
         $newId = strval(rand());
 
@@ -21,10 +21,8 @@ class Braintree_AddOnTest extends PHPUnit_Framework_TestCase
 
         $addOns = Braintree_AddOn::all();
 
-        foreach ($addOns as $addOn)
-        {
-            if ($addOn->id == $newId)
-            {
+        foreach ($addOns as $addOn) {
+            if ($addOn->id == $newId) {
                 $actualAddOn = $addOn;
             }
         }
@@ -39,4 +37,3 @@ class Braintree_AddOnTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($addOnParams["numberOfBillingCycles"], $actualAddOn->numberOfBillingCycles);
     }
 }
-

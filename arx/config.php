@@ -1,21 +1,20 @@
 <?php
 /**
  * Config file
- * 
- * 
+ *
+ *
  * @file
- *  
+ *
  * @package 87seconds
  * @author Daniel Sum
  * @link   @endlink
- * @see 
+ * @see
  * @description
- * 
+ *
  * @todo cleaning the config file
 */
 
 define('DIR_ROOT', dirname(dirname(__FILE__)) );
-
 
 /*if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
   define("HTTP", "https://"); // DEFINE PROTOCOL
@@ -27,9 +26,8 @@ define('DIR_ROOT', dirname(dirname(__FILE__)) );
 
 //define("URL_ROOT", HTTP.$_SERVER['HTTP_HOST'].substr_replace(dirname($_SERVER['PHP_SELF']), '', -1)); // DEFINE WEBROOT PATH
 
-if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443)
-{
-  define( 'IS_HTTPS', true); 
+if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
+  define( 'IS_HTTPS', true);
 }
 
 define( 'HTTP', 'http'.(defined('IS_HTTPS') ? 's' : '').'://');
@@ -96,7 +94,6 @@ define( 'ARX_INC' , ARX_LIBS . DS . INC);
 define( 'LIBS_CSS' , ARX_CSS );
 define( 'LIBS_JS' , ARX_JS );
 define( 'LIBS_INC' , ARX_LIBS . DS . INC);
-
 
 define( 'HOOK' , 'arx_hook');
 

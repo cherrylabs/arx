@@ -1,10 +1,7 @@
 <?php
 
-require_once(dirname(__FILE__).'/core.php');
+require_once dirname(__FILE__).'/core.php';
 
-
-class aDataManager{
-
-
-
+class aDataManager
+{
 }

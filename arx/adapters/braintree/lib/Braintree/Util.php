@@ -21,7 +21,7 @@ class Braintree_Util
      * of its child arrays to objects of type Braintree_$attributeName, or returns
      * an array with a single element containing the value of that array element
      *
-     * @param array $attribArray attributes from a search response
+     * @param array  $attribArray   attributes from a search response
      * @param string $attributeName indicates which element of the passed array to extract
      *
      * @return array array of Braintree_$attributeName objects, or a single element array
@@ -44,17 +44,18 @@ class Braintree_Util
         endif;
 
         unset($attribArray[$attributeName]);
+
         return $objectArray;
     }
     /**
      * throws an exception based on the type of error
-     * @param string $statusCode HTTP status code to throw exception from
+     * @param  string              $statusCode HTTP status code to throw exception from
      * @throws Braintree_Exception multiple types depending on the error
      *
      */
     public static function throwStatusCodeException($statusCode, $message=null)
     {
-        switch($statusCode) {
+        switch ($statusCode) {
          case 401:
             throw new Braintree_Exception_Authentication();
             break;
@@ -82,7 +83,7 @@ class Braintree_Util
     /**
      * removes the Braintree_ header from a classname
      *
-     * @param string $name Braintree_ClassName
+     * @param  string     $name Braintree_ClassName
      * @return camelCased classname minus Braintree_ header
      */
     public static function cleanClassName($name)
@@ -91,7 +92,7 @@ class Braintree_Util
         // lcfirst only exists >= 5.3
         if ( false === function_exists('lcfirst') ):
             function lcfirst( $str )
-            { return (string)(strtolower(substr($str,0,1)).substr($str,1));}
+            { return (string) (strtolower(substr($str,0,1)).substr($str,1));}
         endif;
 
         return lcfirst($name);
@@ -99,7 +100,7 @@ class Braintree_Util
 
     /**
      *
-     * @param string $name className
+     * @param  string $name className
      * @return string Braintree_ClassName
      */
     public static function buildClassName($name)
@@ -111,7 +112,7 @@ class Braintree_Util
      * convert alpha-beta-gamma to alphaBetaGamma
      *
      * @access public
-     * @param string $string
+     * @param  string $string
      * @return string modified string
      */
     public static function delimiterToCamelCase($string, $delimiter = '[\-\_]')
@@ -123,7 +124,7 @@ class Braintree_Util
      * convert alpha-beta-gamma to alpha_beta_gamma
      *
      * @access public
-     * @param string $string
+     * @param  string $string
      * @return string modified string
      */
     public static function delimiterToUnderscore($string)
@@ -131,12 +132,11 @@ class Braintree_Util
         return preg_replace('/-/', '_', $string);
     }
 
-
     /**
      * find capitals and convert to delimiter + lowercase
      *
      * @access public
-     * @param var $string
+     * @param  var $string
      * @return var modified string
      */
     public static function camelCaseToDelimiter($string, $delimiter = '-')
@@ -146,9 +146,9 @@ class Braintree_Util
 
     /**
      *
-     * @param array $array associative array to implode
+     * @param array  $array     associative array to implode
      * @param string $separator (optional, defaults to =)
-     * @param string $glue (optional, defaults to ', ')
+     * @param string $glue      (optional, defaults to ', ')
      */
     public static function implodeAssociativeArray($array, $separator = '=', $glue = ', ')
     {
@@ -162,20 +162,22 @@ class Braintree_Util
         return (is_array($tmpArray)) ? implode($glue, $tmpArray) : false;
     }
 
-    public static function attributesToString($attributes) {
+    public static function attributesToString($attributes)
+    {
         foreach ($attributes AS $key => $value) {
             if (is_array($value)) {
                 $pAttrib = "";
                 foreach ($value AS $obj) {
                     $pAttrib .= sprintf('%s', $obj);
                 }
-            } else if ($value instanceof DateTime) {
+            } elseif ($value instanceof DateTime) {
                 $pAttrib = $value->format(DateTime::RFC850);
             } else {
                 $pAttrib = $value;
             }
             $printableAttribs[$key] = sprintf('%s', $pAttrib);
         }
+
         return Braintree_Util::implodeAssociativeArray($printableAttribs);
     }
 
@@ -195,7 +197,7 @@ class Braintree_Util
         $invalidKeys = array_diff($userKeys, $validKeys);
         $invalidKeys = self::_removeWildcardKeys($validKeys, $invalidKeys);
 
-        if(!empty($invalidKeys)) {
+        if (!empty($invalidKeys)) {
             asort($invalidKeys);
             $sortedList = join(', ', $invalidKeys);
             throw new InvalidArgumentException('invalid keys: '. $sortedList);
@@ -203,15 +205,15 @@ class Braintree_Util
     }
     /**
      * flattens a numerically indexed nested array to a single level
-     * @param array $keys
-     * @param string $namespace
+     * @param  array  $keys
+     * @param  string $namespace
      * @return array
      */
     private static function _flattenArray($keys, $namespace = null)
     {
         $flattenedArray = array();
-        foreach($keys AS $key) {
-            if(is_array($key)) {
+        foreach ($keys AS $key) {
+            if (is_array($key)) {
                 $theKeys = array_keys($key);
                 $theValues = array_values($key);
                 $scope = $theKeys[0];
@@ -223,6 +225,7 @@ class Braintree_Util
             }
         }
         sort($flattenedArray);
+
         return $flattenedArray;
     }
 
@@ -230,7 +233,7 @@ class Braintree_Util
     {
        $flattenedArray = array();
 
-       foreach($keys AS $key => $value) {
+       foreach ($keys AS $key => $value) {
            $fullKey = empty($namespace) ? $key : $namespace;
            if (!is_numeric($key) && $namespace != null) {
               $fullKey .= '[' . $key . ']';
@@ -238,7 +241,7 @@ class Braintree_Util
            if (is_numeric($key) && is_string($value)) {
               $fullKey .= '[' . $value . ']';
            }
-           if(is_array($value)) {
+           if (is_array($value)) {
                $more = self::_flattenUserKeys($value, $fullKey);
                $flattenedArray = array_merge($flattenedArray, $more);
            } else {
@@ -246,18 +249,19 @@ class Braintree_Util
            }
        }
        sort($flattenedArray);
+
        return $flattenedArray;
     }
 
     /**
      * removes wildcard entries from the invalid keys array
-     * @param array $validKeys
-     * @param <array $invalidKeys
+     * @param  array  $validKeys
+     * @param  <array $invalidKeys
      * @return array
      */
     private static function _removeWildcardKeys($validKeys, $invalidKeys)
     {
-        foreach($validKeys AS $key) {
+        foreach ($validKeys AS $key) {
             if (stristr($key, '[_anyKey_]')) {
                 $wildcardKey = str_replace('[_anyKey_]', '', $key);
                 foreach ($invalidKeys AS $index => $invalidKey) {
@@ -267,6 +271,7 @@ class Braintree_Util
                 }
             }
         }
+
         return $invalidKeys;
     }
 }

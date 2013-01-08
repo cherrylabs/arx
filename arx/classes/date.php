@@ -2,4 +2,4 @@
 
 include_once DIR_CLASSES . DS . 'kohana'.DS.'date'.EXT_PHP;
 
-class Date extends Kohana_Date {}
+class date extends Kohana_Date {}

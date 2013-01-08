@@ -4,7 +4,7 @@ require_once realpath(dirname(__FILE__)) . '/SubscriptionTestHelper.php';
 
 class Braintree_TextNodeTest extends PHPUnit_Framework_TestCase
 {
-    function testIs()
+    public function testIs()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -31,7 +31,7 @@ class Braintree_TextNodeTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Braintree_TestHelper::includes($collection, $triallessSubscription));
     }
 
-    function testIsNot()
+    public function testIsNot()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -58,7 +58,7 @@ class Braintree_TextNodeTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Braintree_TestHelper::includes($collection, $triallessSubscription));
     }
 
-    function testStartsWith()
+    public function testStartsWith()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -85,7 +85,7 @@ class Braintree_TextNodeTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Braintree_TestHelper::includes($collection, $triallessSubscription));
     }
 
-    function testEndsWith()
+    public function testEndsWith()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -112,8 +112,7 @@ class Braintree_TextNodeTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Braintree_TestHelper::includes($collection, $triallessSubscription));
     }
 
-
-    function testContains()
+    public function testContains()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();

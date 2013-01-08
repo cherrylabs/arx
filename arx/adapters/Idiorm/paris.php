@@ -49,8 +49,8 @@
      * directly. It is used internally by the a_db_model base
      * class.
      */
-    class ORMWrapper extends ORM {
-
+    class ORMWrapper extends ORM
+    {
         /**
          * The wrapped find_one and find_many classes will
          * return an instance or instances of this class.
@@ -61,7 +61,8 @@
          * Set the name of the class which the wrapped
          * methods should return instances of.
          */
-        public function set_class_name($class_name) {
+        public function set_class_name($class_name)
+        {
             $this->_class_name = $class_name;
         }
 
@@ -74,7 +75,8 @@
          * after the name of the filter will be passed to the called
          * filter function as arguments after the ORM class.
          */
-        public function filter() {
+        public function filter()
+        {
             $args = func_get_args();
             $filter_function = array_shift($args);
             array_unshift($args, $this);
@@ -87,8 +89,10 @@
          * Factory method, return an instance of this
          * class bound to the supplied table name.
          */
-        public static function for_table($table_name) {
+        public static function for_table($table_name)
+        {
             self::_setup_db();
+
             return new self($table_name);
         }
 
@@ -97,12 +101,14 @@
          * associated with this wrapper and populate
          * it with the supplied Idiorm instance.
          */
-        protected function _create_model_instance($orm) {
+        protected function _create_model_instance($orm)
+        {
             if ($orm === false) {
                 return false;
             }
             $model = new $this->_class_name();
             $model->set_orm($orm);
+
             return $model;
         }
 
@@ -111,7 +117,8 @@
          * an instance of the class associated with
          * this wrapper instead of the raw ORM class.
          */
-        public function find_one($id=null) {
+        public function find_one($id=null)
+        {
             return $this->_create_model_instance(parent::find_one($id));
         }
 
@@ -120,7 +127,8 @@
          * an array of instances of the class associated
          * with this wrapper instead of the raw ORM class.
          */
-        public function find_many() {
+        public function find_many()
+        {
             return array_map(array($this, '_create_model_instance'), parent::find_many());
         }
 
@@ -129,7 +137,8 @@
          * empty instance of the class associated with
          * this wrapper instead of the raw ORM class.
          */
-        public function create($data=null) {
+        public function create($data=null)
+        {
             return $this->_create_model_instance(parent::create($data));
         }
     }
@@ -142,8 +151,8 @@
      * }
      *
      */
-    class a_db_model {
-
+    class a_db_model
+    {
         // Default ID column for all models. Can be overridden by adding
         // a public static _id_column property to your model classes.
         const DEFAULT_ID_COLUMN = 'id';
@@ -152,7 +161,7 @@
         const DEFAULT_FOREIGN_KEY_SUFFIX = '_id';
 
         /**
-         * The ORM instance used by this model 
+         * The ORM instance used by this model
          * instance to communicate with the database.
          */
         public $orm;
@@ -162,11 +171,13 @@
          * class or the property does not exist, returns the default
          * value supplied as the third argument (which defaults to null).
          */
-        protected static function _get_static_property($class_name, $property, $default=null) {
+        protected static function _get_static_property($class_name, $property, $default=null)
+        {
             if (!class_exists($class_name) || !property_exists($class_name, $property)) {
                 return $default;
             }
             $properties = get_class_vars($class_name);
+
             return $properties[$property];
         }
 
@@ -177,18 +188,20 @@
          * returned. If not, the class name will be converted using
          * the _class_name_to_table_name method method.
          */
-        protected static function _get_table_name($class_name) {
+        protected static function _get_table_name($class_name)
+        {
             $specified_table_name = self::_get_static_property($class_name, '_table');
             if (is_null($specified_table_name)) {
                 return self::_class_name_to_table_name($class_name);
             }
+
             return $specified_table_name;
         }
 
         /**
          * Convert a namespace to the standard PEAR underscore format.
-         * 
-         * Then convert a class name in CapWords to a table name in 
+         *
+         * Then convert a class name in CapWords to a table name in
          * lowercase_with_underscores.
          *
          * Finally strip doubled up underscores
@@ -196,7 +209,8 @@
          * For example, CarTyre would be converted to car_tyre. And
          * Project\a_db_models\CarTyre would be project_models_car_tyre.
          */
-        protected static function _class_name_to_table_name($class_name) {
+        protected static function _class_name_to_table_name($class_name)
+        {
             return strtolower(preg_replace(
                 array('/\\\\/', '/(?<=[a-z])([A-Z])/', '/__/'),
                 array('_', '_$1', '_'),
@@ -208,7 +222,8 @@
          * Return the ID column name to use for this class. If it is
          * not set on the class, returns null.
          */
-        protected static function _get_id_column_name($class_name) {
+        protected static function _get_id_column_name($class_name)
+        {
             return self::_get_static_property($class_name, '_id_column', self::DEFAULT_ID_COLUMN);
         }
 
@@ -218,10 +233,12 @@
          * argument (the name of the table) with the default foreign key column
          * suffix appended.
          */
-        protected static function _build_foreign_key_name($specified_foreign_key_name, $table_name) {
+        protected static function _build_foreign_key_name($specified_foreign_key_name, $table_name)
+        {
             if (!is_null($specified_foreign_key_name)) {
                 return $specified_foreign_key_name;
             }
+
             return $table_name . self::DEFAULT_FOREIGN_KEY_SUFFIX;
         }
 
@@ -234,11 +251,13 @@
          * responsible for returning instances of the correct class when
          * its find_one or find_many methods are called.
          */
-        public static function factory($class_name) {
+        public static function factory($class_name)
+        {
             $table_name = self::_get_table_name($class_name);
             $wrapper = ORMWrapper::for_table($table_name);
             $wrapper->set_class_name($class_name);
             $wrapper->use_id_column(self::_get_id_column_name($class_name));
+
             return $wrapper;
         }
 
@@ -248,9 +267,11 @@
          * only difference is whether find_one or find_many is used to complete
          * the method chain.
          */
-        protected function _has_one_or_many($associated_class_name, $foreign_key_name=null) {
+        protected function _has_one_or_many($associated_class_name, $foreign_key_name=null)
+        {
             $base_table_name = self::_get_table_name(get_class($this));
             $foreign_key_name = self::_build_foreign_key_name($foreign_key_name, $base_table_name);
+
             return self::factory($associated_class_name)->where($foreign_key_name, $this->id());
         }
 
@@ -258,7 +279,8 @@
          * Helper method to manage one-to-one relations where the foreign
          * key is on the associated table.
          */
-        protected function has_one($associated_class_name, $foreign_key_name=null) {
+        protected function has_one($associated_class_name, $foreign_key_name=null)
+        {
             return $this->_has_one_or_many($associated_class_name, $foreign_key_name);
         }
 
@@ -266,7 +288,8 @@
          * Helper method to manage one-to-many relations where the foreign
          * key is on the associated table.
          */
-        protected function has_many($associated_class_name, $foreign_key_name=null) {
+        protected function has_many($associated_class_name, $foreign_key_name=null)
+        {
             return $this->_has_one_or_many($associated_class_name, $foreign_key_name);
         }
 
@@ -274,10 +297,12 @@
          * Helper method to manage one-to-one and one-to-many relations where
          * the foreign key is on the base table.
          */
-        protected function belongs_to($associated_class_name, $foreign_key_name=null) {
+        protected function belongs_to($associated_class_name, $foreign_key_name=null)
+        {
             $associated_table_name = self::_get_table_name($associated_class_name);
             $foreign_key_name = self::_build_foreign_key_name($foreign_key_name, $associated_table_name);
             $associated_object_id = $this->$foreign_key_name;
+
             return self::factory($associated_class_name)->where_id_is($associated_object_id);
         }
 
@@ -285,7 +310,8 @@
          * Helper method to manage many-to-many relationships via an intermediate model. See
          * README for a full explanation of the parameters.
          */
-        protected function has_many_through($associated_class_name, $join_class_name=null, $key_to_base_table=null, $key_to_associated_table=null) {
+        protected function has_many_through($associated_class_name, $join_class_name=null, $key_to_base_table=null, $key_to_associated_table=null)
+        {
             $base_class_name = get_class($this);
 
             // The class name of the join model, if not supplied, is
@@ -319,78 +345,90 @@
         /**
          * Set the wrapped ORM instance associated with this a_db_model instance.
          */
-        public function set_orm($orm) {
+        public function set_orm($orm)
+        {
             $this->orm = $orm;
         }
 
         /**
          * Magic getter method, allows $model->property access to data.
          */
-        public function __get($property) {
+        public function __get($property)
+        {
             return $this->orm->get($property);
         }
 
         /**
          * Magic setter method, allows $model->property = 'value' access to data.
          */
-        public function __set($property, $value) {
+        public function __set($property, $value)
+        {
             $this->orm->set($property, $value);
         }
 
         /**
          * Magic isset method, allows isset($model->property) to work correctly.
          */
-        public function __isset($property) {
+        public function __isset($property)
+        {
             return $this->orm->__isset($property);
         }
 
         /**
          * Getter method, allows $model->get('property') access to data
          */
-        public function get($property) {
+        public function get($property)
+        {
             return $this->orm->get($property);
         }
 
         /**
          * Setter method, allows $model->set('property', 'value') access to data.
          */
-        public function set($property, $value = null) {
+        public function set($property, $value = null)
+        {
             $this->orm->set($property, $value);
         }
 
         /**
          * Check whether the given field has changed since the object was created or saved
          */
-        public function is_dirty($property) {
+        public function is_dirty($property)
+        {
             return $this->orm->is_dirty($property);
         }
 
         /**
          * Wrapper for Idiorm's as_array method.
          */
-        public function as_array() {
+        public function as_array()
+        {
             $args = func_get_args();
+
             return call_user_func_array(array($this->orm, 'as_array'), $args);
         }
 
         /**
          * Save the data associated with this model instance to the database.
          */
-        public function save() {
+        public function save()
+        {
             return $this->orm->save();
         }
 
         /**
          * Delete the database row associated with this model instance.
          */
-        public function delete() {
+        public function delete()
+        {
             return $this->orm->delete();
         }
 
         /**
          * Get the database ID of this model instance.
          */
-        public function id() {
+        public function id()
+        {
             return $this->orm->id();
         }
 
@@ -400,7 +438,8 @@
          * corresponding database table. If any keys are supplied which
          * do not match up with columns, the database will throw an error.
          */
-        public function hydrate($data) {
+        public function hydrate($data)
+        {
             $this->orm->hydrate($data)->force_all_dirty();
         }
     }

@@ -10,12 +10,10 @@ $api = new MCAPI($apikey);
 
 $retval = $api->apiKeyAdd($username, $password);
 
-if ($api->errorCode){
-	echo "Unable to load Add a New API Key()!";
-	echo "\n\tCode=".$api->errorCode;
-	echo "\n\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+    echo "Unable to load Add a New API Key()!";
+    echo "\n\tCode=".$api->errorCode;
+    echo "\n\tMsg=".$api->errorMessage."\n";
 } else {
-	echo "New API Key:".$retval."\n";
+    echo "New API Key:".$retval."\n";
 }
-
-?>

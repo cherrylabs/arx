@@ -4,14 +4,14 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_Xml_ParserTest extends PHPUnit_Framework_TestCase
 {
-    function testTypeCastIntegers()
+    public function testTypeCastIntegers()
     {
         $array = Braintree_Xml::buildArrayFromXml('<root><foo type="integer">123</foo></root>');
         $this->assertEquals($array, array('root' => array('foo' => 123)));
 
     }
 
-    function testDashesUnderscores()
+    public function testDashesUnderscores()
     {
         $xml =<<<XML
         <root>
@@ -25,7 +25,7 @@ XML;
             array('dashEs' => '', 'underScores' => '')), $array);
     }
 
-    function testNullOrEmptyString()
+    public function testNullOrEmptyString()
     {
         $xml = <<<XML
         <root>
@@ -38,7 +38,7 @@ XML;
             array('aNilValue' => null, 'anEmptyString' => '')), $array);
     }
 
-    function testTypeCastsDatetimes()
+    public function testTypeCastsDatetimes()
     {
         $xml = <<<XML
         <root>
@@ -52,7 +52,7 @@ XML;
         $this->assertType('DateTime', $array['root']['createdAt']);
     }
 
-    function testTypeCastsDates()
+    public function testTypeCastsDates()
     {
         $xml = <<<XML
         <root>
@@ -65,7 +65,7 @@ XML;
         $this->assertEquals(array('root' => array('someDate' => $dateTime)), $array);
     }
 
-    function testBuildsArray()
+    public function testBuildsArray()
     {
         $xml = <<<XML
         <root>
@@ -86,7 +86,7 @@ XML;
 
     }
 
-    function testReturnsBoolean()
+    public function testReturnsBoolean()
     {
         $xml = <<<XML
         <root>
@@ -109,7 +109,7 @@ XML;
 
     }
 
-    function testEmptyArrayAndNestedElements()
+    public function testEmptyArrayAndNestedElements()
     {
         $xml = <<<XML
         <root>
@@ -131,7 +131,7 @@ XML;
          ), $array);
     }
 
-    function testParsingNilEqualsTrueAfterArray()
+    public function testParsingNilEqualsTrueAfterArray()
     {
         $xml = <<<XML
         <root>
@@ -146,7 +146,7 @@ XML;
 
     }
 
-    function testTransactionParsingNil()
+    public function testTransactionParsingNil()
     {
         $xml = <<<XML
 <transaction>
@@ -250,7 +250,7 @@ XML;
 
     }
 
-    function testParsingWithNodeHavingSameNameAsNodesDirectlyUnderCollection()
+    public function testParsingWithNodeHavingSameNameAsNodesDirectlyUnderCollection()
     {
         $xml = <<<END
 <foos type="collection">
@@ -268,7 +268,7 @@ END;
         $this->assertEquals(array('baz' => 'two', 'bar' => 'bug was here'), $array['foos']['bar'][1]);
     }
 
-    function testParsingCreditCardSearchResults()
+    public function testParsingCreditCardSearchResults()
     {
         $xml = <<<END
 <payment-methods type="collection">
@@ -427,14 +427,15 @@ END;
         $this->assertEquals('Visa', $transaction['creditCard']['cardType']);
     }
 
-    function xmlAndBack($array)
+    public function xmlAndBack($array)
     {
         $xml = Braintree_Xml::buildXmlFromArray($array);
+
         return Braintree_Xml::buildArrayFromXml($xml);
 
     }
 
-    function testSimpleCaseRoundtrip()
+    public function testSimpleCaseRoundtrip()
     {
         $array = array('root' => array(
             'foo' => 'fooValue',
@@ -445,7 +446,7 @@ END;
         $this->assertEquals($array, $array2);
     }
 
-    function testArrayRoundtrip()
+    public function testArrayRoundtrip()
     {
         $array = array('root' => array (
             'items' => array(
@@ -457,7 +458,7 @@ END;
         $this->assertEquals($array, $array2);
     }
 
-    function testBooleanRoundtrip()
+    public function testBooleanRoundtrip()
     {
         $array = array('root' => array(
             'stringTrue' => true,
@@ -469,7 +470,7 @@ END;
         $this->assertEquals($array, $array2);
 
     }
-    function testTimestampRoundtrip()
+    public function testTimestampRoundtrip()
     {
         date_default_timezone_set('UTC');
         $array = array('root' => array(
@@ -480,7 +481,7 @@ END;
 
     }
 
-    function testNullvsEmptyStringToXml()
+    public function testNullvsEmptyStringToXml()
     {
         $array = array('root' => array(
             'anEmptyString' => '',
@@ -498,8 +499,8 @@ XML;
 
         $this->assertEquals($xml, $xml2);
     }
-    
-    function testIncludesTheEncodingRoundtrip()
+
+    public function testIncludesTheEncodingRoundtrip()
     {
         $array = array('root' => array(
            'root' => 'bar',
@@ -508,12 +509,11 @@ XML;
         $this->assertRegExp('<\?xml version=\"1.0\" encoding=\"UTF-8\"\?>', $xml);
 
     }
-    
-    function testRootNodeAndStringRoundtrip()
+
+    public function testRootNodeAndStringRoundtrip()
     {
         $array = array('id' => '123');
         $array2 = $this->xmlAndBack($array);
         $this->assertEquals($array, $array2);
     }
 }
-?>

@@ -3,7 +3,7 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_Xml_GeneratorTest extends PHPUnit_Framework_TestCase
 {
-    function testSetsTypeAttributeForBooleans()
+    public function testSetsTypeAttributeForBooleans()
     {
         $expected = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -19,7 +19,7 @@ XML;
         $this->assertEquals($expected, $xml);
     }
 
-    function testCreatesArrays()
+    public function testCreatesArrays()
     {
         $expected = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -37,7 +37,7 @@ XML;
         $this->assertEquals($expected, $xml);
     }
 
-    function testCreatesArraysWithBooleans()
+    public function testCreatesArraysWithBooleans()
     {
         $expected = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -55,7 +55,7 @@ XML;
         $this->assertEquals($expected, $xml);
     }
 
-    function testHandlesEmptyArrays()
+    public function testHandlesEmptyArrays()
     {
         $expected = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -70,7 +70,7 @@ XML;
         $this->assertEquals($expected, $xml);
     }
 
-    function testEscapingSpecialChars()
+    public function testEscapingSpecialChars()
     {
         $expected = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -85,4 +85,3 @@ XML;
         $this->assertEquals($expected, $xml);
     }
 }
-?>

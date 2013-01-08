@@ -1,3 +1,3 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class HTTP_Header extends Kohana_HTTP_Header {}
+class http_header extends Kohana_HTTP_Header {}

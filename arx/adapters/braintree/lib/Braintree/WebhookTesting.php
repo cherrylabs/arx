@@ -16,6 +16,7 @@ class Braintree_WebhookTesting
     {
         $subjectXml = self::_subscriptionSampleXml($id);
         $timestamp = self::_timestamp();
+
         return "
         <notification>
             <timestamp type=\"datetime\">{$timestamp}</timestamp>

@@ -16,8 +16,8 @@ class Braintree_Xml_Generator
     /**
      * arrays passed to this method should have a single root element
      * with an array as its value
-     * @param array $aData the array of data
-     * @return var XML string
+     * @param  array $aData the array of data
+     * @return var   XML string
      */
     public static function arrayToXml($aData)
     {
@@ -50,8 +50,8 @@ class Braintree_Xml_Generator
      *
      * @access protected
      * @static
-     * @param object $writer XMLWriter object
-     * @param array $aData contains attributes and values
+     * @param  object $writer XMLWriter object
+     * @param  array  $aData  contains attributes and values
      * @return none
      */
     private static function _createElementsFromArray(&$writer, $aData)
@@ -62,6 +62,7 @@ class Braintree_Xml_Generator
             } else {
                 $writer->text($aData);
             }
+
           return;
         }
         foreach ($aData AS $index => $element) {
@@ -77,8 +78,7 @@ class Braintree_Xml_Generator
                         self::_createElementsFromArray($writer, $itemInArray);
                         $writer->endElement();
                     }
-                }
-                else {
+                } else {
                     self::_createElementsFromArray($writer, $element);
                 }
             } else {
@@ -98,7 +98,7 @@ class Braintree_Xml_Generator
      * convert passed data into an array of attributeType, attributeName, and value
      * dates sent as DateTime objects will be converted to strings
      * @access protected
-     * @param mixed $value
+     * @param  mixed $value
      * @return array attributes and element value
      */
     private static function _generateXmlAttribute($value)
@@ -119,12 +119,13 @@ class Braintree_Xml_Generator
     /**
      * converts datetime back to xml schema format
      * @access protected
-     * @param object $dateTime
-     * @return var XML schema formatted timestamp
+     * @param  object $dateTime
+     * @return var    XML schema formatted timestamp
      */
     private static function _dateTimeToXmlTimestamp($dateTime)
     {
         $dateTime->setTimeZone(new DateTimeZone('UTC'));
+
         return ($dateTime->format('Y-m-d\TH:i:s') . 'Z');
     }
 
@@ -135,6 +136,7 @@ class Braintree_Xml_Generator
                return false;
             }
             $dateTime = new DateTime($string);
+
             return self::_dateTimeToXmlTimestamp($dateTime);
         } catch (Exception $e) {
             // not a datetime

@@ -37,8 +37,8 @@ class Braintree_Collection implements Countable, IteratorAggregate, ArrayAccess
 
     /**
      * Set index's value
-     * @param integer $index
-     * @param mixed $value
+     * @param  integer             $index
+     * @param  mixed               $value
      * @throws OutOfRangeException
      */
     public function set($index, $value)
@@ -51,7 +51,7 @@ class Braintree_Collection implements Countable, IteratorAggregate, ArrayAccess
 
     /**
      * Remove a value from the collection
-     * @param integer $index index to remove
+     * @param  integer             $index index to remove
      * @throws OutOfRangeException if index is out of range
      */
     public function remove($index)
@@ -64,7 +64,7 @@ class Braintree_Collection implements Countable, IteratorAggregate, ArrayAccess
 
     /**
      * Return value at index
-     * @param integer $index
+     * @param  integer             $index
      * @return mixed
      * @throws OutOfRangeException
      */
@@ -78,12 +78,13 @@ class Braintree_Collection implements Countable, IteratorAggregate, ArrayAccess
 
     /**
      * Determine if index exists
-     * @param integer $index
+     * @param  integer $index
      * @return boolean
      */
     public function exists($index)
     {
         if($index >= $this->count())
+
             return false;
 
         return true;
@@ -114,7 +115,7 @@ class Braintree_Collection implements Countable, IteratorAggregate, ArrayAccess
      * Implements ArrayAccess
      * @see set
      * @param integer $offset
-     * @param mixed $value
+     * @param mixed   $value
      */
     public function offsetSet($offset, $value)
     {
@@ -136,7 +137,7 @@ class Braintree_Collection implements Countable, IteratorAggregate, ArrayAccess
      * get an offset's value
      * Implements ArrayAccess
      * @see get
-     * @param integer $offset
+     * @param  integer $offset
      * @return mixed
      */
     public function offsetGet($offset)
@@ -148,7 +149,7 @@ class Braintree_Collection implements Countable, IteratorAggregate, ArrayAccess
      * Determine if offset exists
      * Implements ArrayAccess
      * @see exists
-     * @param integer $offset
+     * @param  integer $offset
      * @return boolean
      */
     public function offsetExists($offset)

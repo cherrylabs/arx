@@ -50,7 +50,7 @@ class Braintree_Result_Successful extends Braintree_Instance
      */
     public function __construct($objToReturn = null)
     {
-        if(!empty($objToReturn)) {
+        if (!empty($objToReturn)) {
             // get a lowercase direct name for the property
             $property = Braintree_Util::cleanClassName(
                     get_class($objToReturn)
@@ -63,7 +63,6 @@ class Braintree_Result_Successful extends Braintree_Instance
         }
     }
 
-
    /**
     *
     * @ignore
@@ -72,7 +71,8 @@ class Braintree_Result_Successful extends Braintree_Instance
    public function __toString()
    {
        $returnObject = $this->_returnObjectName;
+
        return __CLASS__ . '['.$this->$returnObject->__toString().']';
    }
-    
+
 }

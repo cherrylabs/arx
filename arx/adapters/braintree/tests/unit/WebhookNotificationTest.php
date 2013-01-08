@@ -3,13 +3,13 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_WebhookNotificationTest extends PHPUnit_Framework_TestCase
 {
-    function testVerify()
+    public function testVerify()
     {
         $verificationString = Braintree_WebhookNotification::verify('verification_token');
         $this->assertEquals('integration_public_key|c9f15b74b0d98635cd182c51e2703cffa83388c3', $verificationString);
     }
 
-    function testSampleNotificationReturnsAParsableNotification()
+    public function testSampleNotificationReturnsAParsableNotification()
     {
         $sampleNotification = Braintree_WebhookTesting::sampleNotification(
             Braintree_WebhookNotification::SUBSCRIPTION_WENT_PAST_DUE,
@@ -26,7 +26,7 @@ class Braintree_WebhookNotificationTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("my_id", $webhookNotification->subscription->id);
     }
 
-    function testParsingModifiedSignatureRaisesError()
+    public function testParsingModifiedSignatureRaisesError()
     {
         $sampleNotification = Braintree_WebhookTesting::sampleNotification(
             Braintree_WebhookNotification::SUBSCRIPTION_WENT_PAST_DUE,
@@ -41,7 +41,7 @@ class Braintree_WebhookNotificationTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    function testParsingUnknownPublicKeyRaisesError()
+    public function testParsingUnknownPublicKeyRaisesError()
     {
         $sampleNotification = Braintree_WebhookTesting::sampleNotification(
             Braintree_WebhookNotification::SUBSCRIPTION_WENT_PAST_DUE,
@@ -56,7 +56,7 @@ class Braintree_WebhookNotificationTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    function testParsingInvalidSignatureRaisesError()
+    public function testParsingInvalidSignatureRaisesError()
     {
         $sampleNotification = Braintree_WebhookTesting::sampleNotification(
             Braintree_WebhookNotification::SUBSCRIPTION_WENT_PAST_DUE,
@@ -71,4 +71,3 @@ class Braintree_WebhookNotificationTest extends PHPUnit_Framework_TestCase
         );
     }
 }
-?>

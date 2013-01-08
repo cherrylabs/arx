@@ -6,4 +6,4 @@
  * @copyright  (c) 2009-2011 Kohana Team
  * @license    http://kohanaframework.org/license
  */
-class Kohana_UTF8_Exception extends Kohana_Exception {}
+class kohana_utf8_exception extends Kohana_Exception {}

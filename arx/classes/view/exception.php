@@ -6,4 +6,4 @@
  * @copyright  (c) 2009-2011 Kohana Team
  * @license    http://kohanaframework.org/license
  */
-class View_Exception extends Kohana_View_Exception {}
+class view_exception extends Kohana_View_Exception {}

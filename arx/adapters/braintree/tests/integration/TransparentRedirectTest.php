@@ -3,7 +3,7 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
 {
-    function testRedirectUrl()
+    public function testRedirectUrl()
     {
         Braintree_TestHelper::suppressDeprecationWarnings();
         $trData = Braintree_TransparentRedirect::createCustomerData(
@@ -18,7 +18,7 @@ class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
         Braintree_Customer::createFromTransparentRedirect($queryString);
     }
 
-    function testParseAndValidateQueryString_throwsDownForMaintenanceErrorIfDownForMaintenance()
+    public function testParseAndValidateQueryString_throwsDownForMaintenanceErrorIfDownForMaintenance()
     {
         Braintree_TestHelper::suppressDeprecationWarnings();
         $trData = Braintree_TransparentRedirect::createCustomerData(
@@ -33,7 +33,7 @@ class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
         Braintree_Customer::createFromTransparentRedirect($queryString);
     }
 
-    function testParseAndValidateQueryString_throwsAuthenticationErrorIfBadCredentials()
+    public function testParseAndValidateQueryString_throwsAuthenticationErrorIfBadCredentials()
     {
         Braintree_TestHelper::suppressDeprecationWarnings();
         $privateKey = Braintree_Configuration::privateKey();
@@ -49,13 +49,13 @@ class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
             );
             $this->setExpectedException('Braintree_Exception_Authentication');
             Braintree_Customer::createFromTransparentRedirect($queryString);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
         }
         $privateKey = Braintree_Configuration::privateKey($privateKey);
         if (isset($e)) throw $e;
     }
 
-    function testCreateTransactionFromTransparentRedirect()
+    public function testCreateTransactionFromTransparentRedirect()
     {
         $params = array(
             'transaction' => array(
@@ -101,7 +101,7 @@ class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
         $this->assertequals('First', $customer->firstName);
     }
 
-    function testCreateCustomerFromTransparentRedirect()
+    public function testCreateCustomerFromTransparentRedirect()
     {
         $params = array(
             'customer' => array(
@@ -132,7 +132,7 @@ class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
         $this->assertequals('Penultimate', $customer->lastName);
     }
 
-    function testUpdateCustomerFromTransparentRedirect()
+    public function testUpdateCustomerFromTransparentRedirect()
     {
         $customer = Braintree_Customer::create(array(
             'firstName' => 'Mike',
@@ -168,7 +168,7 @@ class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
         $this->assertequals('Penultimate', $customer->lastName);
     }
 
-    function testCreateCreditCardFromTransparentRedirect()
+    public function testCreateCreditCardFromTransparentRedirect()
     {
         $customer = Braintree_Customer::create(array(
             'firstName' => 'Mike',
@@ -207,7 +207,7 @@ class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
         $this->assertequals('01/2010', $creditCard->expirationDate);
     }
 
-    function testUpdateCreditCardFromTransparentRedirect()
+    public function testUpdateCreditCardFromTransparentRedirect()
     {
         $customer = Braintree_Customer::create(array(
             'firstName' => 'Mike',
@@ -251,11 +251,10 @@ class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
         $this->assertequals('11/2011', $creditCard->expirationDate);
     }
 
-    function testUrl()
+    public function testUrl()
     {
         $url = Braintree_TransparentRedirect::url();
         $developmentPort = getenv("GATEWAY_PORT") ? getenv("GATEWAY_PORT") : 3000;
         $this->assertEquals("http://localhost:" . $developmentPort . "/merchants/integration_merchant_id/transparent_redirect_requests", $url);
     }
 }
-?>

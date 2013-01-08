@@ -8,11 +8,10 @@ $t_tree = a_db::table('t_data_tree');
 
 $aMenu = array();
 
-foreach($t_tree->find_many() as $key=>$v)
-{
-	$aMenu[$v->id] = $v->as_array();
-	$aMenu[$v->id]['attr']['class'] = 'iframe';
-	$aMenu[$v->id]['attr']['id'] = $v->id;
+foreach ($t_tree->find_many() as $key=>$v) {
+    $aMenu[$v->id] = $v->as_array();
+    $aMenu[$v->id]['attr']['class'] = 'iframe';
+    $aMenu[$v->id]['attr']['id'] = $v->id;
 }
 
 $app->aMenu = $aMenu;

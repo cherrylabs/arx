@@ -9,12 +9,10 @@ $api = new MCAPI($apikey);
 
 $retval = $api->folderAdd('MyTestFolder');
 
-if ($api->errorCode){
-	echo "Unable to createFolder!";
-	echo "\n\tCode=".$api->errorCode;
-	echo "\n\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+    echo "Unable to createFolder!";
+    echo "\n\tCode=".$api->errorCode;
+    echo "\n\tMsg=".$api->errorMessage."\n";
 } else {
-	echo "Folder created! Id=".$retval."\n";
+    echo "Folder created! Id=".$retval."\n";
 }
-
-?>

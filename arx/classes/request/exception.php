@@ -6,4 +6,4 @@
  * @copyright  (c) 2009-2011 Kohana Team
  * @license    http://kohanaframework.org/license
  */
-class Request_Exception extends Kohana_Request_Exception {}
+class request_exception extends Kohana_Request_Exception {}

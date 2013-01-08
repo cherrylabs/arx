@@ -3,7 +3,7 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
 {
-    function testData_specifiesArgSeparatorAsAmpersand()
+    public function testData_specifiesArgSeparatorAsAmpersand()
     {
         $originalSeparator = ini_get("arg_separator.output");
         ini_set("arg_separator.output", "&amp;");
@@ -12,7 +12,7 @@ class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(strpos($trData, "&amp;"));
     }
 
-    function testData_doesNotClobberDefaultTimezone()
+    public function testData_doesNotClobberDefaultTimezone()
     {
         $originalZone = date_default_timezone_get();
         date_default_timezone_set('Europe/London');
@@ -24,4 +24,3 @@ class Braintree_TransparentRedirectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Europe/London', $zoneAfterCall);
     }
 }
-?>

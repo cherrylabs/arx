@@ -2,7 +2,8 @@
 
 php5to4 ("../spyc.php", 'spyc-latest.php4');
 
-function php5to4 ($src, $dest) {
+function php5to4 ($src, $dest)
+{
   $code = file_get_contents ($src);
   $code = preg_replace ('#(public|private|protected)\s+\$#i', 'var \$', $code);
   $code = preg_replace ('#(public|private|protected)\s+static\s+\$#i', 'var \$', $code);

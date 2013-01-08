@@ -23,6 +23,7 @@ class Braintree_Subscription extends Braintree
     {
         Braintree_Util::verifyKeys(self::_createSignature(), $attributes);
         $response = Braintree_Http::post('/subscriptions', array('subscription' => $attributes));
+
         return self::_verifyGatewayResponse($response);
     }
 
@@ -43,6 +44,7 @@ class Braintree_Subscription extends Braintree
 
         try {
             $response = Braintree_Http::get('/subscriptions/' . $id);
+
             return self::factory($response['subscription']);
         } catch (Braintree_Exception_NotFound $e) {
             throw new Braintree_Exception_NotFound('subscription with id ' . $id . ' not found');
@@ -56,7 +58,6 @@ class Braintree_Subscription extends Braintree
         foreach ($query as $term) {
             $criteria[$term->name] = $term->toparam();
         }
-
 
         $response = braintree_http::post('/subscriptions/advanced_search_ids', array('search' => $criteria));
         $pager = array(
@@ -90,6 +91,7 @@ class Braintree_Subscription extends Braintree
             '/subscriptions/' . $subscriptionId,
             array('subscription' => $attributes)
         );
+
         return self::_verifyGatewayResponse($response);
     }
 
@@ -104,12 +106,14 @@ class Braintree_Subscription extends Braintree
         $response = Braintree_Http::post(
             '/transactions',
             array('transaction' => $transaction_params));
+
         return self::_verifyGatewayResponse($response);
     }
 
     public static function cancel($subscriptionId)
     {
         $response = Braintree_Http::put('/subscriptions/' . $subscriptionId . '/cancel');
+
         return self::_verifyGatewayResponse($response);
     }
 
@@ -208,7 +212,8 @@ class Braintree_Subscription extends Braintree
     /**
      * @ignore
      */
-    private static function _validateId($id = null) {
+    private static function _validateId($id = null)
+    {
         if (empty($id)) {
            throw new InvalidArgumentException(
                    'expected subscription id to be set'
@@ -229,12 +234,12 @@ class Braintree_Subscription extends Braintree
             return new Braintree_Result_Successful(
                 self::factory($response['subscription'])
             );
-        } else if (isset($response['transaction'])) {
+        } elseif (isset($response['transaction'])) {
             // return a populated instance of Braintree_Transaction, for subscription retryCharge
             return new Braintree_Result_Successful(
                 Braintree_Transaction::factory($response['transaction'])
             );
-        } else if (isset($response['apiErrorResponse'])) {
+        } elseif (isset($response['apiErrorResponse'])) {
             return new Braintree_Result_Error($response['apiErrorResponse']);
         } else {
             throw new Braintree_Exception_Unexpected(

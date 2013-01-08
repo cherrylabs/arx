@@ -1,14 +1,14 @@
-<?php
+?php
 
 /**
  * User Add
  *
  * @param $
- *	
+ *
  * @return
- *	
- * @code 
- *	
+ *
+ * @code
+ *
  * @endcode
  */
 
@@ -20,17 +20,15 @@ $form = new c_form('/prousers/add');
 
 c_hook::css(array(ARX_CSS.DS.'bootstrap.css'));
 
-foreach($data as $key=>$v){
-	$form->label($key);
-	$form->input($key, $v['default_value']);
+foreach ($data as $key=>$v) {
+    $form->label($key);
+    $form->input($key, $v['default_value']);
 
 }
 
 $form->button('send', 'send');
 
-if(isset($_GET['add']))
-{
-	
+if (isset($_GET['add'])) {
 
 }
 

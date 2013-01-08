@@ -1,8 +1,5 @@
 <?php
 
-class m_user{
-	
-	
-	
-
-} 
+class m_user
+{
+}

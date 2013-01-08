@@ -4,7 +4,7 @@ require_once realpath(dirname(__FILE__)) . '/SubscriptionTestHelper.php';
 
 class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
 {
-    function testSearch_planIdIs()
+    public function testSearch_planIdIs()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -31,14 +31,14 @@ class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Braintree_TestHelper::includes($collection, $triallessSubscription));
     }
 
-    function test_noRequestsWhenIterating()
+    public function test_noRequestsWhenIterating()
     {
         $resultsReturned = false;
         $collection = Braintree_Subscription::search(array(
             Braintree_SubscriptionSearch::planId()->is('imaginary')
         ));
 
-        foreach($collection as $transaction) {
+        foreach ($collection as $transaction) {
             $resultsReturned = true;
             break;
         }
@@ -47,7 +47,7 @@ class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(false, $resultsReturned);
     }
 
-    function testSearch_inTrialPeriod()
+    public function testSearch_inTrialPeriod()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -80,7 +80,7 @@ class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Braintree_TestHelper::includes($subscriptions_not_in_trial, $trialSubscription));
     }
 
-    function testSearch_statusIsPastDue()
+    public function testSearch_statusIsPastDue()
     {
         $found = false;
         $collection = Braintree_Subscription::search(array(
@@ -93,7 +93,7 @@ class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($found);
     }
 
-    function testSearch_statusIsExpired()
+    public function testSearch_statusIsExpired()
     {
         $found = false;
         $collection = Braintree_Subscription::search(array(
@@ -106,7 +106,7 @@ class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($found);
     }
 
-    function testSearch_billingCyclesRemaing()
+    public function testSearch_billingCyclesRemaing()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -138,7 +138,7 @@ class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(Braintree_TestHelper::includes($collection, $subscription_10));
     }
 
-    function testSearch_subscriptionId()
+    public function testSearch_subscriptionId()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -172,7 +172,7 @@ class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Braintree_TestHelper::includes($collection, $subscription_3));
     }
 
-    function testSearch_merchantAccountId()
+    public function testSearch_merchantAccountId()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -204,7 +204,7 @@ class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(Braintree_TestHelper::includes($collection, $subscription_2));
     }
 
-    function testSearch_daysPastDue()
+    public function testSearch_daysPastDue()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -228,7 +228,7 @@ class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($found);
     }
 
-    function testSearch_price()
+    public function testSearch_price()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -260,7 +260,7 @@ class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Braintree_TestHelper::includes($collection, $subscription_850));
     }
 
-    function testSearch_nextBillingDate()
+    public function testSearch_nextBillingDate()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -287,7 +287,7 @@ class Braintree_SubscriptionSearchTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Braintree_TestHelper::includes($collection, $trialSubscription));
     }
 
-    function testSearch_transactionId()
+    public function testSearch_transactionId()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $triallessPlan = Braintree_SubscriptionTestHelper::triallessPlan();

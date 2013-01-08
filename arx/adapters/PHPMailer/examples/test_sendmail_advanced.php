@@ -6,7 +6,7 @@
 
 <?php
 
-require_once('../class.phpmailer.php');
+require_once '../class.phpmailer.php';
 
 $mail = new PHPMailer(true); // the true param means it will throw exceptions on errors, which we need to catch
 $mail->IsSendmail(); // telling the class to use SendMail transport

@@ -8,10 +8,10 @@ $api = new MCAPI($apikey);
 
 $history = $api->listGrowthHistory($listId);
 
-if ($api->errorCode){
-	echo "Unable to run listGrowthHistory()!\n\tCode=".$api->errorCode."\n\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+    echo "Unable to run listGrowthHistory()!\n\tCode=".$api->errorCode."\n\tMsg=".$api->errorMessage."\n";
 } else {
-    foreach($history as $h){
+    foreach ($history as $h) {
         echo $h['month']."\n";
         echo "\tExisting=".$h['existing']."\n";
         echo "\tImports=".$h['imports']."\n";
@@ -19,6 +19,3 @@ if ($api->errorCode){
     }
 
 }
-
-?> 
-

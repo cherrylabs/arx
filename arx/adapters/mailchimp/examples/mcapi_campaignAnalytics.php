@@ -10,18 +10,17 @@ $api = new MCAPI($apikey);
 
 $stats = $api->campaignAnalytics($campaignId);
 
-if ($api->errorCode){
-	echo "Unable to run campaignAnalytics()!\n";
-	echo "\tCode=".$api->errorCode."\n";
-	echo "\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+    echo "Unable to run campaignAnalytics()!\n";
+    echo "\tCode=".$api->errorCode."\n";
+    echo "\tMsg=".$api->errorMessage."\n";
 } else {
     echo "Visits: ".$stat['visits']."\n";
     echo "Pages: ".$rpt['pages']."\n";
     echo "Goals ".$rpt['type']."\n";
-    if ($stat['goals']){
-        foreach($stat['goals'] as $goal){
+    if ($stat['goals']) {
+        foreach ($stat['goals'] as $goal) {
             echo "\t".$goal['name']." => ".$goal['conversions']."\n";
         }
     }
 }
-?> 

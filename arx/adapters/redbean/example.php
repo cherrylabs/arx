@@ -3,7 +3,7 @@
 //Example Script, saves Hello World to the database.
 
 //First, we need to include redbean
-require_once('rb.php');
+require_once 'rb.php';
 
 //Second, we need to setup the database
 
@@ -25,6 +25,3 @@ $leaflet = R::load('leaflet',$id);
 
 //Display the title
 echo $leaflet->title;
-
-
-

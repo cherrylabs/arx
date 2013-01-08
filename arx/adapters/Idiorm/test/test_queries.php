@@ -20,7 +20,8 @@
     $db = new DummyPDO('sqlite::memory:');
     ORM::set_db($db);
 
-    class Simple extends Model {
+    class Simple extends Model
+    {
     }
 
     Model::factory('Simple')->find_many();
@@ -28,14 +29,16 @@
     Tester::check_equal("Simple auto table name", $expected);
 
 
-    class ComplexModelClassName extends Model {
+    class ComplexModelClassName extends Model
+    {
     }
 
     Model::factory('ComplexModelClassName')->find_many();
     $expected = 'SELECT * FROM `complex_model_class_name`';
     Tester::check_equal("Complex auto table name", $expected);
 
-    class ModelWithCustomTable extends Model {
+    class ModelWithCustomTable extends Model
+    {
         public static $_table = 'custom_table';
     }
 
@@ -43,7 +46,8 @@
     $expected = 'SELECT * FROM `custom_table`';
     Tester::check_equal("Custom table name", $expected);
 
-    class ModelWithCustomTableAndCustomIdColumn extends Model {
+    class ModelWithCustomTableAndCustomIdColumn extends Model
+    {
         public static $_table = 'custom_table';
         public static $_id_column = 'custom_id_column';
     }
@@ -52,13 +56,15 @@
     $expected = "SELECT * FROM `custom_table` WHERE `custom_id_column` = '5' LIMIT 1";
     Tester::check_equal("Custom ID column", $expected);
 
-    class ModelWithFilters extends Model {
-
-        public static function name_is_fred($orm) {
+    class ModelWithFilters extends Model
+    {
+        public static function name_is_fred($orm)
+        {
             return $orm->where('name', 'Fred');
         }
 
-        public static function name_is($orm, $name) {
+        public static function name_is($orm, $name)
+        {
             return $orm->where('name', $name);
         }
     }
@@ -71,7 +77,8 @@
     $expected = "SELECT * FROM `model_with_filters` WHERE `name` = 'Bob'";
     Tester::check_equal("Filter with arguments", $expected);
 
-    class Widget extends Model {
+    class Widget extends Model
+    {
     }
 
     $widget = Model::factory('Widget')->create();
@@ -93,14 +100,18 @@
     $expected = "DELETE FROM `widget` WHERE `id` = '1'";
     Tester::check_equal("Delete data", $expected);
 
-    class Profile extends Model {
-        public function user() {
+    class Profile extends Model
+    {
+        public function user()
+        {
             return $this->belongs_to('User');
         }
     }
 
-    class User extends Model {
-        public function profile() {
+    class User extends Model
+    {
+        public function profile()
+        {
             return $this->has_one('Profile');
         }
     }
@@ -110,8 +121,10 @@
     $expected = "SELECT * FROM `profile` WHERE `user_id` = '1' LIMIT 1";
     Tester::check_equal("has_one relation", $expected);
 
-    class UserTwo extends Model {
-        public function profile() {
+    class UserTwo extends Model
+    {
+        public function profile()
+        {
             return $this->has_one('Profile', 'my_custom_fk_column');
         }
     }
@@ -126,8 +139,10 @@
     $expected = "SELECT * FROM `user` WHERE `id` = '1' LIMIT 1";
     Tester::check_equal("belongs_to relation", $expected);
 
-    class ProfileTwo extends Model {
-        public function user() {
+    class ProfileTwo extends Model
+    {
+        public function user()
+        {
             return $this->belongs_to('User', 'custom_user_fk_column');
         }
     }
@@ -137,11 +152,14 @@
     $expected = "SELECT * FROM `user` WHERE `id` = '5' LIMIT 1";
     Tester::check_equal("belongs_to relation with custom FK name", $expected);
 
-    class Post extends Model {
+    class Post extends Model
+    {
     }
 
-    class UserThree extends Model {
-        public function posts() {
+    class UserThree extends Model
+    {
+        public function posts()
+        {
             return $this->has_many('Post');
         }
     }
@@ -151,8 +169,10 @@
     $expected = "SELECT * FROM `post` WHERE `user_three_id` = '1'";
     Tester::check_equal("has_many relation", $expected);
 
-    class UserFour extends Model {
-        public function posts() {
+    class UserFour extends Model
+    {
+        public function posts()
+        {
             return $this->has_many('Post', 'my_custom_fk_column');
         }
     }
@@ -161,14 +181,18 @@
     $expected = "SELECT * FROM `post` WHERE `my_custom_fk_column` = '1'";
     Tester::check_equal("has_many relation with custom FK name", $expected);
 
-    class Author extends Model {
+    class Author extends Model
+    {
     }
 
-    class AuthorBook extends Model {
+    class AuthorBook extends Model
+    {
     }
 
-    class Book extends Model {
-        public function authors() {
+    class Book extends Model
+    {
+        public function authors()
+        {
             return $this->has_many_through('Author');
         }
     }
@@ -178,14 +202,18 @@
     $expected = "SELECT `author`.* FROM `author` JOIN `author_book` ON `author`.`id` = `author_book`.`author_id` WHERE `author_book`.`book_id` = '1'";
     Tester::check_equal("has_many_through relation", $expected);
 
-    class AuthorTwo extends Model {
+    class AuthorTwo extends Model
+    {
     }
 
-    class WroteTheBook extends Model {
+    class WroteTheBook extends Model
+    {
     }
 
-    class BookTwo extends Model {
-        public function authors() {
+    class BookTwo extends Model
+    {
+        public function authors()
+        {
             return $this->has_many_through('AuthorTwo', 'WroteTheBook', 'custom_book_id', 'custom_author_id');
         }
     }
@@ -196,4 +224,3 @@
     Tester::check_equal("has_many_through relation with custom intermediate model and key names", $expected);
 
     Tester::report();
-?>

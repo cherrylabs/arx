@@ -22,8 +22,8 @@ final class Braintree_Xml
     }
 
     /**
-     * 
-     * @param string $xml
+     *
+     * @param  string $xml
      * @return array
      */
     public static function buildArrayFromXml($xml)
@@ -33,7 +33,7 @@ final class Braintree_Xml
 
     /**
      *
-     * @param array $array
+     * @param  array  $array
      * @return string
      */
     public static function buildXmlFromArray($array)

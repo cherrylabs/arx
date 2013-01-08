@@ -18,6 +18,7 @@ class Braintree_Modification extends Braintree
     {
         $instance = new self();
         $instance->_initialize($attributes);
+
         return $instance;
     }
 }

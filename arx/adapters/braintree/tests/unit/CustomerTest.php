@@ -3,18 +3,18 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_CustomerTest extends PHPUnit_Framework_TestCase
 {
-    function testGet_givesErrorIfInvalidProperty()
+    public function testGet_givesErrorIfInvalidProperty()
     {
         $this->setExpectedException('PHPUnit_Framework_Error', 'Undefined property on Braintree_Customer: foo');
         $c = Braintree_Customer::factory(array());
         $c->foo;
     }
 
-    function testUpdateSignature_doesNotAlterOptionsInCreditCardUpdateSignature()
+    public function testUpdateSignature_doesNotAlterOptionsInCreditCardUpdateSignature()
     {
         Braintree_Customer::updateSignature();
-        foreach(Braintree_CreditCard::updateSignature() AS $key => $value) {
-            if(is_array($value) and array_key_exists('options', $value)) {
+        foreach (Braintree_CreditCard::updateSignature() AS $key => $value) {
+            if (is_array($value) and array_key_exists('options', $value)) {
                 $this->assertEquals(array(
                     'makeDefault',
                     'verificationMerchantAccountId',
@@ -24,16 +24,15 @@ class Braintree_CustomerTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    function testFindErrorsOnBlankId()
+    public function testFindErrorsOnBlankId()
     {
         $this->setExpectedException('InvalidArgumentException');
         Braintree_Customer::find('');
     }
 
-    function testFindErrorsOnWhitespaceId()
+    public function testFindErrorsOnWhitespaceId()
     {
         $this->setExpectedException('InvalidArgumentException');
         Braintree_Customer::find('\t');
     }
 }
-?>

@@ -1,13 +1,4 @@
 <?php
-/**
- * [ProjectName]
- * PHP File - /a-config.php
- * @description     ARX basic config file
- * @see             arx/config.php for extended settings and URL/Path shortcuts
- * @package         arx
- * @author          Daniel Sum, Stéphan Zych
- * @link            http://www.arx.xxx @endlink
- */
 
 // @todo:
 // - clean system settings
@@ -67,7 +58,6 @@ $aConfig = array(
 
 ); // $aConfig
 
-
 define('ZE_LANG', 'en'); // default language
 define('ZE_LANGS' , json_encode($aConfig['langs']));
 
@@ -84,11 +74,9 @@ define('ZE_DBCHARSET', $aConfig['db_charset']);
 define('ZE_DBTYPE', $aConfig['db_type']);
 define('ZE_DBPREFIX', $aConfig['db_prefix']);
 
-
-
 // Multi-environments (feel free to adapt to your need)
 if (preg_match( '/loc/' , $_SERVER['SERVER_NAME'])) {
-    
+
     define('ZE_ENV' , 'local');
     define('LEVEL_ENV' , 0);
 
@@ -108,9 +96,9 @@ if (preg_match( '/loc/' , $_SERVER['SERVER_NAME'])) {
 
     ini_set('display_errors', 1);
     ini_set('log_errors', 1);
-    
+
     error_reporting(E_ALL & ~E_NOTICE);
-    
+
     $aConfig['facebook']['app_id'] = '';
     $aConfig['facebook']['app_secret'] = '';
 
@@ -118,7 +106,7 @@ if (preg_match( '/loc/' , $_SERVER['SERVER_NAME'])) {
 
     define('ZE_ENV' , 'demo');
     define('LEVEL_ENV' , 2);
-    
+
     ini_set('display_errors', 1);
     ini_set('log_errors', 1);
 
@@ -129,12 +117,11 @@ if (preg_match( '/loc/' , $_SERVER['SERVER_NAME'])) {
 
     define('ZE_ENV' , 'www');
     define('LEVEL_ENV' , 3);
-    
+
     ini_set('display_errors', 1);
     ini_set('log_errors', 1);
-    
+
     $aConfig['facebook']['app_id'] = '';
     $aConfig['facebook']['app_secret'] = '';
 
 }
-

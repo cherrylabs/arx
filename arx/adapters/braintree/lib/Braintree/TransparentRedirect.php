@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Braintree Transparent Redirect module
  *
@@ -117,6 +116,7 @@ class Braintree_TransparentRedirect
             Braintree_TransparentRedirect::CREATE_PAYMENT_METHOD => 'Braintree_CreditCard',
             Braintree_TransparentRedirect::UPDATE_PAYMENT_METHOD => 'Braintree_CreditCard'
         );
+
         return call_user_func(array($confirmationKlasses[$params["kind"]], '_doCreate'),
             '/transparent_redirect_requests/' . $params['id'] . '/confirm',
             array()
@@ -125,7 +125,7 @@ class Braintree_TransparentRedirect
 
     /**
      * returns the trData string for creating a credit card,
-     * @param array $params
+     * @param  array  $params
      * @return string
      */
     public static function createCreditCardData($params)
@@ -135,12 +135,13 @@ class Braintree_TransparentRedirect
                 $params
                 );
         $params["kind"] = Braintree_TransparentRedirect::CREATE_PAYMENT_METHOD;
+
         return self::_data($params);
     }
 
     /**
      * returns the trData string for creating a customer.
-     * @param array $params
+     * @param  array  $params
      * @return string
      */
     public static function createCustomerData($params)
@@ -150,6 +151,7 @@ class Braintree_TransparentRedirect
                 $params
                 );
         $params["kind"] = Braintree_TransparentRedirect::CREATE_CUSTOMER;
+
         return self::_data($params);
 
     }
@@ -161,7 +163,7 @@ class Braintree_TransparentRedirect
 
     /**
      * returns the trData string for creating a transaction
-     * @param array $params
+     * @param  array  $params
      * @return string
      */
     public static function transactionData($params)
@@ -196,7 +198,7 @@ class Braintree_TransparentRedirect
      *   ));
      * </code>
      *
-     * @param array $params
+     * @param  array  $params
      * @return string
      */
     public static function updateCreditCardData($params)
@@ -211,6 +213,7 @@ class Braintree_TransparentRedirect
                    );
         }
         $params["kind"] = Braintree_TransparentRedirect::UPDATE_PAYMENT_METHOD;
+
         return self::_data($params);
     }
 
@@ -226,7 +229,7 @@ class Braintree_TransparentRedirect
      *   ));
      * </code>
      *
-     * @param array $params
+     * @param  array  $params
      * @return string
      */
     public static function updateCustomerData($params)
@@ -241,6 +244,7 @@ class Braintree_TransparentRedirect
                    );
         }
         $params["kind"] = Braintree_TransparentRedirect::UPDATE_CUSTOMER;
+
         return self::_data($params);
     }
 
@@ -250,26 +254,25 @@ class Braintree_TransparentRedirect
         parse_str($queryString, $params);
         // remove the hash
         $queryStringWithoutHash = null;
-        if(preg_match('/^(.*)&hash=[a-f0-9]+$/', $queryString, $match)) {
+        if (preg_match('/^(.*)&hash=[a-f0-9]+$/', $queryString, $match)) {
             $queryStringWithoutHash = $match[1];
         }
 
-        if($params['http_status'] != '200') {
+        if ($params['http_status'] != '200') {
             $message = null;
-            if(array_key_exists('bt_message', $params)) {
+            if (array_key_exists('bt_message', $params)) {
                 $message = $params['bt_message'];
             }
             Braintree_Util::throwStatusCodeException($params['http_status'], $message);
         }
 
         // recreate the hash and compare it
-        if(self::_hash($queryStringWithoutHash) == $params['hash']) {
+        if (self::_hash($queryStringWithoutHash) == $params['hash']) {
             return $params;
         } else {
             throw new Braintree_Exception_ForgedQueryString();
         }
     }
-
 
     /**
      *
@@ -294,24 +297,22 @@ class Braintree_TransparentRedirect
         ksort($trDataParams);
         $trDataSegment = http_build_query($trDataParams, null, '&');
         $trDataHash = self::_hash($trDataSegment);
+
         return "$trDataHash|$trDataSegment";
     }
 
     private static function _underscoreKeys($array)
     {
-        foreach($array as $key=>$value)
-        {
+        foreach ($array as $key=>$value) {
             $newKey = Braintree_Util::camelCaseToDelimiter($key, '_');
             unset($array[$key]);
-            if (is_array($value))
-            {
+            if (is_array($value)) {
                 $array[$newKey] = self::_underscoreKeys($value);
-            }
-            else
-            {
+            } else {
                 $array[$newKey] = $value;
             }
         }
+
         return $array;
     }
 

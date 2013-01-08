@@ -4,14 +4,15 @@ require_once realpath(dirname(__FILE__)) . '/../../TestHelper.php';
 class Braintree_Error_ValidationErrorCollectionTest extends PHPUnit_Framework_TestCase
 {
 
-    function mapValidationErrorsToCodes($validationErrors)
+    public function mapValidationErrorsToCodes($validationErrors)
     {
         $codes = array_map(create_function('$validationError', 'return $validationError->code;'), $validationErrors);
         sort($codes);
+
         return $codes;
     }
 
-    function test_shallowAll_givesAllErrorsShallowly()
+    public function test_shallowAll_givesAllErrorsShallowly()
     {
         $result = Braintree_Customer::create(array(
             'email' => 'invalid',
@@ -38,7 +39,7 @@ class Braintree_Error_ValidationErrorCollectionTest extends PHPUnit_Framework_Te
         $this->assertEquals($expectedCreditCardErrors, self::mapValidationErrorsToCodes($actualCreditCardErrors));
     }
 
-    function test_deepAll_givesAllErrorsDeeply()
+    public function test_deepAll_givesAllErrorsDeeply()
     {
         $result = Braintree_Customer::create(array(
             'email' => 'invalid',
@@ -69,5 +70,3 @@ class Braintree_Error_ValidationErrorCollectionTest extends PHPUnit_Framework_Te
         $this->assertEquals($expectedErrors, self::mapValidationErrorsToCodes($actualErrors));
     }
 }
-
-?>

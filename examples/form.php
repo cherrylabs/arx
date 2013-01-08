@@ -1,14 +1,14 @@
 <?php
 /**
-	 * 
-	 * @author Daniel Sum
-	 * @version 0.1
-	 * @package arx
-	 * @description : 
-	 * @comments :
+     *
+     * @author Daniel Sum
+     * @version 0.1
+     * @package arx
+     * @description :
+     * @comments :
 */
 
-require_once('a-core.php');
+require_once 'a-core.php';
 
 inject_once('c_i18n');
 

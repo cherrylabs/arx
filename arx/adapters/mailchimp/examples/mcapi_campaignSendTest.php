@@ -12,12 +12,10 @@ $api = new MCAPI($apikey);
 $emails = array($my_email, $boss_man_email);
 $retval = $api->campaignSendTest($campaignId, $emails);
 
-if ($api->errorCode){
-	echo "Unable to Send Test Campaign!";
-	echo "\n\tCode=".$api->errorCode;
-	echo "\n\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+    echo "Unable to Send Test Campaign!";
+    echo "\n\tCode=".$api->errorCode;
+    echo "\n\tMsg=".$api->errorMessage."\n";
 } else {
-	echo "Campaign Tests Sent!\n";
+    echo "Campaign Tests Sent!\n";
 }
-
-?>

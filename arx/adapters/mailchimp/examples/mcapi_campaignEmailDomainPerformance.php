@@ -11,15 +11,15 @@ $api = new MCAPI($apikey);
 
 $domains = $api->campaignEmailDomainPerformance($campaignId);
 
-if ($api->errorCode){
-	echo "Unable to run campaignEmailDomainPerformance()!\n";
-	echo "\tCode=".$api->errorCode."\n";
-	echo "\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+    echo "Unable to run campaignEmailDomainPerformance()!\n";
+    echo "\tCode=".$api->errorCode."\n";
+    echo "\tMsg=".$api->errorMessage."\n";
 } else {
-    if (sizeof($domains)==0){
+    if (sizeof($domains)==0) {
         echo "No Email Domain stats yet!\n";
     } else {
-        foreach($domains as $domain){
+        foreach ($domains as $domain) {
             echo $domain['domain']."\n";
             echo "\tEmails: ".$domain['emails']."\n";
             echo "\tOpens: ".$domain['opens']."\n";
@@ -27,6 +27,3 @@ if ($api->errorCode){
         }
     }
 }
-
-?> 
-

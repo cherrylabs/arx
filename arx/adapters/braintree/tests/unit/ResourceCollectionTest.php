@@ -3,13 +3,13 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_TestResource
 {
-    static function lookup($id) {
+    public static function lookup($id)
+    {
         return Braintree_ResourceCollectionTest::$values[intval($id)];
     }
 
-    static function fetch($ids)
+    public static function fetch($ids)
     {
-
         return array_map("Braintree_TestResource::lookup", $ids);
     }
 }
@@ -18,7 +18,7 @@ class Braintree_ResourceCollectionTest extends PHPUnit_Framework_TestCase
 {
     public static $values = array("a", "b", "c", "d", "e");
 
-    function testIterateOverResults()
+    public function testIterateOverResults()
     {
 
         $response = array(
@@ -38,8 +38,7 @@ class Braintree_ResourceCollectionTest extends PHPUnit_Framework_TestCase
 
         $count = 0;
         $index = 0;
-        foreach ($collection as $value)
-        {
+        foreach ($collection as $value) {
             $this->assertEquals(Braintree_ResourceCollectionTest::$values[$index], $value);
             $index += 1;
             $count += 1;
@@ -48,7 +47,7 @@ class Braintree_ResourceCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(5, $count);
     }
 
-    function testDoesntIterateWhenNoResults()
+    public function testDoesntIterateWhenNoResults()
     {
 
         $response = array(
@@ -68,8 +67,7 @@ class Braintree_ResourceCollectionTest extends PHPUnit_Framework_TestCase
 
         $count = 0;
         $index = 0;
-        foreach ($collection as $value)
-        {
+        foreach ($collection as $value) {
             $index += 1;
             $count += 1;
             break;
@@ -79,4 +77,3 @@ class Braintree_ResourceCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $index);
     }
 }
-?>

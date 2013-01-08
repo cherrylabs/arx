@@ -29,7 +29,7 @@ class phpVimeo
     /**
      * Cache a response.
      *
-     * @param array $params The parameters for the response.
+     * @param array  $params   The parameters for the response.
      * @param string $response The serialized response data.
      */
     private function _cache($params, $response)
@@ -46,6 +46,7 @@ class phpVimeo
             if (file_exists($file)) {
                 unlink($file);
             }
+
             return file_put_contents($file, $response);
         }
     }
@@ -53,7 +54,7 @@ class phpVimeo
     /**
      * Create the authorization header for a set of params.
      *
-     * @param array $oauth_params The OAuth parameters for the call.
+     * @param  array  $oauth_params The OAuth parameters for the call.
      * @return string The OAuth Authorization header.
      */
     private function _generateAuthHeader($oauth_params)
@@ -80,9 +81,9 @@ class phpVimeo
     /**
      * Generate the OAuth signature.
      *
-     * @param array $args The full list of args to generate the signature for.
-     * @param string $request_method The request method, either POST or GET.
-     * @param string $url The base URL to use.
+     * @param  array  $args           The full list of args to generate the signature for.
+     * @param  string $request_method The request method, either POST or GET.
+     * @param  string $url            The base URL to use.
      * @return string The OAuth signature.
      */
     private function _generateSignature($params, $request_method = 'GET', $url = self::API_REST_URL)
@@ -136,13 +137,13 @@ class phpVimeo
     /**
      * Call an API method.
      *
-     * @param string $method The method to call.
-     * @param array $call_params The parameters to pass to the method.
-     * @param string $request_method The HTTP request method to use.
-     * @param string $url The base URL to use.
-     * @param boolean $cache Whether or not to cache the response.
-     * @param boolean $use_auth_header Use the OAuth Authorization header to pass the OAuth params.
-     * @return string The response from the method call.
+     * @param  string  $method          The method to call.
+     * @param  array   $call_params     The parameters to pass to the method.
+     * @param  string  $request_method  The HTTP request method to use.
+     * @param  string  $url             The base URL to use.
+     * @param  boolean $cache           Whether or not to cache the response.
+     * @param  boolean $use_auth_header Use the OAuth Authorization header to pass the OAuth params.
+     * @return string  The response from the method call.
      */
     private function _request($method, $call_params = array(), $request_method = 'GET', $url = self::API_REST_URL, $cache = true, $use_auth_header = true)
     {
@@ -170,8 +171,7 @@ class phpVimeo
         foreach ($call_params as $k => $v) {
             if (strpos($k, 'oauth_') === 0) {
                 $oauth_params[$k] = $v;
-            }
-            else if ($call_params[$k] !== null) {
+            } elseif ($call_params[$k] !== null) {
                 $api_params[$k] = $v;
             }
         }
@@ -190,8 +190,7 @@ class phpVimeo
         // Curl options
         if ($use_auth_header) {
             $params = $api_params;
-        }
-        else {
+        } else {
             $params = $all_params;
         }
 
@@ -201,8 +200,7 @@ class phpVimeo
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_TIMEOUT => 30
             );
-        }
-        else if (strtoupper($request_method) == 'POST') {
+        } elseif (strtoupper($request_method) == 'POST') {
             $curl_url = $url;
             $curl_opts = array(
                 CURLOPT_RETURNTRANSFER => true,
@@ -234,8 +232,7 @@ class phpVimeo
             $response = unserialize($response);
             if ($response->stat == 'ok') {
                 return $response;
-            }
-            else if ($response->err) {
+            } elseif ($response->err) {
                 throw new VimeoAPIException($response->err->msg, $response->err->code);
             }
 
@@ -262,25 +259,26 @@ class phpVimeo
     /**
      * Call a method.
      *
-     * @param string $method The name of the method to call.
-     * @param array $params The parameters to pass to the method.
-     * @param string $request_method The HTTP request method to use.
-     * @param string $url The base URL to use.
-     * @param boolean $cache Whether or not to cache the response.
-     * @return array The response from the API method
+     * @param  string  $method         The name of the method to call.
+     * @param  array   $params         The parameters to pass to the method.
+     * @param  string  $request_method The HTTP request method to use.
+     * @param  string  $url            The base URL to use.
+     * @param  boolean $cache          Whether or not to cache the response.
+     * @return array   The response from the API method
      */
     public function call($method, $params = array(), $request_method = 'GET', $url = self::API_REST_URL, $cache = true)
     {
         $method = (substr($method, 0, 6) != 'vimeo.') ? "vimeo.{$method}" : $method;
+
         return $this->_request($method, $params, $request_method, $url, $cache);
     }
 
     /**
      * Enable the cache.
      *
-     * @param string $type The type of cache to use (phpVimeo::CACHE_FILE is built in)
-     * @param string $path The path to the cache (the directory for CACHE_FILE)
-     * @param int $expire The amount of time to cache responses (default 10 minutes)
+     * @param string $type   The type of cache to use (phpVimeo::CACHE_FILE is built in)
+     * @param string $path   The path to the cache (the directory for CACHE_FILE)
+     * @param int    $expire The amount of time to cache responses (default 10 minutes)
      */
     public function enableCache($type, $path, $expire = 600)
     {
@@ -295,6 +293,7 @@ class phpVimeo
                 }
             }
         }
+
         return false;
     }
 
@@ -308,15 +307,16 @@ class phpVimeo
     {
         $access_token = $this->_request(null, array('oauth_verifier' => $verifier), 'GET', self::API_ACCESS_TOKEN_URL, false, true);
         parse_str($access_token, $parsed);
+
         return $parsed;
     }
 
     /**
      * Get the URL of the authorization page.
      *
-     * @param string $token The request token.
-     * @param string $permission The level of permissions to request: read, write, or delete.
-     * @param string $callback_url The URL to redirect the user back to, or oob for the default.
+     * @param  string $token        The request token.
+     * @param  string $permission   The level of permissions to request: read, write, or delete.
+     * @param  string $callback_url The URL to redirect the user back to, or oob for the default.
      * @return string The Authorization URL.
      */
     public function getAuthorizeUrl($token, $permission = 'read')
@@ -339,6 +339,7 @@ class phpVimeo
         );
 
         parse_str($request_token, $parsed);
+
         return $parsed;
     }
 
@@ -355,10 +356,10 @@ class phpVimeo
     /**
      * Set the OAuth token.
      *
-     * @param string $token The OAuth token
-     * @param string $token_secret The OAuth token secret
-     * @param string $type The type of token, either request or access
-     * @param boolean $session_store Store the token in a session variable
+     * @param  string  $token         The OAuth token
+     * @param  string  $token_secret  The OAuth token secret
+     * @param  string  $type          The type of token, either request or access
+     * @param  boolean $session_store Store the token in a session variable
      * @return boolean true
      */
     public function setToken($token, $token_secret, $type = 'access', $session_store = false)
@@ -377,11 +378,11 @@ class phpVimeo
     /**
      * Upload a video in one piece.
      *
-     * @param string $file_path The full path to the file
-     * @param boolean $use_multiple_chunks Whether or not to split the file up into smaller chunks
-     * @param string $chunk_temp_dir The directory to store the chunks in
-     * @param int $size The size of each chunk in bytes (defaults to 2MB)
-     * @return int The video ID
+     * @param  string  $file_path           The full path to the file
+     * @param  boolean $use_multiple_chunks Whether or not to split the file up into smaller chunks
+     * @param  string  $chunk_temp_dir      The directory to store the chunks in
+     * @param  int     $size                The size of each chunk in bytes (defaults to 2MB)
+     * @return int     The video ID
      */
     public function upload($file_path, $use_multiple_chunks = false, $chunk_temp_dir = '.', $size = 2097152, $replace_id = null)
     {
@@ -437,8 +438,7 @@ class phpVimeo
                     'size' => filesize($chunk_file_name)
                 );
             }
-        }
-        else {
+        } else {
             $chunks[] = array(
                 'file' => realpath($file_path),
                 'size' => filesize($file_path)
@@ -502,8 +502,7 @@ class phpVimeo
         // Confirmation successful, return video id
         if ($complete->stat == 'ok') {
             return $complete->ticket->video_id;
-        }
-        else if ($complete->err) {
+        } elseif ($complete->err) {
             throw new VimeoAPIException($complete->err->msg, $complete->err->code);
         }
     }
@@ -528,11 +527,9 @@ class phpVimeo
     {
         if (is_array($input)) {
             return array_map(array('phpVimeo', 'url_encode_rfc3986'), $input);
-        }
-        else if (is_scalar($input)) {
+        } elseif (is_scalar($input)) {
             return str_replace(array('+', '%7E'), array(' ', '~'), rawurlencode($input));
-        }
-        else {
+        } else {
             return '';
         }
     }

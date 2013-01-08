@@ -8,16 +8,16 @@ ini_set('html_errors', false);
 ini_set('date.timezone', 'America/Chicago');
 
 // for dumping variables to output
-function dump(&$var, $label = null) 
+function dump(&$var, $label = null)
 {
-	if ($label) {
-		echo $label . " ";
-	}
-	ob_start();
-	var_dump($var);
-	$output = ob_get_clean();
-	$output = preg_replace("/\]\=\>\n(\s+)/m", "] => ", $output);
-	echo $output;
+    if ($label) {
+        echo $label . " ";
+    }
+    ob_start();
+    var_dump($var);
+    $output = ob_get_clean();
+    $output = preg_replace("/\]\=\>\n(\s+)/m", "] => ", $output);
+    echo $output;
 }
 
 // add to the include_path
@@ -28,5 +28,3 @@ chdir(dirname(__FILE__));
 
 // make sure we have Savant ;-)
 require_once 'Savant3.php';
-
-?>

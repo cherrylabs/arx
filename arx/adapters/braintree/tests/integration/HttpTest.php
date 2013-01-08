@@ -3,7 +3,7 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_HttpTest extends PHPUnit_Framework_TestCase
 {
-    function testProductionSSL()
+    public function testProductionSSL()
     {
         try {
             Braintree_Configuration::environment('production');
@@ -16,7 +16,7 @@ class Braintree_HttpTest extends PHPUnit_Framework_TestCase
         Braintree_Configuration::environment('development');
     }
 
-    function testSandboxSSL()
+    public function testSandboxSSL()
     {
         try {
             Braintree_Configuration::environment('sandbox');
@@ -29,4 +29,3 @@ class Braintree_HttpTest extends PHPUnit_Framework_TestCase
         Braintree_Configuration::environment('development');
     }
 }
-?>

@@ -3,7 +3,7 @@ require_once realpath(dirname(__FILE__)) . '/../../TestHelper.php';
 
 class Braintree_Result_ErrorTest extends PHPUnit_Framework_TestCase
 {
-    function testValueForHtmlField()
+    public function testValueForHtmlField()
     {
         $result = Braintree_Customer::create(array(
             'email' => 'invalid-email',
@@ -22,4 +22,3 @@ class Braintree_Result_ErrorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('invalid-country', $result->valueForHtmlField('customer[credit_card][billing_address][country_name]'));
     }
 }
-?>

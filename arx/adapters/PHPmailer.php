@@ -4,7 +4,7 @@ require_once dirname(__FILE__).DS. 'PHPMailer' . DS . 'class.phpmailer.php';
 
 class a_PHPmailer extends PHPMailer
 {
-	  /////////////////////////////////////////////////
+      /////////////////////////////////////////////////
   // PROPERTIES, PUBLIC
   /////////////////////////////////////////////////
 
@@ -296,95 +296,87 @@ class a_PHPmailer extends PHPMailer
    * @var string
    */
   public $XMailer         = '';
-  
+
   public $_error = array();
-  
+
   public function __construct()
   {
-  		$args = func_get_args();
-  		
-  		parent::__construct(true);
-  		
-  		if( $GLOBALS['ZE_MAIL']['type'] == 'smtp' )
-  		{
-  		
-	  		$this->IsSMTP(); // telling the class to use SMTP
-			$this->SMTPDebug  = 1;                     // enables SMTP debug information (for testing)
-			$this->SMTPAuth   = true;                  // enable SMTP authentication
-			$this->SMTPSecure = "ssl";                 // sets the prefix to the servier
-			$this->Host       = $GLOBALS['ZE_MAIL']['host'];      // sets GMAIL as the SMTP server
-			$this->Port       = $GLOBALS['ZE_MAIL']['port'];                   // set the SMTP port for the GMAIL server
-			$this->Username   = $GLOBALS['ZE_MAIL']['login'];  // GMAIL username
-			$this->Password   = $GLOBALS['ZE_MAIL']['password'];            // GMAIL password
-		
-		}
-		
-		$this->SetFrom($GLOBALS['ZE_MAIL']['email'], $GLOBALS['ZE_MAIL']['name']);
+          $args = func_get_args();
+
+          parent::__construct(true);
+
+          if ($GLOBALS['ZE_MAIL']['type'] == 'smtp') {
+
+              $this->IsSMTP(); // telling the class to use SMTP
+            $this->SMTPDebug  = 1;                     // enables SMTP debug information (for testing)
+            $this->SMTPAuth   = true;                  // enable SMTP authentication
+            $this->SMTPSecure = "ssl";                 // sets the prefix to the servier
+            $this->Host       = $GLOBALS['ZE_MAIL']['host'];      // sets GMAIL as the SMTP server
+            $this->Port       = $GLOBALS['ZE_MAIL']['port'];                   // set the SMTP port for the GMAIL server
+            $this->Username   = $GLOBALS['ZE_MAIL']['login'];  // GMAIL username
+            $this->Password   = $GLOBALS['ZE_MAIL']['password'];            // GMAIL password
+
+        }
+
+        $this->SetFrom($GLOBALS['ZE_MAIL']['email'], $GLOBALS['ZE_MAIL']['name']);
   }
-  
+
   public function info()
   {
-  		$info = new c_info();
-  		
-  		return $info->output();
+          $info = new c_info();
+
+          return $info->output();
   }
-  
+
   /**
    * Simple send_email function
    *
    * @param $
-   *	
+   *
    * @return
-   *	
-   * @code 
-   *	
+   *
+   * @code
+   *
    * @endcode
    */
   public function send_email($to, $subject, $html, $param = null)
   {
-  		$this->MsgHTML($html);
-  		
-  		
-		if(is_array($to))
-		{
-			foreach($to as $email=>$name)
-				$this->AddAddress($email, $name);
-		}
-		else
-		{
-			$this->AddAddress($to, $to);
-		}
-		
-		switch(true)
-		{
-			case (is_array($param)):
-				
-				foreach($param as $key => $mParam)
-				{
-					try {
-						call_user_func_array(array($this, $key), $mParam);
-					} catch (Exception $e) {
-					   $this->_error[] = array("function" => $key, "param" => $param);
-					}
-				}		
-			break;
-			default:
-		
-			break;
-		}
-		
-		$this->Subject = $subject;
-		
-		try{
-		   
-		   return $this->Send();
-		   
-		} catch (Exception $e) {
-		   
-		   $this->_error['error'] = $e;
-		   
-		   return false;
-		}
+          $this->MsgHTML($html);
+
+        if (is_array($to)) {
+            foreach($to as $email=>$name)
+                $this->AddAddress($email, $name);
+        } else {
+            $this->AddAddress($to, $to);
+        }
+
+        switch (true) {
+            case (is_array($param)):
+
+                foreach ($param as $key => $mParam) {
+                    try {
+                        call_user_func_array(array($this, $key), $mParam);
+                    } catch (Exception $e) {
+                       $this->_error[] = array("function" => $key, "param" => $param);
+                    }
+                }
+            break;
+            default:
+
+            break;
+        }
+
+        $this->Subject = $subject;
+
+        try {
+           return $this->Send();
+
+        } catch (Exception $e) {
+
+           $this->_error['error'] = $e;
+
+           return false;
+        }
   }
-  
+
 }

@@ -11,7 +11,7 @@ error_reporting(E_STRICT);
 
 date_default_timezone_set('America/Toronto');
 
-require_once('../class.phpmailer.php');
+require_once '../class.phpmailer.php';
 //include("class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
 
 $mail                = new PHPMailer();
@@ -43,7 +43,7 @@ while ($row = mysql_fetch_array ($result)) {
   $mail->AddAddress($row["email"], $row["full_name"]);
   $mail->AddStringAttachment($row["photo"], "YourPhoto.jpg");
 
-  if(!$mail->Send()) {
+  if (!$mail->Send()) {
     echo "Mailer Error (" . str_replace("@", "&#64;", $row["email"]) . ') ' . $mail->ErrorInfo . '<br />';
   } else {
     echo "Message sent to :" . $row["full_name"] . ' (' . str_replace("@", "&#64;", $row["email"]) . ')<br />';

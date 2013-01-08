@@ -3,7 +3,7 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_DiscountTest extends PHPUnit_Framework_TestCase
 {
-    function testAll_returnsAllDiscounts()
+    public function testAll_returnsAllDiscounts()
     {
         $newId = strval(rand());
 
@@ -21,10 +21,8 @@ class Braintree_DiscountTest extends PHPUnit_Framework_TestCase
 
         $discounts = Braintree_Discount::all();
 
-        foreach ($discounts as $discount)
-        {
-            if ($discount->id == $newId)
-            {
+        foreach ($discounts as $discount) {
+            if ($discount->id == $newId) {
                 $actualDiscount = $discount;
             }
         }
@@ -39,5 +37,3 @@ class Braintree_DiscountTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($discountParams["numberOfBillingCycles"], $actualDiscount->numberOfBillingCycles);
     }
 }
-
-

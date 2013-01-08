@@ -13,13 +13,13 @@ $api = new MCAPI($apikey);
 
 $advice = $api->campaignAdvice($campaignId);
 
-if ($api->errorCode){
-	echo "Unable to run campaignAdvice()!\n";
-	echo "\tCode=".$api->errorCode."\n";
-	echo "\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+    echo "Unable to run campaignAdvice()!\n";
+    echo "\tCode=".$api->errorCode."\n";
+    echo "\tMsg=".$api->errorMessage."\n";
 } else {
-    if (sizeof($advice)>0){
-        foreach($advice as $adv){
+    if (sizeof($advice)>0) {
+        foreach ($advice as $adv) {
             echo "Type: ".$adv['type']."\n";
             echo "Message: ".$adv['msg']."\n";
         }
@@ -27,6 +27,3 @@ if ($api->errorCode){
         echo "Sorry, no advice for this campaign!\n";
     }
 }
-
-?> 
-

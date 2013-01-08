@@ -15,6 +15,7 @@ class Braintree_WebhookNotification extends Braintree
 
         $xml = base64_decode($payload);
         $attributes = Braintree_Xml::buildArrayFromXml($xml);
+
         return self::factory($attributes['notification']);
     }
 
@@ -22,6 +23,7 @@ class Braintree_WebhookNotification extends Braintree
     {
         $publicKey = Braintree_Configuration::publicKey();
         $digest = Braintree_Digest::hexDigest($challenge);
+
         return "{$publicKey}|{$digest}";
     }
 
@@ -29,13 +31,13 @@ class Braintree_WebhookNotification extends Braintree
     {
         $instance = new self();
         $instance->_initialize($attributes);
+
         return $instance;
     }
 
     private static function _matchingSignature($signaturePairs)
     {
-        foreach ($signaturePairs as $pair)
-        {
+        foreach ($signaturePairs as $pair) {
             $components = preg_split("/\|/", $pair);
             if ($components[0] == Braintree_Configuration::publicKey()) {
                 return $components[1];

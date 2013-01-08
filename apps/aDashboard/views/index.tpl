@@ -8,128 +8,137 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 	<title><?= $this->title ?></title>
+
+	<BASE href="<?= u::getURLPath() ?>">
 	
 	<?= c_load::css(array(ARX_CSS.DS.'bootstrap.css', ARX_CSS.DS.'bootstrap-responsive.css')) ?>
 	<link rel="stylesheet" href="css/style.css?v=1" />
-	<?= $this->_head ?>
-	<?= $this->_css ?>
-	<?= c_hook::output('css') ?>
+
+	<!--[if lt IE 9]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
-<body <?= $this->_body->attr ?>>
-	<div class="container-fluid app-container">
-		<?= $this->_body ?>
-		<div id="main" class="wrapper">
-		<div class="row-fluid">
-			<div class="accordion span6" id="Users Profile">
+<body id="<?= $this->lang ?>">
+	<div class="app-container">
+		<header id="main-header" class="wrapper"><?= lg('header_sef'); ?>
+			
+		</header>
+		<div id="main" class="wrapper row-fluid">
+
+			<div class="accordion span6" id="example1">
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle" href="#collapseFour" data-parent="#example2" data-toggle="collapse">Users profile</a> <a class="config" href="#config" title="Configuration"><i class="icon-wrench"></i></a>
+						<a class="accordion-toggle" href="#collapseOne" data-parent="#example1" data-toggle="collapse">RSS Reader</a> <a class="config" href="#config" title="Configuration"><i class="icon-wrench"></i></a>
 					</div>
-					<div class="accordion-body collapse in" id="collapseFour">
-						<div class="accordion-inner accordion-full">
-							
+					<div class="accordion-body collapse in" id="collapseOne">
+						<div class="accordion-inner">
 							<?php
 								
-								$aUsers = $this->users->find_array();
+								//$aUsers = a_db::findAll(T_USERS);
 								
-								foreach($aUsers as $key=>$v)
+								$app = new arx();
+								
+								arx::uses('c_text');
+								
+								//$app->display(COMMON_VIEWS.DS.'table-crud.tpl', array("data" => $aUsers));
+								
+								$feeds = c_Feed::parse('http://feeds.feedburner.com/colossal?xml');
+								
+								foreach($feeds as $key=>$f)
 								{
-									$data[$v['id']]['id'] = $v['id'];
-									$data[$v['id']]['email'] = $v['email'];
-									$data[$v['id']]['updated date'] = $v['updated'];
-									$data[$v['id']]['project'] = '<a href="user/project/'.$v['id'].'" class="arx-modal" title=""><i class="icon-film"></i></a>';
-									$data[$v['id']]['Project Status'] = '<a href="user/project/'.$v['id'].'"><i class="icon-film"></i></a>';
+									$f = (object) $f;
+									
+									$html = str_get_html($f->encoded);
+									
+									$html->find('img', 0)->style = 'width:100px;height:100px;display:block;float:left;margin:0 10px 10px 0;';
+									$html->find('img', 0)->class = 'img-polaroid';
+									$html->find('img', 0)->height = "100px";
+									$html->find('img', 0)->width = "100px";
+									
+									$image = $html->find('img', 0);
+									
+									echo '<div class="list-block">
+											<h2>'.$f->title.'</h2>
+											'.$image.'
+											<p>'.$f->description.'</p>
+											<hr class="clear" />
+									</div>';
 								}
 								
-								$this->data = $data;
-								
-								echo $this->fetch(ARX_HELPERS.DS.'table'.TPL);
-								
-								
-								
 							?>
-						<h2>Nouvel utilisateur</h2>
-						<?php
-							$form = new c_form(null, array('method' => 'POST'));
-							
-							$form->input('email');
-							
-							$form->input('password');
-							
-							$form->submit('new_user', 'Créer');
-							
-							echo $form->output();
-						?>
 						</div>
+						<!--/.accordion-inner -->
 					</div>
+					<!--/.accordion-body -->
 				</div>
-			</div><!--/.accordion -->
+			</div>
+			<!--/.accordion -->
 			<div class="accordion span6" id="example2">
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle" href="#collapseFour" data-parent="#example2" data-toggle="collapse">Last projects</a> <a class="config" href="#config" title="Configuration"><i class="icon-wrench"></i></a>
+						<a class="accordion-toggle" href="#collapseFour" data-parent="#example2" data-toggle="collapse">Test</a> <a class="config" href="#config" title="Configuration"><i class="icon-wrench"></i></a>
 					</div>
 					<div class="accordion-body collapse in" id="collapseFour">
 						<div class="accordion-inner accordion-full">
 							
+							<table class="table table-striped table-separated" id="labelsTable">
+							<thead>
+								<tr>
+									<th>Name <i class="icon"></i></th>
+									<th>Description <i class="icon"></i></th>
+									<th>Size <i class="icon"></i></th>
+									<th>Right <i class="icon"></i></th>
+								</tr>
+							</thead>
+							<tbody>
 							<?php
-								
-								$aProjects = $this->projects->find_array();
-								
-								$data = array();
-								
-								foreach($aProjects as $key=>$v)
-								{
-									$oJson = json_decode($v['value']);
-									
-									$data[$v['id']]['id'] = $v['id'];
-									$data[$v['id']]['project title'] = $oJson->title;
-									$data[$v['id']]['userid'] = $v['userid'];
-									$data[$v['id']]['updated date'] = $v['created'];
-									$data[$v['id']]['facturation'] = $v['facturation'];
-									$data[$v['id']]['current round'] = $v['currentRound'];
-									$data[$v['id']]['project'] = '<a href="user/project/'.$v['id'].'"><i class="icon-film"></i></a>';
-									$data[$v['id']]['Project Status'] = '<a href="user/project/'.$v['id'].'"><i class="icon-film"></i></a>';
+								for($i = 0; $i < 20; $i++){
+								echo '<tr>
+									<td><i class="icon-file"></i> '.$i.'file or folder</td>
+									<td class="note">Las commit message</td>
+									<td>file size</td>
+									<td>Write permission / user</td>
+								</tr>';
 								}
-								
-								$this->data = $data;
-								
-								echo $this->fetch(ARX_HELPERS.DS.'table'.TPL);
-								
-								
 							?>
+							</tbody>
+							</table>
 						
 						</div>
 					</div>
 				</div>
-				</div>
 			</div><!--/.accordion -->
 		</div><!--/#main -->
 	</div><!--/#container -->
+     
+   <!-- <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    <h3 id="myModalLabel">Modal header</h3>
+	    </div>
+	    <div class="modal-body">
+	    <p>One fine body…</p>
+	    </div>
+	    <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+	    <button class="btn btn-primary">Save changes</button>
+	    </div>
+    </div>-->
 	<?= $this->javascript ?>
-	<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
-	<script>window.jQuery || document.write('<script src="<?= ARX_JS ?>/jquery.min.js"><\/script>')</script>
-	<script src="<?= ARX_JS ?>/bootstrap.js"></script>
-	<script src="<?= ARX_JS ?>/arx.min.js"></script>
-	<script type="text/javascript">
-	$(function() {
-		
-		$('.arx-modal').on('click', 
-			function(e){
-			e.preventDefault();
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+	<script src="js/bootstrap.min.js"></script>
+	
+	<?= c_load::js(ARX_JS.DS.'bootstrap-modal.js') ?>
+	
+	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
 
-			var attr = $(this).data();
-			
-			arx.modal.open({
-							title: attr.title,
-							path: this.href,
-							size: attr.size || 850,
-							callback: function () {
-								window.location.reload();
-							}
-			});
+	<script type="text/javascript">
+		var oTable;
+		$(function(){
+		   oTable = $('#labelsTable').dataTable();
+		       $('#myModal').modal({
+				    keyboard: false
+			    })
 		});
-	});
 	</script>
 </body>
 </html>

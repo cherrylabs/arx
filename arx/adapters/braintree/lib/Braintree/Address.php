@@ -44,12 +44,13 @@ class Braintree_Address extends Braintree
     public static function create($attribs)
     {
         Braintree_Util::verifyKeys(self::createSignature(), $attribs);
-        $customerId = isset($attribs['customerId']) ? 
-            $attribs['customerId'] : 
+        $customerId = isset($attribs['customerId']) ?
+            $attribs['customerId'] :
             null;
 
         self::_validateCustomerId($customerId);
         unset($attribs['customerId']);
+
         return self::_doCreate(
             '/customers/' . $customerId . '/addresses',
             array('address' => $attribs)
@@ -61,13 +62,14 @@ class Braintree_Address extends Braintree
      * returns a Braintree_Address object instead of a Result
      *
      * @access public
-     * @param  array $attribs
+     * @param  array                               $attribs
      * @return object
      * @throws Braintree_Exception_ValidationError
      */
     public static function createNoValidate($attribs)
     {
         $result = self::create($attribs);
+
         return self::returnObjectOrThrowException(__CLASS__, $result);
 
     }
@@ -75,7 +77,7 @@ class Braintree_Address extends Braintree
     /**
      * delete an address by id
      *
-     * @param mixed $customerOrId
+     * @param mixed  $customerOrId
      * @param string $addressId
      */
     public static function delete($customerOrId = null, $addressId = null)
@@ -85,6 +87,7 @@ class Braintree_Address extends Braintree
         Braintree_Http::delete(
             '/customers/' . $customerId . '/addresses/' . $addressId
         );
+
         return new Braintree_Result_Successful();
     }
 
@@ -97,9 +100,9 @@ class Braintree_Address extends Braintree
      *
      *
      * @access public
-     * @param mixed $customerOrId
-     * @param string $addressId
-     * @return object Braintree_Address
+     * @param  mixed                        $customerOrId
+     * @param  string                       $addressId
+     * @return object                       Braintree_Address
      * @throws Braintree_Exception_NotFound
      */
     public static function find($customerOrId, $addressId)
@@ -112,6 +115,7 @@ class Braintree_Address extends Braintree
             $response = Braintree_Http::get(
                 '/customers/' . $customerId . '/addresses/' . $addressId
             );
+
             return self::factory($response['address']);
         } catch (Braintree_Exception_NotFound $e) {
             throw new Braintree_Exception_NotFound(
@@ -126,7 +130,7 @@ class Braintree_Address extends Braintree
      * returns false if comparing object is not a Braintree_Address,
      * or is a Braintree_Address with a different id
      *
-     * @param object $other address to compare against
+     * @param  object  $other address to compare against
      * @return boolean
      */
     public function isEqual($other)
@@ -145,9 +149,9 @@ class Braintree_Address extends Braintree
      *
      *
      * @access public
-     * @param array $attributes
-     * @param mixed $customerOrId (only used in static call)
-     * @param string $addressId (only used in static call)
+     * @param  array  $attributes
+     * @param  mixed  $customerOrId (only used in static call)
+     * @param  string $addressId    (only used in static call)
      * @return object Braintree_Result_Successful or Braintree_Result_Error
      */
     public static function update($customerOrId, $addressId, $attributes)
@@ -173,15 +177,16 @@ class Braintree_Address extends Braintree
      * customerOrId & addressId are not sent in object context.
      *
      * @access public
-     * @param array $transactionAttribs
-     * @param string $customerId
-     * @return object Braintree_Transaction
+     * @param  array                                 $transactionAttribs
+     * @param  string                                $customerId
+     * @return object                                Braintree_Transaction
      * @throws Braintree_Exception_ValidationsFailed
      * @see Braintree_Address::update()
      */
     public static function updateNoValidate($customerOrId, $addressId, $attributes)
     {
         $result = self::update($customerOrId, $addressId, $attributes);
+
         return self::returnObjectOrThrowException(__CLASS__, $result);
     }
 
@@ -226,7 +231,7 @@ class Braintree_Address extends Braintree
      *
      * @ignore
      * @access protected
-     * @param array $addressAttribs array of address data
+     * @param  array $addressAttribs array of address data
      * @return none
      */
     protected function _initialize($addressAttribs)
@@ -238,7 +243,7 @@ class Braintree_Address extends Braintree
     /**
      * verifies that a valid address id is being used
      * @ignore
-     * @param string $id address id
+     * @param  string                   $id address id
      * @throws InvalidArgumentException
      */
     private static function _validateId($id = null)
@@ -258,7 +263,7 @@ class Braintree_Address extends Braintree
     /**
      * verifies that a valid customer id is being used
      * @ignore
-     * @param string $id customer id
+     * @param  string                   $id customer id
      * @throws InvalidArgumentException
      */
     private static function _validateCustomerId($id = null)
@@ -279,13 +284,14 @@ class Braintree_Address extends Braintree
     /**
      * determines if a string id or Customer object was passed
      * @ignore
-     * @param mixed $customerOrId
+     * @param  mixed  $customerOrId
      * @return string customerId
      */
     private static function _determineCustomerId($customerOrId)
     {
         $customerId = ($customerOrId instanceof Braintree_Customer) ? $customerOrId->id : $customerOrId;
         self::_validateCustomerId($customerId);
+
         return $customerId;
 
     }
@@ -294,8 +300,8 @@ class Braintree_Address extends Braintree
     /**
      * sends the create request to the gateway
      * @ignore
-     * @param string $url
-     * @param array $params
+     * @param  string $url
+     * @param  array  $params
      * @return mixed
      */
     private static function _doCreate($url, $params)
@@ -315,8 +321,8 @@ class Braintree_Address extends Braintree
      * alternatively, throws an Unexpected exception if the response is invalid.
      *
      * @ignore
-     * @param array $response gateway response values
-     * @return object Result_Successful or Result_Error
+     * @param  array                          $response gateway response values
+     * @return object                         Result_Successful or Result_Error
      * @throws Braintree_Exception_Unexpected
      */
     private static function _verifyGatewayResponse($response)
@@ -326,7 +332,7 @@ class Braintree_Address extends Braintree
             return new Braintree_Result_Successful(
                 self::factory($response['address'])
             );
-        } else if (isset($response['apiErrorResponse'])) {
+        } elseif (isset($response['apiErrorResponse'])) {
             return new Braintree_Result_Error($response['apiErrorResponse']);
         } else {
             throw new Braintree_Exception_Unexpected(
@@ -346,6 +352,7 @@ class Braintree_Address extends Braintree
     {
         $instance = new self();
         $instance->_initialize($attributes);
+
         return $instance;
 
     }

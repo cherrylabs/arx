@@ -16,7 +16,7 @@
  * <code>
  * $result = Braintree_Customer::all();
  *
- * foreach($result as $transaction) {
+ * foreach ($result as $transaction) {
  *   print_r($transaction->id);
  * }
  * </code>
@@ -65,6 +65,7 @@ class Braintree_ResourceCollection implements Iterator
     {
         $ids = $this->_ids;
         $page = $this->_getPage(array($ids[0]));
+
         return $page[0];
     }
 
@@ -113,12 +114,9 @@ class Braintree_ResourceCollection implements Iterator
 
     private function _getNextPage()
     {
-        if (empty($this->_ids))
-        {
+        if (empty($this->_ids)) {
             $this->_items = array();
-        }
-        else
-        {
+        } else {
             $this->_items = $this->_getPage(array_slice($this->_ids, $this->_batchIndex, $this->_pageSize));
             $this->_batchIndex += $this->_pageSize;
             $this->_index = 0;

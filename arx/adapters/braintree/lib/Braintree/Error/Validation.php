@@ -41,12 +41,12 @@ class Braintree_Error_Validation
      * initializes instance properties from the keys/values of an array
      * @ignore
      * @access protected
-     * @param array $attributes array of properties to set - single level
+     * @param  array $attributes array of properties to set - single level
      * @return none
      */
     private function _initializeFromArray($attributes)
     {
-        foreach($attributes AS $name => $value) {
+        foreach ($attributes AS $name => $value) {
             $varName = "_$name";
             $this->$varName = Braintree_Util::delimiterToCamelCase($value, '_');
         }
@@ -59,6 +59,7 @@ class Braintree_Error_Validation
     public function  __get($name)
     {
         $varName = "_$name";
+
         return isset($this->$varName) ? $this->$varName : null;
     }
 }

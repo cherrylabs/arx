@@ -2,13 +2,14 @@
 /**
  * ProjectName
  * PHP File - /index.php
+ *  test
  * @complementary   informations
  */
 
 // @todo:
 // - do something
 
-require_once(dirname(__FILE__) . '/arx/core.php');
+require_once dirname(__FILE__) . '/arx/core.php';
 
 // arx::uses('');
 
@@ -37,6 +38,5 @@ $app->route->map('/', function () use ($app) {
     $app->route->redirect('/home');
 
 }); // /
-
 
 $app->run();

@@ -11,7 +11,7 @@ error_reporting(E_STRICT);
 
 date_default_timezone_set('America/Toronto');
 
-require_once('../class.phpmailer.php');
+require_once '../class.phpmailer.php';
 //include("class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
 
 $mail             = new PHPMailer();
@@ -46,7 +46,7 @@ $mail->AddAddress($address, "John Doe");
 $mail->AddAttachment("images/phpmailer.gif");      // attachment
 $mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
 
-if(!$mail->Send()) {
+if (!$mail->Send()) {
   echo "Mailer Error: " . $mail->ErrorInfo;
 } else {
   echo "Message sent!";

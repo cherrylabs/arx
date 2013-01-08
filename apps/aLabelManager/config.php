@@ -1,5 +1,5 @@
 <?php
 
 app::config(array(
-	"table" => "t_labels",
+    "table" => "t_labels",
 ));

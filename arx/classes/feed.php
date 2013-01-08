@@ -2,9 +2,8 @@
 
 require_once ARX_INC .DS. 'simple_html_dom.php';
 
-class c_Feed extends Kohana_Feed {
-
+class c_Feed extends Kohana_Feed
+{
 }
-
 
 class Feed extends c_Feed {}

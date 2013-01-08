@@ -1,3 +1,3 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class HTTP_Exception_402 extends Kohana_HTTP_Exception_402 {}
+class http_exception_402 extends Kohana_HTTP_Exception_402 {}

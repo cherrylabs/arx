@@ -3,12 +3,12 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_SettlementBatchSummaryTest extends PHPUnit_Framework_TestCase
 {
-    function isMasterCard($record)
+    public function isMasterCard($record)
     {
         return $record['cardType'] == Braintree_CreditCard::MASTER_CARD;
     }
 
-    function testGenerate_returnsAnEmptyCollectionWhenThereIsNoData()
+    public function testGenerate_returnsAnEmptyCollectionWhenThereIsNoData()
     {
         $result = Braintree_SettlementBatchSummary::generate('2000-01-01');
 
@@ -16,7 +16,7 @@ class Braintree_SettlementBatchSummaryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($result->settlementBatchSummary->records));
     }
 
-    function testGenerate_returnsAnErrorIfTheDateCanNotBeParsed()
+    public function testGenerate_returnsAnErrorIfTheDateCanNotBeParsed()
     {
         $result = Braintree_SettlementBatchSummary::generate('OMG NOT A DATE');
 
@@ -25,7 +25,7 @@ class Braintree_SettlementBatchSummaryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::SETTLEMENT_BATCH_SUMMARY_SETTLEMENT_DATE_IS_INVALID, $errors[0]->code);
     }
 
-    function testGenerate_returnsTransactionsSettledOnAGivenDay()
+    public function testGenerate_returnsTransactionsSettledOnAGivenDay()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -48,7 +48,7 @@ class Braintree_SettlementBatchSummaryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_CreditCard::MASTER_CARD, $masterCardRecords[$masterCardIndex]['cardType']);
     }
 
-    function testGenerate_canBeGroupedByACustomField()
+    public function testGenerate_canBeGroupedByACustomField()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -72,4 +72,3 @@ class Braintree_SettlementBatchSummaryTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('store_me', $result->settlementBatchSummary->records[0]);
     }
 }
-?>

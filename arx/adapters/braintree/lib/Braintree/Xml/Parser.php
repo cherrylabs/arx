@@ -21,8 +21,8 @@ class Braintree_Xml_Parser
     /**
      * sets up the SimpleXMLIterator and starts the parsing
      * @access public
-     * @param string $xml
-     * @return array array mapped to the passed xml
+     * @param  string $xml
+     * @return array  array mapped to the passed xml
      */
     public static function arrayFromXml($xml)
     {
@@ -43,8 +43,8 @@ class Braintree_Xml_Parser
      * processes SimpleXMLIterator objects recursively
      *
      * @access protected
-     * @param object $iterator
-     * @return array xml converted to array
+     * @param  object $iterator
+     * @return array  xml converted to array
      */
     private static function _iteratorToArray($iterator)
     {
@@ -121,8 +121,8 @@ class Braintree_Xml_Parser
 
     /**
      * typecast xml value based on attributes
-     * @param object $valueObj SimpleXMLElement
-     * @return mixed value for placing into array
+     * @param  object $valueObj SimpleXMLElement
+     * @return mixed  value for placing into array
      */
     private static function _typecastXmlValue($valueObj)
     {
@@ -139,7 +139,7 @@ class Braintree_Xml_Parser
                 return self::_timestampToUTC((string) $valueObj);
                 break;
             case 'date':
-                return new DateTime((string)$valueObj);
+                return new DateTime((string) $valueObj);
                 break;
             case 'integer':
                 return (int) $valueObj;
@@ -147,7 +147,7 @@ class Braintree_Xml_Parser
             case 'boolean':
                 $value =  (string) $valueObj;
                 // look for a number inside the string
-                if(is_numeric($value)) {
+                if (is_numeric($value)) {
                     return (bool) $value;
                 } else {
                     // look for the string "true", return false in all other cases
@@ -164,7 +164,7 @@ class Braintree_Xml_Parser
 
     /**
      * convert xml timestamps into DateTime
-     * @param string $timestamp
+     * @param  string $timestamp
      * @return string UTC formatted datetime string
      */
     private static function _timestampToUTC($timestamp)
@@ -174,6 +174,7 @@ class Braintree_Xml_Parser
         // to show the proper time zone
         $dateTime = new DateTime($timestamp, $tz);
         $dateTime->setTimezone($tz);
+
         return $dateTime;
     }
 }

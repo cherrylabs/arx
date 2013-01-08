@@ -11,21 +11,21 @@
  * @copyright  (c) 2008-2011 Kohana Team
  * @license    http://kohanaphp.com/license
  */
-interface Kohana_HTTP_Response extends HTTP_Message {
-
-	/**
-	 * Sets or gets the HTTP status from this response.
-	 *
-	 *      // Set the HTTP status to 404 Not Found
-	 *      $response = Response::factory()
-	 *              ->status(404);
-	 *
-	 *      // Get the current status
-	 *      $status = $response->status();
-	 *
-	 * @param   integer  $code  Status to set to this response
-	 * @return  mixed
-	 */
-	public function status($code = NULL);
+interface kohana_http_response extends HTTP_Message
+{
+    /**
+     * Sets or gets the HTTP status from this response.
+     *
+     *      // Set the HTTP status to 404 Not Found
+     *      $response = Response::factory()
+     *              ->status(404);
+     *
+     *      // Get the current status
+     *      $status = $response->status();
+     *
+     * @param  integer $code Status to set to this response
+     * @return mixed
+     */
+    public function status($code = NULL);
 
 }

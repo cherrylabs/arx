@@ -6,6 +6,7 @@
  * @copyright  (c) 2009-2011 Kohana Team
  * @license    http://kohanaframework.org/license
  */
-class Kohana_Session_Exception extends Kohana_Exception {
-	const SESSION_CORRUPT = 1;
+class kohana_session_exception extends Kohana_Exception
+{
+    const SESSION_CORRUPT = 1;
 }

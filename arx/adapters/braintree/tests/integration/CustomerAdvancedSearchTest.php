@@ -3,7 +3,7 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_CustomerAdvancedSearchTest extends PHPUnit_Framework_TestCase
 {
-    function test_noMatches()
+    public function test_noMatches()
     {
         $collection = Braintree_Customer::search(array(
             Braintree_CustomerSearch::company()->is('badname')
@@ -12,14 +12,14 @@ class Braintree_CustomerAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_noRequestsWhenIterating()
+    public function test_noRequestsWhenIterating()
     {
         $resultsReturned = false;
         $collection = Braintree_Customer::search(array(
             Braintree_CustomerSearch::firstName()->is('badname')
         ));
 
-        foreach($collection as $customer) {
+        foreach ($collection as $customer) {
             $resultsReturned = true;
             break;
         }
@@ -28,7 +28,7 @@ class Braintree_CustomerAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(false, $resultsReturned);
     }
 
-    function test_findDuplicateCardsGivenPaymentMethodToken()
+    public function test_findDuplicateCardsGivenPaymentMethodToken()
     {
         $creditCardRequest = array('number' => '63049580000009', 'expirationDate' => '05/2012');
 
@@ -39,8 +39,7 @@ class Braintree_CustomerAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $collection = Braintree_Customer::search($query);
 
         $customerIds = array();
-        foreach($collection as $customer)
-        {
+        foreach ($collection as $customer) {
             $customerIds[] = $customer->id;
         }
 
@@ -48,7 +47,7 @@ class Braintree_CustomerAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(in_array($joe->id, $customerIds));
     }
 
-    function test_searchOnTextFields()
+    public function test_searchOnTextFields()
     {
         $token  = 'cctoken' . rand();
 
@@ -126,7 +125,7 @@ class Braintree_CustomerAdvancedSearchTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    function test_createdAt()
+    public function test_createdAt()
     {
         $customer = Braintree_Customer::createNoValidate();
 
@@ -157,4 +156,3 @@ class Braintree_CustomerAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($customer->id, $collection->firstItem()->id);
     }
 }
-?>

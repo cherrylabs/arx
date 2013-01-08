@@ -9,7 +9,6 @@
  * @copyright  2010 Braintree Payment Solutions
  */
 
-
 /**
  * Handles validation errors
  *
@@ -32,7 +31,6 @@ class Braintree_Error_ErrorCollection
                 new Braintree_Error_ValidationErrorCollection($errorData);
     }
 
-
     /**
      * Returns all of the validation errors at all levels of nesting in a single, flat array.
      */
@@ -51,13 +49,14 @@ class Braintree_Error_ErrorCollection
     public function deepSize()
     {
         $size = $this->_errors->deepSize();
+
         return $size;
     }
 
     /**
      * return errors for the passed key name
      *
-     * @param string $key
+     * @param  string $key
      * @return mixed
      */
     public function forKey($key)
@@ -69,18 +68,19 @@ class Braintree_Error_ErrorCollection
      * return errors for the passed html field.
      * For example, $result->errors->onHtmlField("transaction[customer][last_name]")
      *
-     * @param string $field
+     * @param  string $field
      * @return array
      */
     public function onHtmlField($field)
     {
         $pieces = preg_split("/[\[\]]+/", $field, 0, PREG_SPLIT_NO_EMPTY);
         $errors = $this;
-        foreach(array_slice($pieces, 0, -1) as $key) {
+        foreach (array_slice($pieces, 0, -1) as $key) {
             $errors = $errors->forKey(Braintree_Util::delimiterToCamelCase($key));
             if (!isset($errors)) { return array(); }
         }
         $finalKey = Braintree_Util::delimiterToCamelCase(end($pieces));
+
         return $errors->onAttribute($finalKey);
     }
 
@@ -104,6 +104,7 @@ class Braintree_Error_ErrorCollection
     public function  __get($name)
     {
         $varName = "_$name";
+
         return isset($this->$varName) ? $this->$varName : null;
     }
 

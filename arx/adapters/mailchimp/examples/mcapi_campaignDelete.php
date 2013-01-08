@@ -9,12 +9,10 @@ $api = new MCAPI($apikey);
 
 $retval = $api->campaignDelete($campaignId);
 
-if ($api->errorCode){
-	echo "Unable to Delete Campaign!";
-	echo "\n\tCode=".$api->errorCode;
-	echo "\n\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+    echo "Unable to Delete Campaign!";
+    echo "\n\tCode=".$api->errorCode;
+    echo "\n\tMsg=".$api->errorMessage."\n";
 } else {
-	echo "Campaign Deleted!\n";
+    echo "Campaign Deleted!\n";
 }
-
-?>

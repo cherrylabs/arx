@@ -10,12 +10,10 @@ $api = new MCAPI($apikey);
 
 $retval = $api->campaignUnschedule($campaignId);
 
-if ($api->errorCode){
-	echo "Unable to Unschedule Campaign!";
-	echo "\n\tCode=".$api->errorCode;
-	echo "\n\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+    echo "Unable to Unschedule Campaign!";
+    echo "\n\tCode=".$api->errorCode;
+    echo "\n\tMsg=".$api->errorMessage."\n";
 } else {
-	echo "Campaign Unscheduled!\n";
+    echo "Campaign Unscheduled!\n";
 }
-
-?>

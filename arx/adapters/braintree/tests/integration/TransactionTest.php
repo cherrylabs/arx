@@ -4,7 +4,7 @@ require_once realpath(dirname(__FILE__)) . '/SubscriptionTestHelper.php';
 
 class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
 {
-    function testCloneTransaction()
+    public function testCloneTransaction()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -37,8 +37,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
       $this->assertEquals('authorized', $cloneTransaction->status);
     }
 
-
-    function testCloneTransactionAndSubmitForSettlement()
+    public function testCloneTransactionAndSubmitForSettlement()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -56,7 +55,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
       $this->assertEquals('submitted_for_settlement', $cloneTransaction->status);
     }
 
-    function testCloneWithValidations()
+    public function testCloneWithValidations()
     {
         $result = Braintree_Transaction::credit(array(
             'amount' => '100.00',
@@ -76,7 +75,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
       $this->assertEquals(Braintree_Error_Codes::TRANSACTION_CANNOT_CLONE_CREDIT, $baseErrors[0]->code);
     }
 
-    function testSale()
+    public function testSale()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -97,7 +96,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('The Cardholder', $transaction->creditCardDetails->cardholderName);
     }
 
-    function testSale_withLevel2Attributes()
+    public function testSale_withLevel2Attributes()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -119,7 +118,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('12345', $transaction->purchaseOrderNumber);
     }
 
-    function testSale_withInvalidTaxAmountAttribute()
+    public function testSale_withInvalidTaxAmountAttribute()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -137,7 +136,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::TRANSACTION_TAX_AMOUNT_FORMAT_IS_INVALID, $taxAmountErrors[0]->code);
     }
 
-    function testSale_withTooLongPurchaseOrderAttribute()
+    public function testSale_withTooLongPurchaseOrderAttribute()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -155,7 +154,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::TRANSACTION_PURCHASE_ORDER_NUMBER_IS_TOO_LONG, $purchaseOrderNumberErrors[0]->code);
     }
 
-    function testSale_withInvalidPurchaseOrderNumber()
+    public function testSale_withInvalidPurchaseOrderNumber()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -173,7 +172,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::TRANSACTION_PURCHASE_ORDER_NUMBER_IS_INVALID, $purchaseOrderNumberErrors[0]->code);
     }
 
-    function testSale_withAllAttributes()
+    public function testSale_withAllAttributes()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -289,7 +288,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
       $this->assertEquals('2011', $transaction->creditCardDetails->expirationYear);
     }
 
-    function testSale_withCustomFields()
+    public function testSale_withCustomFields()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -307,7 +306,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('custom value', $customFields['store_me']);
     }
 
-    function testSale_withExpirationMonthAndYear()
+    public function testSale_withExpirationMonthAndYear()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -323,7 +322,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('2012', $transaction->creditCardDetails->expirationYear);
     }
 
-    function testSale_underscoresAllCustomFields()
+    public function testSale_underscoresAllCustomFields()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -341,7 +340,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('custom value', $customFields['store_me']);
     }
 
-    function testSale_withInvalidCustomField()
+    public function testSale_withInvalidCustomField()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -359,7 +358,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Custom field is invalid: invalidKey.', $errors[0]->message);
     }
 
-    function testSale_withMerchantAccountId()
+    public function testSale_withMerchantAccountId()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -374,7 +373,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_TestHelper::nonDefaultMerchantAccountId(), $transaction->merchantAccountId);
     }
 
-    function testSale_withoutMerchantAccountIdFallsBackToDefault()
+    public function testSale_withoutMerchantAccountIdFallsBackToDefault()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -388,7 +387,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_TestHelper::defaultMerchantAccountId(), $transaction->merchantAccountId);
     }
 
-    function testSale_withShippingAddressId()
+    public function testSale_withShippingAddressId()
     {
         $customer = Braintree_Customer::create(array(
             'firstName' => 'Mike',
@@ -415,7 +414,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($address->id, $transaction->shippingDetails->id);
     }
 
-    function testSaleNoValidate()
+    public function testSaleNoValidate()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -431,7 +430,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('5100', $transaction->creditCardDetails->last4);
     }
 
-    function testSale_withProcessorDecline()
+    public function testSale_withProcessorDecline()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => Braintree_Test_TransactionAmounts::$decline,
@@ -446,7 +445,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("Do Not Honor", $result->transaction->processorResponseText);
     }
 
-    function testSale_withExistingCustomer()
+    public function testSale_withExistingCustomer()
     {
         $customer = Braintree_Customer::create(array(
             'firstName' => 'Mike',
@@ -471,7 +470,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertNull($transaction->vaultCreditCard());
     }
 
-    function testSale_andStoreShippingAddressInVault()
+    public function testSale_andStoreShippingAddressInVault()
     {
         $customer = Braintree_Customer::create(array(
             'firstName' => 'Mike',
@@ -506,7 +505,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Stevens', $customer->addresses[0]->lastName);
     }
 
-    function testSale_withExistingCustomer_storeInVault()
+    public function testSale_withExistingCustomer_storeInVault()
     {
         $customer = Braintree_Customer::create(array(
             'firstName' => 'Mike',
@@ -534,7 +533,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->vaultCreditCard()->maskedNumber, '401288******1881');
     }
 
-    function testCredit()
+    public function testCredit()
     {
         $result = Braintree_Transaction::credit(array(
             'amount' => '100.00',
@@ -552,7 +551,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('5100', $transaction->creditCardDetails->last4);
     }
 
-    function testCreditNoValidate()
+    public function testCreditNoValidate()
     {
         $transaction = Braintree_Transaction::creditNoValidate(array(
             'amount' => '100.00',
@@ -568,7 +567,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('5100', $transaction->creditCardDetails->last4);
     }
 
-    function testCredit_withMerchantAccountId()
+    public function testCredit_withMerchantAccountId()
     {
         $result = Braintree_Transaction::credit(array(
             'amount' => '100.00',
@@ -583,7 +582,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_TestHelper::nonDefaultMerchantAccountId(), $transaction->merchantAccountId);
     }
 
-    function testCredit_withoutMerchantAccountIdFallsBackToDefault()
+    public function testCredit_withoutMerchantAccountIdFallsBackToDefault()
     {
         $result = Braintree_Transaction::credit(array(
             'amount' => '100.00',
@@ -597,7 +596,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_TestHelper::defaultMerchantAccountId(), $transaction->merchantAccountId);
     }
 
-    function testSubmitForSettlement_nullAmount()
+    public function testSubmitForSettlement_nullAmount()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -613,7 +612,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('100.00', $submitResult->transaction->amount);
     }
 
-    function testSubmitForSettlement_withAmount()
+    public function testSubmitForSettlement_withAmount()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -629,7 +628,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('50.00', $submitResult->transaction->amount);
     }
 
-    function testSubmitForSettlementNoValidate_whenValidWithoutAmount()
+    public function testSubmitForSettlementNoValidate_whenValidWithoutAmount()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -644,7 +643,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('100.00', $submittedTransaction->amount);
     }
 
-    function testSubmitForSettlementNoValidate_whenValidWithAmount()
+    public function testSubmitForSettlementNoValidate_whenValidWithAmount()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -659,7 +658,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('99.00', $submittedTransaction->amount);
     }
 
-    function testSubmitForSettlementNoValidate_whenInvalid()
+    public function testSubmitForSettlementNoValidate_whenInvalid()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -673,7 +672,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $submittedTransaction = Braintree_Transaction::submitForSettlementNoValidate($transaction->id, '101.00');
     }
 
-    function testVoid()
+    public function testVoid()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -688,7 +687,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Transaction::VOIDED, $voidResult->transaction->status);
     }
 
-    function test_countryValidationError_inconsistency()
+    public function test_countryValidationError_inconsistency()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -707,7 +706,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::ADDRESS_INCONSISTENT_COUNTRY, $errors[0]->code);
     }
 
-    function test_countryValidationError_incorrectAlpha2()
+    public function test_countryValidationError_incorrectAlpha2()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -725,7 +724,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::ADDRESS_COUNTRY_CODE_ALPHA2_IS_NOT_ACCEPTED, $errors[0]->code);
     }
 
-    function test_countryValidationError_incorrectAlpha3()
+    public function test_countryValidationError_incorrectAlpha3()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -743,7 +742,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::ADDRESS_COUNTRY_CODE_ALPHA3_IS_NOT_ACCEPTED, $errors[0]->code);
     }
 
-    function test_countryValidationError_incorrectNumericCode()
+    public function test_countryValidationError_incorrectNumericCode()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -761,7 +760,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::ADDRESS_COUNTRY_CODE_NUMERIC_IS_NOT_ACCEPTED, $errors[0]->code);
     }
 
-    function testVoid_withValidationError()
+    public function testVoid_withValidationError()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -779,7 +778,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::TRANSACTION_CANNOT_BE_VOIDED, $errors[0]->code);
     }
 
-    function testVoidNoValidate()
+    public function testVoidNoValidate()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -793,7 +792,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Transaction::VOIDED, $voided->status);
     }
 
-    function testVoidNoValidate_throwsIfNotInvalid()
+    public function testVoidNoValidate_throwsIfNotInvalid()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -809,7 +808,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $voided = Braintree_Transaction::voidNoValidate($transaction->id);
     }
 
-    function testFind()
+    public function testFind()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -826,7 +825,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('5100', $transaction->creditCardDetails->last4);
     }
 
-    function testSale_storeInVault()
+    public function testSale_storeInVault()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -864,7 +863,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('http://getbraintree.com', $customer->website);
     }
 
-    function testSale_storeInVaultOnSuccessWithSuccessfulTransaction()
+    public function testSale_storeInVaultOnSuccessWithSuccessfulTransaction()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -902,7 +901,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('http://getbraintree.com', $customer->website);
     }
 
-    function testSale_storeInVaultOnSuccessWithFailedTransaction()
+    public function testSale_storeInVaultOnSuccessWithFailedTransaction()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => Braintree_Test_TransactionAmounts::$decline,
@@ -931,7 +930,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertNull($transaction->vaultCustomer());
     }
 
-    function testSale_withDescriptor()
+    public function testSale_withDescriptor()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -950,7 +949,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('3334445555', $transaction->descriptor->phone);
     }
 
-    function testSale_withDescriptorValidation()
+    public function testSale_withDescriptorValidation()
     {
         $result = Braintree_Transaction::sale(array(
             'amount' => '100.00',
@@ -973,7 +972,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::DESCRIPTOR_PHONE_FORMAT_IS_INVALID, $errors[0]->code);
     }
 
-    function testCreateFromTransparentRedirect()
+    public function testCreateFromTransparentRedirect()
     {
         Braintree_TestHelper::suppressDeprecationWarnings();
         $queryString = $this->createTransactionViaTr(
@@ -1012,7 +1011,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertequals('First', $customer->firstName);
     }
 
-    function testCreateFromTransparentRedirectWithInvalidParams()
+    public function testCreateFromTransparentRedirectWithInvalidParams()
     {
         Braintree_TestHelper::suppressDeprecationWarnings();
         $queryString = $this->createTransactionViaTr(
@@ -1043,7 +1042,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    function testCreateFromTransparentRedirect_withParamsInTrData()
+    public function testCreateFromTransparentRedirect_withParamsInTrData()
     {
         Braintree_TestHelper::suppressDeprecationWarnings();
         $queryString = $this->createTransactionViaTr(
@@ -1079,7 +1078,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertequals('First', $customer->firstName);
     }
 
-    function testCreateFromTransparentRedirect_withValidationErrors()
+    public function testCreateFromTransparentRedirect_withValidationErrors()
     {
         Braintree_TestHelper::suppressDeprecationWarnings();
         $queryString = $this->createTransactionViaTr(
@@ -1108,7 +1107,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Error_Codes::CREDIT_CARD_EXPIRATION_DATE_IS_REQUIRED, $errors[0]->code);
     }
 
-    function testRefund()
+    public function testRefund()
     {
         $transaction = $this->createTransactionToRefund();
         $result = Braintree_Transaction::refund($transaction->id);
@@ -1119,7 +1118,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($refund->id, Braintree_Transaction::find($transaction->id)->refundId);
     }
 
-    function testRefundWithPartialAmount()
+    public function testRefundWithPartialAmount()
     {
         $transaction = $this->createTransactionToRefund();
         $result = Braintree_Transaction::refund($transaction->id, '50.00');
@@ -1128,7 +1127,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("50.00", $result->transaction->amount);
     }
 
-    function testMultipleRefundsWithPartialAmounts()
+    public function testMultipleRefundsWithPartialAmounts()
     {
         $transaction = $this->createTransactionToRefund();
 
@@ -1150,7 +1149,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedRefundIds, $refundIds);
     }
 
-    function testRefundWithUnsuccessfulPartialAmount()
+    public function testRefundWithUnsuccessfulPartialAmount()
     {
         $transaction = $this->createTransactionToRefund();
         $result = Braintree_Transaction::refund($transaction->id, '150.00');
@@ -1162,7 +1161,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    function testGatewayRejectionOnAvs()
+    public function testGatewayRejectionOnAvs()
     {
         $old_merchant_id = Braintree_Configuration::merchantId();
         $old_public_key = Braintree_Configuration::publicKey();
@@ -1194,7 +1193,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Transaction::AVS, $transaction->gatewayRejectionReason);
     }
 
-    function testGatewayRejectionOnAvsAndCvv()
+    public function testGatewayRejectionOnAvsAndCvv()
     {
         $old_merchant_id = Braintree_Configuration::merchantId();
         $old_public_key = Braintree_Configuration::publicKey();
@@ -1226,7 +1225,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Transaction::AVS_AND_CVV, $transaction->gatewayRejectionReason);
     }
 
-    function testGatewayRejectionOnCvv()
+    public function testGatewayRejectionOnCvv()
     {
         $old_merchant_id = Braintree_Configuration::merchantId();
         $old_public_key = Braintree_Configuration::publicKey();
@@ -1255,7 +1254,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Transaction::CVV, $transaction->gatewayRejectionReason);
     }
 
-    function testSnapshotPlanIdAddOnsAndDiscountsFromSubscription()
+    public function testSnapshotPlanIdAddOnsAndDiscountsFromSubscription()
     {
         $creditCard = Braintree_SubscriptionTestHelper::createCreditCard();
         $plan = Braintree_SubscriptionTestHelper::triallessPlan();
@@ -1317,12 +1316,13 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($discounts[0]->neverExpires);
     }
 
-    function createTransactionViaTr($regularParams, $trParams)
+    public function createTransactionViaTr($regularParams, $trParams)
     {
         Braintree_TestHelper::suppressDeprecationWarnings();
         $trData = Braintree_TransparentRedirect::transactionData(
             array_merge($trParams, array("redirectUrl" => "http://www.example.com"))
         );
+
         return Braintree_TestHelper::submitTrRequest(
             Braintree_Transaction::createTransactionUrl(),
             $regularParams,
@@ -1330,7 +1330,7 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    function createTransactionToRefund()
+    public function createTransactionToRefund()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '100.00',
@@ -1341,9 +1341,8 @@ class Braintree_TransactionTest extends PHPUnit_Framework_TestCase
             'options' => array('submitForSettlement' => true)
         ));
         Braintree_TestHelper::settle($transaction->id);
+
         return $transaction;
     }
 
 }
-?>
-

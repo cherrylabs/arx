@@ -14,7 +14,7 @@ class Braintree_Digest
 {
     public static function hexDigest($string)
     {
-        if(function_exists('hash_hmac')) {
+        if (function_exists('hash_hmac')) {
             return self::_builtInHmacSha1($string, Braintree_Configuration::privateKey());
         } else {
             return self::_hmacSha1($string, Braintree_Configuration::privateKey());
@@ -34,6 +34,7 @@ class Braintree_Digest
         for ($i = 0; $i < strlen($left); $i++) {
             $result = $result | ($left[$i] ^ $right[$i]);
         }
+
         return $result == 0;
     }
 

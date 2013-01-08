@@ -1,24 +1,24 @@
-<?php	
+<?php
 /**
-	 * URL REWRITING ROUTER
-	 * @author Daniel Sum
-	 * @version 0.1
-	 * @package arx
-	 * @comments :
+     * URL REWRITING ROUTER
+     * @author Daniel Sum
+     * @version 0.1
+     * @package arx
+     * @comments :
 */
 
 require_once DIR_ADAPTERS. DS. 'Slim'.DS.'Slim'.EXT_PHP;
 
-class a_slim extends Slim{
-	
-
-	 /***** SETTINGS *****/
+class a_slim extends Slim
+{
+     /***** SETTINGS *****/
 
     /**
      * Get default application settings
      * @return array
      */
-    public static function getDefaultSettings() {
+    public static function getDefaultSettings()
+    {
         return array(
             //Mode
             'mode' => 'development',
@@ -45,8 +45,8 @@ class a_slim extends Slim{
             'http.version' => '1.1'
         );
     }
-	
-	/**
+
+    /**
      * Error Handler
      *
      * This method defines or invokes the application-wide Error handler.
@@ -67,11 +67,11 @@ class a_slim extends Slim{
      * as its one and only argument. The error handler's output is captured
      * into an output buffer and sent as the body of a 500 HTTP Response.
      *
-     * @param   mixed $argument Callable|Exception
-     * @return  void
+     * @param  mixed $argument Callable|Exception
+     * @return void
      */
-    public function error( $argument = null ) {
-    
+    public function error( $argument = null )
+    {
         if ( is_callable($argument) ) {
             //Register error handler
             $this->router->error($argument);
@@ -83,41 +83,42 @@ class a_slim extends Slim{
             $this->stop();
         }
     }
-	
-	protected static function generateTemplateMarkup( $title, $body ) {
+
+    protected static function generateTemplateMarkup( $title, $body )
+    {
         return sprintf("<html><head><title>%s</title><style>body{margin:0;padding:30px;font:12px/1.5 Helvetica,Arial,Verdana,sans-serif;}h1{margin:0;font-size:48px;font-weight:normal;line-height:48px;}strong{display:inline-block;width:65px;}</style></head><body><h1>%s</h1>%s</body></html>", $title, $title, $body);
     }
-	
-	/**
+
+    /**
      * Default Not Found handler
      * @return void
      */
-	protected function defaultNotFound() {
-	  //echo self::generateTemplateMarkup('404 Page Not Found', '<p>The page you are looking for could not be found. Check the address bar to ensure your URL is spelled correctly. If all else fails, you can visit our home page at the link below.</p><a href="' . $this->request->getRootUri() . '/">Visit the Home Page</a>');
-	}
-	
-	 /**
+    protected function defaultNotFound()
+    {
+      //echo self::generateTemplateMarkup('404 Page Not Found', '<p>The page you are looking for could not be found. Check the address bar to ensure your URL is spelled correctly. If all else fails, you can visit our home page at the link below.</p><a href="' . $this->request->getRootUri() . '/">Visit the Home Page</a>');
+    }
+
+     /**
      * Handle errors
      *
      * This is the global Error handler that will catch reportable Errors
      * and convert them into ErrorExceptions that are caught and handled
      * by each Slim application.
      *
-     * @param   int     $errno      The numeric type of the Error
-     * @param   string  $errstr     The error message
-     * @param   string  $errfile    The absolute path to the affected file
-     * @param   int     $errline    The line number of the error in the affected file
-     * @return  true
-     * @throws  ErrorException
+     * @param  int            $errno   The numeric type of the Error
+     * @param  string         $errstr  The error message
+     * @param  string         $errfile The absolute path to the affected file
+     * @param  int            $errline The line number of the error in the affected file
+     * @return true
+     * @throws ErrorException
      */
-    public static function handleErrors( $errno, $errstr = '', $errfile = '', $errline = '' ) {
+    public static function handleErrors( $errno, $errstr = '', $errfile = '', $errline = '' )
+    {
         if ( error_reporting() & $errno ) {
             throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
         }
+
         return true;
     }
-	
+
 }
-
-
-?>

@@ -1,14 +1,14 @@
 <?php
 /**
-	 * Manifest
-	 * @author Daniel Sum
-	 * @version 0.1
-	 * @package arx
-	 * @description : 
-	 * @comments :
+     * Manifest
+     * @author Daniel Sum
+     * @version 0.1
+     * @package arx
+     * @description :
+     * @comments :
 */
 
-require_once('core.php');
+require_once 'core.php';
 
 $manifest = new c_manifest();
 

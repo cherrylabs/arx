@@ -1,6 +1,6 @@
 <?php
 /**
-This Example shows how to run a Batch Unsubscribe on a List using the MCAPI.php 
+This Example shows how to run a Batch Unsubscribe on a List using the MCAPI.php
 class and do some basic error checking or handle the return values.
 **/
 require_once 'inc/MCAPI.class.php';
@@ -15,19 +15,16 @@ $notify = false; // no, don't tell me I did this
 
 $vals = $api->listBatchUnsubscribe($listId, $emails, $delete, $bye, $notify);
 
-if ($api->errorCode){
-	// an api error occurred
-	echo "code:".$api->errorCode."\n";
-	echo "msg :".$api->errorMessage."\n";
+if ($api->errorCode) {
+    // an api error occurred
+    echo "code:".$api->errorCode."\n";
+    echo "msg :".$api->errorMessage."\n";
 } else {
-	echo "success:".$vals['success_count']."\n";
-	echo "errors:".$vals['error_count']."\n";
-	foreach($vals['errors'] as $val){
-		echo "\t*".$val['email']. " failed\n";
-		echo "\tcode:".$val['code']."\n";
-		echo "\tmsg :".$val['message']."\n\n";
-	}
+    echo "success:".$vals['success_count']."\n";
+    echo "errors:".$vals['error_count']."\n";
+    foreach ($vals['errors'] as $val) {
+        echo "\t*".$val['email']. " failed\n";
+        echo "\tcode:".$val['code']."\n";
+        echo "\tmsg :".$val['message']."\n\n";
+    }
 }
-?> 
-
-

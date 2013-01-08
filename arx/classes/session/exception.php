@@ -6,4 +6,4 @@
  * @copyright  (c) 2009-2011 Kohana Team
  * @license    http://kohanaframework.org/license
  */
-class Session_Exception extends Kohana_Session_Exception {}
+class session_exception extends Kohana_Session_Exception {}

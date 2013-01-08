@@ -3,7 +3,7 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_PlanTest extends PHPUnit_Framework_TestCase
 {
-    function testAll_returnsAllPlans()
+    public function testAll_returnsAllPlans()
     {
         $newId = strval(rand());
         $params = array (
@@ -42,10 +42,8 @@ class Braintree_PlanTest extends PHPUnit_Framework_TestCase
 
         $plans = Braintree_Plan::all();
 
-        foreach ($plans as $plan)
-        {
-            if ($plan->id == $newId)
-            {
+        foreach ($plans as $plan) {
+            if ($plan->id == $newId) {
                 $actualPlan = $plan;
             }
         }

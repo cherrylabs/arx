@@ -2,7 +2,6 @@
 
 class c_model extends Model
 {
-	
 
 }
 

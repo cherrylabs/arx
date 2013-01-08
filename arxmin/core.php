@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Admin Core PHP
  * @author Daniel Sum
@@ -7,6 +7,4 @@
  * @comments :
  */
 
-require_once(dirname(__FILE__).'/../arx/core.php');
-
-?>
+require_once dirname(__FILE__).'/../arx/core.php';

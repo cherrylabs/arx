@@ -3,12 +3,12 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
 {
-    function setup()
+    public function setup()
     {
         Braintree_Configuration::reset();
     }
 
-    function teardown()
+    public function teardown()
     {
         Braintree_Configuration::environment('development');
         Braintree_Configuration::merchantId('integration_merchant_id');
@@ -16,7 +16,7 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
         Braintree_Configuration::privateKey('integration_private_key');
     }
 
-    function testSetValidEnvironment()
+    public function testSetValidEnvironment()
     {
         Braintree_Configuration::environment('sandbox');
         $this->assertEquals('sandbox', Braintree_Configuration::environment());
@@ -27,7 +27,7 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
      * @expectedException Braintree_Exception_Configuration
      * @expectedExceptionMessage environment needs to be set
      */
-    function testSetInvalidEnvironment()
+    public function testSetInvalidEnvironment()
     {
         Braintree_Configuration::environment('invalid');
         Braintree_Configuration::reset();
@@ -37,13 +37,13 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
      * @expectedException Braintree_Exception_Configuration
      * @expectedExceptionMessage environment needs to be set
      */
-    function testValidateEmptyEnvironment()
+    public function testValidateEmptyEnvironment()
     {
         // try to get environment without setting it first
         Braintree_Configuration::environment();
     }
 
-    function testMerchantPath()
+    public function testMerchantPath()
     {
         Braintree_Configuration::merchantId('abc123');
         $mp = Braintree_Configuration::merchantPath();
@@ -51,14 +51,14 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
         Braintree_Configuration::reset();
     }
 
-    function testCaFile()
+    public function testCaFile()
     {
         Braintree_Configuration::environment('development');
         $this->setExpectedException('Braintree_Exception_SSLCaFileNotFound');
         Braintree_Configuration::caFile('/does/not/exist/');
     }
 
-    function testSSLOn()
+    public function testSSLOn()
     {
         Braintree_Configuration::environment('development');
         $on = Braintree_Configuration::sslOn();
@@ -75,7 +75,7 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
         Braintree_Configuration::reset();
     }
 
-    function testPortNumber()
+    public function testPortNumber()
     {
         Braintree_Configuration::environment('development');
         $pn = Braintree_Configuration::portNumber();
@@ -92,8 +92,7 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
         Braintree_Configuration::reset();
     }
 
-
-    function testProtocol()
+    public function testProtocol()
     {
         Braintree_Configuration::environment('development');
         $p = Braintree_Configuration::protocol();
@@ -110,7 +109,7 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
         Braintree_Configuration::reset();
     }
 
-    function testServerName()
+    public function testServerName()
     {
         Braintree_Configuration::environment('development');
         $sn = Braintree_Configuration::serverName();
@@ -127,7 +126,7 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
         Braintree_Configuration::reset();
     }
 
-    function testmerchantUrl()
+    public function testmerchantUrl()
     {
         Braintree_Configuration::merchantId('abc123');
         Braintree_Configuration::environment('sandbox');
@@ -137,7 +136,7 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
         Braintree_Configuration::reset();
     }
 
-    function testBaseUrl()
+    public function testBaseUrl()
     {
         Braintree_Configuration::environment('sandbox');
         $bu = Braintree_Configuration::baseUrl();
@@ -149,7 +148,7 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
      * @expectedException Braintree_Exception_Configuration
      * @expectedExceptionMessage merchantId needs to be set.
      */
-    function testMerchantId()
+    public function testMerchantId()
     {
         $mi = Braintree_Configuration::merchantId();
     }
@@ -157,7 +156,7 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
      * @expectedException Braintree_Exception_Configuration
      * @expectedExceptionMessage publicKey needs to be set.
      */
-    function testPublicKey()
+    public function testPublicKey()
     {
         $pk = Braintree_Configuration::publicKey();
     }
@@ -165,7 +164,7 @@ class Braintree_ConfigurationTest extends PHPUnit_Framework_TestCase
      * @expectedException Braintree_Exception_Configuration
      * @expectedExceptionMessage privateKey needs to be set.
      */
-    function testPrivateKey()
+    public function testPrivateKey()
     {
         $pk = Braintree_Configuration::privateKey();
     }

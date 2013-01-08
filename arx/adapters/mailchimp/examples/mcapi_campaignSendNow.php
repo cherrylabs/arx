@@ -9,12 +9,10 @@ $api = new MCAPI($apikey);
 
 $retval = $api->campaignSendNow($campaignId);
 
-if ($api->errorCode){
-	echo "Unable to Send Campaign!";
-	echo "\n\tCode=".$api->errorCode;
-	echo "\n\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+    echo "Unable to Send Campaign!";
+    echo "\n\tCode=".$api->errorCode;
+    echo "\n\tMsg=".$api->errorMessage."\n";
 } else {
-	echo "Campaign Sent!\n";
+    echo "Campaign Sent!\n";
 }
-
-?>

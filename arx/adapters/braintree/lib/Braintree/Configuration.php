@@ -69,8 +69,8 @@ class Braintree_Configuration extends Braintree
      *
      * @ignore
      * @access protected
-     * @param string $key name of config setting
-     * @param string $value value to set
+     * @param  string                            $key   name of config setting
+     * @param  string                            $value value to set
      * @throws InvalidArgumentException
      * @throws Braintree_Exception_Configuration
      * @static
@@ -138,14 +138,15 @@ class Braintree_Configuration extends Braintree
         } else {
             return self::get($name);
         }
+
         return true;
     }
     /**#@+
      * sets or returns the property after validation
      * @access public
      * @static
-     * @param string $value pass a string to set, empty to get
-     * @return mixed returns true on set
+     * @param  string $value pass a string to set, empty to get
+     * @return mixed  returns true on set
      */
     public static function environment($value = null)
     {
@@ -223,7 +224,7 @@ class Braintree_Configuration extends Braintree
         $sslPath = $sslPath ? $sslPath : DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR .
                    'ssl' . DIRECTORY_SEPARATOR;
 
-        switch(self::environment()) {
+        switch (self::environment()) {
          case 'production':
              $caPath = realpath(
                  dirname(__FILE__) .
@@ -240,8 +241,7 @@ class Braintree_Configuration extends Braintree
              break;
         }
 
-        if (!file_exists($caPath))
-        {
+        if (!file_exists($caPath)) {
             throw new Braintree_Exception_SSLCaFileNotFound();
         }
 
@@ -261,6 +261,7 @@ class Braintree_Configuration extends Braintree
         if (self::sslOn()) {
             return 443;
         }
+
         return getenv("GATEWAY_PORT") ? getenv("GATEWAY_PORT") : 3000;
     }
 
@@ -287,7 +288,7 @@ class Braintree_Configuration extends Braintree
      */
     public static function serverName()
     {
-        switch(self::environment()) {
+        switch (self::environment()) {
          case 'production':
              $serverName = 'www.braintreegateway.com';
              break;
@@ -317,7 +318,7 @@ class Braintree_Configuration extends Braintree
      */
     public static function sslOn()
     {
-        switch(self::environment()) {
+        switch (self::environment()) {
          case 'development':
              $ssl = false;
              break;
@@ -336,7 +337,7 @@ class Braintree_Configuration extends Braintree
      * log message to default logger
      *
      * @param string $message
-     * 
+     *
      */
     public static function logMessage($message)
     {

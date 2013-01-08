@@ -3,7 +3,7 @@ require_once realpath(dirname(__FILE__)) . '/../TestHelper.php';
 
 class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
 {
-    function testNoMatches()
+    public function testNoMatches()
     {
         $collection = Braintree_Transaction::search(array(
             Braintree_TransactionSearch::billingFirstName()->is('thisnameisnotreal')
@@ -12,14 +12,14 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_noRequestsWhenIterating()
+    public function test_noRequestsWhenIterating()
     {
         $resultsReturned = false;
         $collection = Braintree_Transaction::search(array(
             Braintree_TransactionSearch::billingFirstName()->is('thisnameisnotreal')
         ));
 
-        foreach($collection as $transaction) {
+        foreach ($collection as $transaction) {
             $resultsReturned = true;
             break;
         }
@@ -28,7 +28,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(false, $resultsReturned);
     }
 
-    function testSearchOnTextFields()
+    public function testSearchOnTextFields()
     {
         $firstName  = 'Tim' . rand();
         $token      = 'creditcard' . rand();
@@ -141,7 +141,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    function testIs()
+    public function testIs()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => Braintree_Test_TransactionAmounts::$authorize,
@@ -168,7 +168,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function testIsNot()
+    public function testIsNot()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => Braintree_Test_TransactionAmounts::$authorize,
@@ -195,7 +195,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function testEndsWith()
+    public function testEndsWith()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => Braintree_Test_TransactionAmounts::$authorize,
@@ -222,7 +222,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function testStartsWith()
+    public function testStartsWith()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => Braintree_Test_TransactionAmounts::$authorize,
@@ -249,7 +249,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function testContains()
+    public function testContains()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => Braintree_Test_TransactionAmounts::$authorize,
@@ -276,7 +276,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_multipleValueNode_createdUsing()
+    public function test_multipleValueNode_createdUsing()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => Braintree_Test_TransactionAmounts::$authorize,
@@ -309,7 +309,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_multipleValueNode_createdUsing_allowedValues()
+    public function test_multipleValueNode_createdUsing_allowedValues()
     {
         $this->setExpectedException('InvalidArgumentException', 'Invalid argument(s) for created_using: noSuchCreatedUsing');
         $collection = Braintree_Transaction::search(array(
@@ -317,7 +317,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    function test_multipleValueNode_creditCardCustomerLocation()
+    public function test_multipleValueNode_creditCardCustomerLocation()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => Braintree_Test_TransactionAmounts::$authorize,
@@ -350,7 +350,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_multipleValueNode_creditCardCustomerLocation_allowedValues()
+    public function test_multipleValueNode_creditCardCustomerLocation_allowedValues()
     {
         $this->setExpectedException('InvalidArgumentException', 'Invalid argument(s) for credit_card_customer_location: noSuchLocation');
         $collection = Braintree_Transaction::search(array(
@@ -358,7 +358,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    function test_multipleValueNode_merchantAccountId()
+    public function test_multipleValueNode_merchantAccountId()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => Braintree_Test_TransactionAmounts::$authorize,
@@ -391,7 +391,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_multipleValueNode_creditCardType()
+    public function test_multipleValueNode_creditCardType()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => Braintree_Test_TransactionAmounts::$authorize,
@@ -424,7 +424,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_multipleValueNode_creditCardType_allowedValues()
+    public function test_multipleValueNode_creditCardType_allowedValues()
     {
         $this->setExpectedException('InvalidArgumentException', 'Invalid argument(s) for credit_card_card_type: noSuchCardType');
         $collection = Braintree_Transaction::search(array(
@@ -432,7 +432,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    function test_multipleValueNode_status()
+    public function test_multipleValueNode_status()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => Braintree_Test_TransactionAmounts::$authorize,
@@ -465,7 +465,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_multipleValueNode_status_authorizationExpired()
+    public function test_multipleValueNode_status_authorizationExpired()
     {
         $collection = Braintree_Transaction::search(array(
             Braintree_TransactionSearch::status()->is(Braintree_Transaction::AUTHORIZATION_EXPIRED)
@@ -474,7 +474,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Transaction::AUTHORIZATION_EXPIRED, $collection->firstItem()->status);
     }
 
-    function test_multipleValueNode_status_allowedValues()
+    public function test_multipleValueNode_status_allowedValues()
     {
         $this->setExpectedException('InvalidArgumentException', 'Invalid argument(s) for status: noSuchStatus');
         $collection = Braintree_Transaction::search(array(
@@ -482,7 +482,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    function test_multipleValueNode_source()
+    public function test_multipleValueNode_source()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => Braintree_Test_TransactionAmounts::$authorize,
@@ -515,7 +515,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_multipleValueNode_source_allowedValues()
+    public function test_multipleValueNode_source_allowedValues()
     {
         $this->setExpectedException('InvalidArgumentException', 'Invalid argument(s) for source: noSuchSource');
         $collection = Braintree_Transaction::search(array(
@@ -523,7 +523,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    function test_multipleValueNode_type()
+    public function test_multipleValueNode_type()
     {
         $customer = Braintree_Customer::createNoValidate();
         $creditCard = Braintree_CreditCard::create(array(
@@ -546,13 +546,11 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
             'paymentMethodToken' => $creditCard->token
         ));
 
-
         $collection = Braintree_Transaction::search(array(
             Braintree_TransactionSearch::creditCardCardholderName()->is($creditCard->cardholderName),
             Braintree_TransactionSearch::type()->is($sale->type)
         ));
         $this->assertEquals(1, $collection->maximumCount());
-
 
         $collection = Braintree_Transaction::search(array(
             Braintree_TransactionSearch::creditCardCardholderName()->is($creditCard->cardholderName),
@@ -562,7 +560,6 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         ));
         $this->assertEquals(3, $collection->maximumCount());
 
-
         $collection = Braintree_Transaction::search(array(
             Braintree_TransactionSearch::creditCardCardholderName()->is($creditCard->cardholderName),
             Braintree_TransactionSearch::type()->is($credit->type)
@@ -570,7 +567,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, $collection->maximumCount());
     }
 
-    function test_multipleValueNode_type_allowedValues()
+    public function test_multipleValueNode_type_allowedValues()
     {
         $this->setExpectedException('InvalidArgumentException', 'Invalid argument(s) for type: noSuchType');
         $collection = Braintree_Transaction::search(array(
@@ -578,7 +575,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    function test_multipleValueNode_type_withRefund()
+    public function test_multipleValueNode_type_withRefund()
     {
         $customer = Braintree_Customer::createNoValidate();
         $creditCard = Braintree_CreditCard::create(array(
@@ -618,7 +615,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($credit->id, $collection->firstItem()->id);
     }
 
-    function test_rangeNode_amount()
+    public function test_rangeNode_amount()
     {
         $customer = Braintree_Customer::createNoValidate();
         $creditCard = Braintree_CreditCard::create(array(
@@ -668,7 +665,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($t_1500->id, $collection->firstItem()->id);
     }
 
-    function test_rangeNode_createdAt_lessThanOrEqualTo()
+    public function test_rangeNode_createdAt_lessThanOrEqualTo()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '1000.00',
@@ -705,7 +702,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_rangeNode_createdAt_GreaterThanOrEqualTo()
+    public function test_rangeNode_createdAt_GreaterThanOrEqualTo()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '1000.00',
@@ -742,7 +739,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->id, $collection->firstItem()->id);
     }
 
-    function test_rangeNode_createdAt_between()
+    public function test_rangeNode_createdAt_between()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '1000.00',
@@ -788,7 +785,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_rangeNode_createdAt_is()
+    public function test_rangeNode_createdAt_is()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '1000.00',
@@ -824,7 +821,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $collection->maximumCount());
     }
 
-    function test_rangeNode_createdAt_convertLocalToUTC()
+    public function test_rangeNode_createdAt_convertLocalToUTC()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '1000.00',
@@ -847,7 +844,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->id, $collection->firstItem()->id);
     }
 
-    function test_rangeNode_createdAt_handlesUTCDateTimes()
+    public function test_rangeNode_createdAt_handlesUTCDateTimes()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '1000.00',
@@ -870,7 +867,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->id, $collection->firstItem()->id);
     }
 
-    function test_rangeNode_authorizationExpiredAt()
+    public function test_rangeNode_authorizationExpiredAt()
     {
         $two_days_ago = date_create("now -2 days", new DateTimeZone("UTC"));
         $yesterday = date_create("now -1 day", new DateTimeZone("UTC"));
@@ -890,7 +887,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Braintree_Transaction::AUTHORIZATION_EXPIRED, $collection->firstItem()->status);
     }
 
-    function test_rangeNode_authorizedAt()
+    public function test_rangeNode_authorizedAt()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '1000.00',
@@ -920,7 +917,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->id, $collection->firstItem()->id);
     }
 
-    function test_rangeNode_failedAt()
+    public function test_rangeNode_failedAt()
     {
         $transaction = Braintree_Transaction::sale(array(
             'amount' => '3000.00',
@@ -950,7 +947,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->id, $collection->firstItem()->id);
     }
 
-    function test_rangeNode_gatewayRejectedAt()
+    public function test_rangeNode_gatewayRejectedAt()
     {
         $old_merchant_id = Braintree_Configuration::merchantId();
         $old_public_key = Braintree_Configuration::publicKey();
@@ -997,7 +994,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->id, $firstId);
     }
 
-    function test_rangeNode_processorDeclinedAt()
+    public function test_rangeNode_processorDeclinedAt()
     {
         $transaction = Braintree_Transaction::sale(array(
             'amount' => '2000.00',
@@ -1027,7 +1024,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->id, $collection->firstItem()->id);
     }
 
-    function test_rangeNode_settledAt()
+    public function test_rangeNode_settledAt()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '1000.00',
@@ -1063,7 +1060,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->id, $collection->firstItem()->id);
     }
 
-    function test_rangeNode_submittedForSettlementAt()
+    public function test_rangeNode_submittedForSettlementAt()
     {
         $transaction = Braintree_Transaction::sale(array(
             'amount' => '1000.00',
@@ -1096,7 +1093,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->id, $collection->firstItem()->id);
     }
 
-    function test_rangeNode_voidedAt()
+    public function test_rangeNode_voidedAt()
     {
         $transaction = Braintree_Transaction::saleNoValidate(array(
             'amount' => '1000.00',
@@ -1128,7 +1125,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->id, $collection->firstItem()->id);
     }
 
-    function test_rangeNode_canSearchOnMulitpleStatuses()
+    public function test_rangeNode_canSearchOnMulitpleStatuses()
     {
         $transaction = Braintree_Transaction::sale(array(
             'amount' => '1000.00',
@@ -1163,7 +1160,7 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($transaction->id, $collection->firstItem()->id);
     }
 
-    function test_advancedSearchGivesIterableResult()
+    public function test_advancedSearchGivesIterableResult()
     {
         $collection = Braintree_Transaction::search(array(
             Braintree_TransactionSearch::creditCardNumber()->startsWith("411111")
@@ -1171,11 +1168,10 @@ class Braintree_TransactionAdvancedSearchTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($collection->maximumCount() > 100);
 
         $arr = array();
-        foreach($collection as $transaction) {
+        foreach ($collection as $transaction) {
             array_push($arr, $transaction->id);
         }
         $unique_transaction_ids = array_unique(array_values($arr));
         $this->assertEquals($collection->maximumCount(), count($unique_transaction_ids));
     }
 }
-?>
