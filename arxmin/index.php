@@ -15,9 +15,11 @@ function map_logout()
 
 if ( c_user::granted($_POST['login'], $_POST['password']) ) {
 
+    global $aConfig;
+
     $app->user = $_SESSION[ ZE_USER ];
 
-    $app->title = '87Seconds Admin';
+    $app->title = $aConfig['project']['title'];
 
     $aFound = c_fm::findIn( DIR_APPS, array( 'pattern' => '/*/manifest.php' ) );
 

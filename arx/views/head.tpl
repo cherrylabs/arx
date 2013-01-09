@@ -29,13 +29,7 @@ if(!isset($this->_head))
 
 	$this->_head->meta = array('description' => array('test' => 'tamer'));
 	
-	$this->_head->link = array();
-	
-	$this->_head->css = array(LIBS_CSS.'style.css');
-	
-	$this->_head->js = array(LIBS_JS.'style.css');
-	
-	$this->_head->if = array();
+	$this->_head->css = array(LIBS_CSS.DS.'style.css');
 }
 
 // Defining title
@@ -61,41 +55,5 @@ if(isset($this->_head->link))
 	foreach($this->_head->link as $attributes)
 	{
 			echo '<link '.c_html::attributes($attributes).' />'."\n";	
-	}
-}
-
-if(isset($this->_head->css))
-{
-	foreach($this->_head->css as $key=>$css)
-	{
-		if(count($css) == 1)
-			echo c_html::style($css)."\n";
-		else
-			echo c_html::css($css[0], $css[1]);
-		
-	}
-}
-
-if(isset($this->_head->js))
-{
-	foreach($this->_head->meta as $key=>$meta)
-	{
-		if(!is_array($meta))
-			echo '<meta name="'.$key.'" content="'.$meta.'" />'."\n";
-		else
-			echo '<meta name="'.$key.'" '.c_html::attributes($meta).' />'."\n";
-		
-	}
-}
-
-if(isset($this->_head->if))
-{
-	foreach($this->_head->meta as $key=>$meta)
-	{
-		if(!is_array($meta))
-			echo '<meta name="'.$key.'" content="'.$meta.'" />'."\n";
-		else
-			echo '<meta name="'.$key.'" '.c_html::attributes($meta).' />'."\n";
-		
 	}
 }

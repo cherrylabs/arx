@@ -14,13 +14,13 @@
 // `requireaConfig` will be use in app, so maybe we have to put in into app interface
 
 require_once dirname(__FILE__). '/config.php';
-require_once DIR_ROOT . DS . 'aConfig.php';
 
 // Minimum requirements:
 require_once DIR_CLASSES . DS . 'utils.php';
 require_once DIR_CLASSES . DS . 'singleton.php';
 require_once DIR_CLASSES . DS . 'kohana.php';
 require_once DIR_CLASSES . DS . 'config.php';
+require_once DIR_CLASSES . DS . 'i18n.php';
 require_once DIR_CLASSES . DS . 'html.php';
 require_once DIR_CLASSES . DS . 'load.php';
 require_once DIR_CLASSES . DS . 'hook.php';
@@ -38,6 +38,9 @@ require_once DIR_CLASSES . DS . 'debug.php';
  */
 class Arx
 {
+    const _version = '1.0';
+    const _codename = 'Lupa';
+
     // --- Magic methods
 
     public function __construct($mConfig = array())
@@ -155,6 +158,36 @@ class Arx
     } // __set
 
     // --- Public methods
+
+    public static function needs(){
+
+        $aArgs = func_get_args();
+
+        $aRes = array();
+
+        $aErr = array();
+
+        foreach ($aArgs as $key => $value) {
+
+            //Check if a constant is defined (in UPPERCASE)
+            if ( strtoupper($value) == $value && defined($value) ) {
+                $aRes[] = constant($value);
+            } elseif( isset( $_GLOBALS['aConfig'][$value] ) ) {
+                $aRes[] = $_GLOBALS['aConfig'][$value];
+            } else {
+                $aErr[] = $value;
+            }
+        }
+
+        if( count($aErr) )
+        {
+            dd::warning( implode(',', $aErr) . _i(' needs to be defined in aConfig.php') );
+        }
+        else
+        {
+            return $aRes;
+        }
+    }
 
     public static function uses($mFiles)
     {

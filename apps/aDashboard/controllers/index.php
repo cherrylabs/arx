@@ -1,4 +1,7 @@
 <?php
 
-//Get Users
-$app->users = a_db::table($app->);
+class ctrl_index extends c_controller{
+
+	
+	
+}

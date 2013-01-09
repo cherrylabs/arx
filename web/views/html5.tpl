@@ -7,15 +7,15 @@
 <html lang="<?php echo ZE_LANG ?>" dir="ltr"><!--<![endif]-->
 <head>
 	<meta charset="UTF-8" />
-	<?php echo $this->fetch(dirname(__FILE__).'/head.tpl') ?>
+	<?php echo $this->fetch('head') ?>
 	<?php echo c_hook::output('css') ?>
 </head>
 <body <?php echo $this->_body->attr ?>>
-<?php echo $this->fetch(dirname(__FILE__).'/header.tpl') ?>
+<?php echo $this->fetch('header') ?>
 <div class="container<?= !($this->_mode['fluid']) ? '-fluid' : '-fluid'?>">
 	<?php echo $this->_body ?>
 </div>
-<?php echo $this->fetch(dirname(__FILE__).'/footer.tpl') ?>
+<?php echo $this->fetch('footer') ?>
 <?php echo c_hook::output('js') ?>
 </body>
 </html>

@@ -259,7 +259,7 @@ class i18n
 
 } // End I18n
 
-if ( ! function_exists('__')) {
+if ( ! function_exists('_i')) {
     /**
      * Kohana translation/internationalization function. The PHP function
      * [strtr](http://php.net/strtr) is used for replacing parameters.
@@ -274,7 +274,7 @@ if ( ! function_exists('__')) {
      * @param   string  source language
      * @return string
      */
-    public function __($string, array $values = NULL, $lang = ZE_LANG)
+    function _i($string, array $values = NULL, $lang = ZE_LANG)
     {
 
         if ($lang !== I18n::$lang) {

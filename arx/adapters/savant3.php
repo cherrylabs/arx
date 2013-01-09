@@ -32,16 +32,13 @@ class a_savant3 extends Savant3
 
         switch (true) {
             case (is_file($file = $tpl)):
-            case (is_file($file = DIR_VIEWS.DS.$tpl)):
-            case (is_file($file = DIR_VIEWS.DS.$tpl.EXT_TPL)):
-            case (is_file($file = DIR_FILE.VIEWS.DS.$tpl.EXT_TPL)):
-            case (is_file($file = ARX_VIEWS.DS.$tpl.EXT_TPL)):
+            case (is_file($file = VIEWS.DS.$tpl.TPL)):
+            case (is_file($file = ARX_VIEWS.DS.$tpl.TPL)):
                 //as we assign do nothing
-
             break;
 
             default:
-                c_debug::warning($_SERVER);
+               dd::warning("$tpl is not found");
             break;
         }
 

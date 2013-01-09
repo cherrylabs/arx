@@ -62,15 +62,22 @@ abstract class c_load
             }
         }
 
-        foreach ($sFiles as $sFp) {
-            $sFp = $root . $sFp;
+        if(is_array($sFiles))
+        {
+            foreach ($sFiles as $sFp) {
+                $sFp = $root . $sFp;
 
-            if (!file_exists($sFp) OR is_dir($sFp)) {
-                throw new Exception('The specified file ' . $sFp . ' cannot be found!');
-            } else {
-                require_once $sFp;
+                if (!file_exists($sFp) OR is_dir($sFp)) {
+                    throw new Exception('The specified file ' . $sFp . ' cannot be found!');
+                } else {
+                    require_once $sFp;
+                }
             }
+
+            return true;
         }
+
+        return false;
     } // loadPHP
 
     public static function PHP($sFiles = 'all' , $mContect = array())
@@ -123,11 +130,6 @@ abstract class c_load
 
         return $sJs;
     } // loadJS
-
-    public static function eLoadJS($sFiles = 'all' , $mContext = array())
-    {
-        return self::loadJS($sFiles, $mContext);
-    } // eLoadJS (alias of loadJS)
 
     public static function js($sFiles = 'all' , $mContext = array())
     {
@@ -191,16 +193,6 @@ abstract class c_load
     {
         return self::loadCSS($sFiles, $mContext);
     } // CSS (alias of loadCSS)
-
-    public static function eCSS($sFiles = 'all' , $mContext = array())
-    {
-        echo self::loadCSS($sFiles, $mContext);
-    } // eCSS (alias of loadCSS)
-
-    public static function eLoadCSS($sFiles = 'all' , $mContext = array())
-    {
-        echo self::loadCSS( $sFiles, $mContext );
-    } // eLoadCSS (alias of loadCSS)
 
     private $sJs, $root, $key, $add, $sCSS;
 } // class::c_load

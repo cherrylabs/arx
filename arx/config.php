@@ -14,17 +14,9 @@
  * @todo cleaning the config file
 */
 
-define('DIR_ROOT', dirname(dirname(__FILE__)) );
-
-/*if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
-  define("HTTP", "https://"); // DEFINE PROTOCOL
-  define('IS_HTTPS', true);
-} else {
-  define("HTTP", "http://");
-  define('IS_HTTPS', false);
-}*/
-
-//define("URL_ROOT", HTTP.$_SERVER['HTTP_HOST'].substr_replace(dirname($_SERVER['PHP_SELF']), '', -1)); // DEFINE WEBROOT PATH
+/*=====================================
+=            BEFORE aConfig            =
+=====================================*/
 
 if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
   define( 'IS_HTTPS', true);
@@ -37,14 +29,13 @@ define( 'URL_ROOT', HTTP.$_SERVER['HTTP_HOST'] . str_replace($_SERVER['DOCUMENT_
 define( 'DIR_FILE', str_replace('//', '/' , $_SERVER['DOCUMENT_ROOT'].$_SERVER['REQUEST_URI']) );
 define( 'URL_FILE', URL_ROOT.$_SERVER['REQUEST_URI'] );
 
-define( 'EXT_PHP' , '.php' );
-define( 'ZE_EXT', EXT_PHP);
+define( 'DS' , '/');
+
+define( 'PHP' , '.php' );
 define( 'TPL' , '.tpl');
 define( 'CTL' , '.php');
-define( 'EXT_TPL' , '.tpl'.ZE_EXT );
-define( 'EXT_CTL' , '.ctl'.ZE_EXT );
 
-define('DS', '/');
+define( 'EXT_PHP' , PHP );
 
 define('ZE_DEBUG', 'ZE_DEBUG');
 
@@ -64,6 +55,8 @@ define( 'ARX', 'arx');
 define( 'CLASSES', 'classes');
 define( 'ADAPTERS', 'adapters');
 define( 'HELPERS', 'helpers');
+
+define('DIR_ROOT', dirname(dirname(__FILE__)) );
 
 define( 'ROOT_ADMIN', DIR_ROOT . DS . ADMIN );
 define( 'DIR_APPS', DIR_ROOT . DS . APPS );
@@ -95,6 +88,23 @@ define( 'LIBS_CSS' , ARX_CSS );
 define( 'LIBS_JS' , ARX_JS );
 define( 'LIBS_INC' , ARX_LIBS . DS . INC);
 
-define( 'HOOK' , 'arx_hook');
+define( 'HOOK' , 'arx_hook'); //default arx hook name
 
-define( 'SYSPATH', DIR_CLASSES); //needed for Kohana
+define( 'SYSPATH', DIR_CLASSES ); //needed for Kohana
+
+
+/*-----  End of BEFORE aConfig  ------*/
+
+require_once dirname(dirname(__FILE__)) . '/aConfig.php';
+
+/*=====================================
+=            AFTER aConfig            =
+=====================================*/
+
+if(defined('WEB_ROOT'))
+{
+
+}
+
+
+/*-----  End of AFTER aConfig  ------*/
