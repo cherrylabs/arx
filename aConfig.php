@@ -91,7 +91,7 @@ $aConfig = array(
 
 # variables that change depending the staging (feel free to adapt to your need)
 
-if (preg_match( '/loc/' , $_SERVER['SERVER_NAME'])) {
+if (preg_match( '/localhost/' , $_SERVER['SERVER_NAME'])) {
 
     define('ZE_ENV' , 'local');
     define('LEVEL_ENV' , 0);

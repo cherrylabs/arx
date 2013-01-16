@@ -1,17 +1,7 @@
 <?php
 /**
- * ARX
- * PHP File - /arx/classes/utils.php
- * @description 	Utils functions
- * @package       	arx
- * @author 			Daniel Sum, Stéphan Zych
- * @comments		Please, order it alphabetically !
+ * Class arx utils
  */
-
-// @todo:
-// - separate utils into multiple files (string manipulation, math, array manipulation, etc.)
-// - start with `Utils` and make an alias `u`
-
 abstract class u
 {
 //[!a-Z] : // magic functions and function begin with symbols or numbers
@@ -21,7 +11,7 @@ abstract class u
         switch (true) {
             case is_file(DIR_CLASSES . 'utils' . DS . $name . EXT_PHP):
 
-                require_once DIR_CLASSES . 'utils' . DS . $name . EXT_PHP;
+                require_once(DIR_CLASSES . 'utils' . DS . $name . EXT_PHP);
 
                 try {
                     return call_user_func_array($name, $arg);
@@ -29,7 +19,7 @@ abstract class u
 
                 }
 
-            break;
+                break;
 
         }
     }
@@ -102,7 +92,7 @@ abstract class u
 
             } elseif (is_array($v)) {
                 if (isset($v[$c['key']])) {
-                    if(!isset($c['delete_old_key']))	$v[$c['old_key']] = $key;
+                    if(!isset($c['delete_old_key']))    $v[$c['old_key']] = $key;
 
                     $aNew[$v[$c['key']]] = $v;
                 }
@@ -234,8 +224,24 @@ abstract class u
 
     public static function benchIt()
     {
-        if(function_exists('xdebug_time_index'))	return xdebug_time_index();
-        else	return microtime();
+        if(function_exists('xdebug_time_index'))    return xdebug_time_index();
+        else    return microtime();
+    }
+
+    public static function build_query_get($aAdd = null, $aRemove = null)
+    {
+        $aGet = $_GET;
+
+        foreach ($aAdd as $key => $value) {
+            $aGet[$key] = $value;
+        }
+
+        foreach ($aRemove as $key) {
+            unset($aGet[$key]);
+        }
+
+        //predie($aGet);
+        return http_build_query($aGet);
     }
 
 //C :
@@ -247,9 +253,14 @@ abstract class u
         return (bool) preg_match('/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|("[^"]+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\d\-]+\.)+[a-zA-Z]{2,}))$/', $mail);
     }
 
-    public static function check_session()
+    public static function checkSession()
     {
         if(!isset($_SESSION)) session_start();
+    }
+
+    public static function check_session()
+    {
+        return self::checkSession();
     }
 
     public static function cleanParam($array, $mysql = false)
@@ -316,6 +327,11 @@ abstract class u
         return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, SALT, base64_decode($text), MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)));
     }
 
+    public static function epre($v)
+    {
+        return '<pre style="background: #fff;border: 1px solid grey;clear: both;color: black;display: block;margin: 5px;padding: 5px;position: relative;width: 50%;z-index: 9999;">'.print_r($v, true).'</pre>';
+    }
+
 //F :
 
 //G :
@@ -359,13 +375,6 @@ abstract class u
     }
 
     public static function get_json($file, $as_array = false)
-    {
-        if(!empty($file))
-
-            return json_decode(@file_get_contents(u::getURL($file)), $as_array);
-    }
-
-    public static function getJson($file, $as_array = false)
     {
         if(!empty($file))
 
@@ -434,6 +443,19 @@ abstract class u
     }
 
 //I :
+
+    //Check if the $needle is in the string haystack separated by a defined separator
+    public static function in_string($needle, $haystack, $sep = ',')
+    {
+        $array = explode($sep, $haystack);
+
+        if (in_array($needle, $array)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public static function is_json($str)
     {
        return json_decode($str) != null;
@@ -479,13 +501,26 @@ abstract class u
 
 //K :
 
-    public static function k()
+    public static function k($string = '')
     {
-        die("Die called @ ".$_SERVER['SCRIPT_NAME'] . xdebug_call_file() .
-            ":".
-            xdebug_call_line().
-            " from ".
-            xdebug_call_function());
+
+        $aErrors = debug_backtrace();
+
+        foreach ($aErrors as $key => $error) {
+            if ($error['function'] == 'k' && !empty($error['line']) && !empty($error['file'])) {
+                $line = $error['line'];
+                $file = $error['file'];
+            }
+        }
+
+        $start = ARX_STARTTIME;
+
+        $time = microtime(true);
+        $total_time = ($time - $start);
+
+        trigger_error("K called @ $file line $line loaded in ".$total_time. " seconds");
+        
+        exit;
     }
 
 //L :
@@ -569,19 +604,27 @@ abstract class u
     public static function parseInt($string)
     {
         if((bool) preg_match('/(\d+)/', $string, $array)) return $array[1];
-        else return false;
+        else  return false;
     }
 
-    public static function pre($v)
+    public static function pre()
     {
-        echo self::epre($v);
+        $aArgs = func_get_args();
 
-        echo self::epre($debug[1]);
+        foreach ($aArgs as $key => $value) {
+
+            echo self::epre($value);
+        }
     }
 
     public static function predie($v)
     {
-        self::pre($v);
+        $aArgs = func_get_args();
+
+        foreach ($aArgs as $key => $value) {
+
+            echo self::epre($value);
+        }
 
         die();
     }
@@ -609,7 +652,7 @@ abstract class u
     public static function randGen($numb = 10, $c = '')
     {
 
-        if(!is_array($c)) $c = json_decode($c, TRUE);
+        if(!is_array($c)) $c = json_decode($c, true);
 
         $chaine = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -626,7 +669,7 @@ abstract class u
     public static function randString($numb = 10, $c = '')
     {
 
-        if(!is_array($c)) $c = json_decode($c, TRUE);
+        if(!is_array($c)) $c = json_decode($c, true);
 
         $chaine = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
@@ -643,7 +686,7 @@ abstract class u
     public static function randNum($numb = 10, $c = '')
     {
 
-        if(!is_array($c)) $c = json_decode($c, TRUE);
+        if(!is_array($c)) $c = json_decode($c, true);
 
         $chaine = '0123456789';
 
@@ -660,7 +703,7 @@ abstract class u
     public static function randEmail($numb = 10, $c = '')
     {
 
-        if(!is_array($c)) $c = json_decode($c, TRUE);
+        if(!is_array($c)) $c = json_decode($c, true);
 
         $chaine = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
 
@@ -682,7 +725,7 @@ abstract class u
     public static function randArray($a, $c = '')
     {
 
-        if(!is_array($c)) $c = json_decode($c, TRUE);
+        if(!is_array($c)) $c = json_decode($c, true);
 
         if (!empty($c['num'])) {
             for
@@ -880,6 +923,11 @@ abstract class u
         return strtr($haystack, $aCleaned);
     }
 
+    /**
+     * Transform a strin to hexadecimal
+     * @param  string $string string to convert
+     * @return string hexadecimal string
+     */
     public static function str_to_hex($string)
     {
         $hex = '';
@@ -890,35 +938,67 @@ abstract class u
         return $hex;
     }
 
+    /**
+     * Suckplode : add a value to a string seperated by a separator
+     * @param  string $value
+     * @param  string $string to add
+     * @param  string $sep    $separator
+     * @param  bool   $unique define if the value should be unique
+     * @return string
+     */
+    public static function suckplode($value, $string, $sep = ',', $unique = true)
+    {
+
+        $array = explode($sep, $string);
+
+        if ($unique == true && in_array($value, $array)) {
+            return $string;
+        }
+
+        array_push($array, $value);
+
+        return implode($sep, array_filter($array));
+    }
+
 //T :
 
+    /**
+     * Transform a string to array using json, or lazy encode
+     * @param mix $s mix string
+     * @param array $c options
+     * @return array    array
+     */
     public static function toArray($s, $c = null)
     {
 
         $array = array();
 
-        if (!is_array($s)) {
+        if (is_string($s)) {
             switch (true) {
                 case(strpos($s, '{')):
                     $_type = 'json';
-                    $array = json_decode($s, TRUE);
-                break;
-                case(preg_match('/,/i',$s) && !preg_match('/=/i',$s)):
+                    $array = json_decode($s, true);
+                    break;
+                case(preg_match('/,/i', $s) && !preg_match('/=/i', $s)):
                     $_type = 'explode';
                     $array = explode(',', $s);
-                break;
-                case(preg_match('/,/i',$s)):
+                    break;
+                case(preg_match('/,/i', $s)):
                     $_type = 'lazy';
                     $array = self::lazy_decode($s);
                     predie($array);
-                break;
+                    break;
             }
 
+        } elseif (is_object($s)) {
+            return self::objectToArray($s);
         } else {
             $array = $s;
         }
 
-        if($c == 'DEBUG') predie($s);
+        if ($c == 'DEBUG') {
+            predie($s);
+        }
 
         switch (true) {
             case ($c == 'DEBUG'):
@@ -926,7 +1006,7 @@ abstract class u
                 predie(
                     array($s, $array, $_type)
                 );
-            break;
+                break;
         }
 
         return $array;
@@ -934,9 +1014,10 @@ abstract class u
     }
 
     /**
-     * ToSMS
-     * @param $str = string
-     * @return $str formated
+     * Transform a string to particular SMS text format
+     * 
+     * @param string $str string
+     * @return string      string formatted
      */
     public static function toSMS($str)
     {
@@ -961,34 +1042,29 @@ abstract class u
 
 /*----- Alias functions (shortcut) -----*/
 
-if (!function_exists('ecom')) {
-    function ecom($c='', $type = 'html')
-    {
-        u::ecom($c, $type);
-    }
+/**
+ * [pre description]
+ * @return [type] [description]
+ */
+function pre()
+{
+    call_user_func_array(array('u','pre'), func_get_args());
 }
 
-if (!function_exists('pre')) {
-    function pre($v)
-    {
-        u::pre($v);
-    }
+/**
+ * predie
+ * @return [type] [description]
+ */
+function predie()
+{
+    call_user_func_array(array('u','predie'), func_get_args());
 }
 
-if (!function_exists('predie')) {
-    function predie($v)
-    {
-        u::predie($v);
-    }
-}
-
-if (!function_exists('k')) {
-    function k()
-    {
-        die("Die called @ ".$_SERVER['SCRIPT_NAME'] . ' from ' . xdebug_call_file() .
-            ":".
-            xdebug_call_line().
-            " from call function :".
-            xdebug_call_function());
-    }
+/**
+ * [k description]
+ * @return [type] [description]
+ */
+function k()
+{
+    call_user_func_array(array('u','k'), func_get_args());
 }
