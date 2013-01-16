@@ -1,1 +1,1 @@
-<?php k();
+Footer

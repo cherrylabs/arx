@@ -14,14 +14,6 @@
  * @todo
  */
 
-global $cfg;
-
-arx::uses( $cfg['system']['orm'] );
-
-define(T_USERMETA, ZE_DBPREFIX.'usermeta');
-define(T_USERS, ZE_DBPREFIX.'users');
-define(T_USERSMETA, ZE_DBPREFIX.'usersmeta');
-
 class c_acl
 {
     public $perms = array();

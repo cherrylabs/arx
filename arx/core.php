@@ -235,7 +235,7 @@ class Arx
 function inject_once($mFiles = null)
 {
     if (empty($mFiles)) {
-        trigger_error('error');
+        dd::notice('empty file');
     }
 
     $sFilename = str_replace(
