@@ -26,6 +26,7 @@ $aConfig = array(
         'url' => 'http://www.arx.xxx',
         'authors' => array(
             "Daniel Sum" => 'daniel@cherrylabs.net',
+            "Stephan Zych" => 'stephan@cherrylabs.net',
         ),
     ),
 

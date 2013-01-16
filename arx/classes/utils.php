@@ -316,11 +316,6 @@ abstract class u
         return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, SALT, base64_decode($text), MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)));
     }
 
-    public static function epre($v)
-    {
-        return '<pre style="background: #fff;border: 1px solid grey;clear: both;color: black;display: block;margin: 5px;padding: 5px;position: relative;width: 50%;z-index: 9999;">'.print_r($v, TRUE).'</pre>';
-    }
-
 //F :
 
 //G :
@@ -977,13 +972,6 @@ if (!function_exists('pre')) {
     function pre($v)
     {
         u::pre($v);
-    }
-}
-
-if (!function_exists('epre')) {
-    function epre($v)
-    {
-        return u::epre($v);
     }
 }
 

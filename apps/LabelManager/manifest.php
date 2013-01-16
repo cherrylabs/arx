@@ -14,7 +14,7 @@ $manifest = new c_manifest();
 
 $manifest->version = "0.1";
 
-$manifest->title = "aLabelManager";
+$manifest->title = "LabelManager";
 
 $manifest->description = "Lorem ipsum sic doloret";
 

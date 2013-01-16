@@ -53,7 +53,7 @@ $app->route->map('/:app(/:controller)(/:action)(/:param1)(/:param2)(/:param3)(/:
 
     //CHECK if a class ctrl exist
     
-    $classController = 'ctrl_'.$app->_controller;
+    $classController = CTRL.$app->_controller;
 
     if (class_exists($classController)) {
         
