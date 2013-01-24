@@ -216,7 +216,7 @@ if (isset($_GET['insert'])) {
     }
 }
 
-if (ARX_VERSION < 1 || ARX_RETROCOMPATIBLE) {
+if (ARX::VERSION < 1 || ARX_RETROCOMPATIBLE) {
     c_debug::notice('these functions are deprecated');
 
     function lg($name = '' ,$mAction = 'r',$p = '',$i = '',$c = '')
@@ -230,7 +230,7 @@ if (ARX_VERSION < 1 || ARX_RETROCOMPATIBLE) {
         {
             parent::__construct($lang);
 
-            if (ARX_VERSION > 1) {
+            if (ARX::VERSION > 1) {
                 arx::notice("LG function is deprecated");
             }
 

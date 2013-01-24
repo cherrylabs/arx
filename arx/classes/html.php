@@ -6,23 +6,7 @@ require_once DIR_CLASSES.DS.'kohana/html.php';
 
 class c_HTML extends Kohana_HTML
 {
-    /**
-     * Ul : generate an ul from a mixed vars and can apply a template
-     * @param
-         -	$mVars = mixed vars array, json, lazy
-         -	$tpl = template pattern allow :xxx: shortcut
-     * @return string
-     * @example :
-         - c_html::ul(
-                  array(1 => array('title' => 'title list'), 2 => array('title' => 'title list'))
-                 ,'<ul class="menu"><li class="li-:$key: :$bool: :$position:"><h2>:title: :$key:</h2></li></ul>'
-             );
-             will return :
-             <ul class="menu">
-                 <li class="li-0 even first"><h2>title list 1</h2></li>
-                 <li class="li-0 even last"><h2>title list 2</h2></li>
-             </ul>
-     */
+
     public static function ul($mVars, $tpl)
     {
 
@@ -76,6 +60,7 @@ class c_HTML extends Kohana_HTML
     public static function getVars($mVars, $dynVars)
     {
         ob_start();
+        
         foreach ($mVars as	$v) {
 
             $v['$key'] = $key;
@@ -105,17 +90,11 @@ class c_HTML extends Kohana_HTML
         call_user_func_array('self::style', func_get_args());
     }
 
-    /**
-     * returning params from inputs <h2>:title:</h2>
-     *
-     * @param $
-     *
-     * @return
-     *
-     * @code
-     *
-     * @endcode
-     */
+
+    public static function getObject($str = string)
+    {
+        return str_get_html($str);
+    }
 
     public static function getParams($structure)
     {

@@ -10,7 +10,7 @@
 	<?php echo $this->fetch('head') ?>
 	<?php echo c_hook::output('css') ?>
 </head>
-<body <?php echo $this->_body->attr ?>>
+<body <?php if( isset($this->_body->attr) ) { echo $this->_body->attr; } ?>>
 <?php echo $this->fetch('header') ?>
 <div class="container<?= !($this->_mode['fluid']) ? '-fluid' : '-fluid'?>">
 	<?php echo $this->_body ?>

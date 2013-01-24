@@ -462,43 +462,44 @@ class c_fm
 
      public static function findIn($path, $c = null)
      {
-         if(!is_array($c)) $c = json_decode($c, TRUE);
+        $result = null;
+        if(!is_array($c)) $c = json_decode($c, TRUE);
 
-         $flags = GLOB_BRACE;
+        $flags = GLOB_BRACE;
 
-         $add = '*';
+        $add = '*';
 
-         $ext = '';
+        $ext = '';
 
-         if(!empty($c['pattern']))	$add = $c['pattern'];
+        if(!empty($c['pattern']))	$add = $c['pattern'];
 
-         if(!empty($c['dir']))	$path = $c['dir'] . '/';
+        if(!empty($c['dir']))	$path = $c['dir'] . '/';
 
-         if(!empty($c['type']))	$ext = '.'.$c['type'];
+        if(!empty($c['type']))	$ext = '.'.$c['type'];
 
-         $pattern = $add.$ext;
+        $pattern = $add.$ext;
 
-         $query = str_replace('//','/', $path.$pattern);
+        $query = str_replace('//','/', $path.$pattern);
 
-         $query = str_replace('//','/', $query);
+        $query = str_replace('//','/', $query);
 
-         if (!empty($c['recursive'])) {
-             foreach (glob($path.'*', GLOB_ONLYDIR) as $dir) {
-                 foreach (glob($dir.$pattern) as $file) {
-                     $result[]= ($file);
-                 }
+        if (!empty($c['recursive'])) {
+         foreach (glob($path.'*', GLOB_ONLYDIR) as $dir) {
+             foreach (glob($dir.$pattern) as $file) {
+                 $result[]= ($file);
              }
-         } else
-             $result = glob($query);
-
-         if (isset($c['debug'])) {
-             $d['context'] = $c;
-             $d['path'] = $query;
-             $d['result'] = $result;
-             pre($d);
          }
-         //pre($result);
-         return $result;
+        } else
+         $result = glob($query);
+
+        if (isset($c['debug'])) {
+         $d['context'] = $c;
+         $d['path'] = $query;
+         $d['result'] = $result;
+         pre($d);
+        }
+        //pre($result);
+        return $result;
    }
 
    public static function findrIn($path, $c = null)

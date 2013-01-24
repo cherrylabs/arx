@@ -12,7 +12,6 @@
 	<BASE href="<?= u::getURLPath() ?>">
 	
 	<?= c_load::css(array(ARX_CSS.DS.'bootstrap.css', ARX_CSS.DS.'bootstrap-responsive.css')) ?>
-	<link rel="stylesheet" href="css/style.css?v=1" />
 
 	<!--[if lt IE 9]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
@@ -26,7 +25,8 @@
 			<div class="accordion span6" id="example1">
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle" href="#collapseOne" data-parent="#example1" data-toggle="collapse">RSS Reader</a> <a class="config" href="#config" title="Configuration"><i class="icon-wrench"></i></a>
+						<a class="accordion-toggle" href="#collapseOne" data-toggle="collapse">RSS Reader</a> 
+						<a class="config" href="#config" title="Configuration"><i class="icon-wrench"></i></a>
 					</div>
 					<div class="accordion-body collapse in" id="collapseOne">
 						<div class="accordion-inner">
@@ -40,7 +40,7 @@
 								
 								//$app->display(COMMON_VIEWS.DS.'table-crud.tpl', array("data" => $aUsers));
 								
-								$feeds = c_Feed::parse('http://feeds.feedburner.com/colossal?xml');
+								$feeds = c_feed::parse('http://feeds.feedburner.com/colossal?xml', 4);
 								
 								foreach($feeds as $key=>$f)
 								{
@@ -90,7 +90,7 @@
 							</thead>
 							<tbody>
 							<?php
-								for($i = 0; $i < 20; $i++){
+								for($i = 0; $i < 10; $i++){
 								echo '<tr>
 									<td><i class="icon-file"></i> '.$i.'file or folder</td>
 									<td class="note">Las commit message</td>
@@ -109,19 +109,6 @@
 		</div><!--/#main -->
 	</div><!--/#container -->
      
-   <!-- <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	    <div class="modal-header">
-	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	    <h3 id="myModalLabel">Modal header</h3>
-	    </div>
-	    <div class="modal-body">
-	    <p>One fine body…</p>
-	    </div>
-	    <div class="modal-footer">
-	    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-	    <button class="btn btn-primary">Save changes</button>
-	    </div>
-    </div>-->
 	<?= $this->javascript ?>
 	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
 	<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>

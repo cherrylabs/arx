@@ -123,7 +123,7 @@ if (preg_match( '/localhost/' , $_SERVER['SERVER_NAME'])) {
     define('ZE_ENV' , 'demo');
     define('LEVEL_ENV' , 2);
 
-    ini_set('display_errors', 1);
+    ini_set('display_errors', 0);
     ini_set('log_errors', 1);
 
     $aConfig['facebook']['app_id'] = '206342166168916';
@@ -167,5 +167,7 @@ define('ZE_DBHOST', $aConfig['db_host']);
 define('ZE_DBCHARSET', $aConfig['db_charset']);
 define('ZE_DBTYPE', $aConfig['db_type']);
 define('ZE_DBPREFIX', $aConfig['db_prefix']);
+
+define('ARX_RETROCOMPATIBLE', true);
 
 /*-----  End of CONSTANT CONFIG  ------*/

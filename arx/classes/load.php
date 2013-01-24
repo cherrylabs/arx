@@ -14,8 +14,10 @@
 require_once DIR_CLASSES . DS . 'filemanager.php';
 require_once DIR_CLASSES . DS . 'utils.php';
 
-abstract class c_load
+class c_load
 {
+    private $sJs, $root, $key, $add, $sCSS;
+
     public static function loadAll()
     {
         echo self::loadCSS();
@@ -147,6 +149,8 @@ abstract class c_load
      */
     public static function loadCSS($sFiles = 'all' , $mContext = array())
     {
+        $sCSS = null;
+
         $mContext = u::toArray($mContext);
 
         if ($sFiles == 'all') {
@@ -176,6 +180,11 @@ abstract class c_load
             $sFp = u::getUrlFile($sFp);
 
             if (!in_array(str_replace(CSS.DS,'',$sFp), $mContext['exclude'])) {
+
+                if ( !isset($mContext['add']) ) {
+                    $mContext['add'] = '';
+                }
+
                 if (strpos($sFp, '.print.')) {
                     $sCSS .= '<link rel="stylesheet" media="print" href="'. $sFp .'" type="text/css" '. (!empty($mContext['add'][$key]) ? $mContext['add'][$key] : $mContext['add']) .' />  '."\r\n";
                 } elseif (strpos($sFp, '.css')) {
@@ -187,6 +196,7 @@ abstract class c_load
         }
 
         return $sCSS;
+
     } // loadCSS
 
     public static function CSS($sFiles = 'all' , $mContext = array())
@@ -194,7 +204,5 @@ abstract class c_load
         return self::loadCSS($sFiles, $mContext);
     } // CSS (alias of loadCSS)
 
-    private $sJs, $root, $key, $add, $sCSS;
+    
 } // class::c_load
-
-class c_loader extends c_load {} // alias
