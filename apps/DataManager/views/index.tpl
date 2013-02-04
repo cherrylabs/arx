@@ -6,54 +6,164 @@
 <!--[if (gte IE 9)|!(IE)]><!-->
 <html lang="<?= ZE_LANG ?>" dir="ltr"><!--<![endif]-->
 <head>
-	<meta charset="UTF-8" />
-	<?= $this->_head ?>
-	<?= $this->_css ?>
-<?= c_hook::output('css') ?>
+    <meta charset="UTF-8" />
+
+    <link rel="stylesheet" href="/admin/css/style.css?v=1" />
+    <link rel="stylesheet" href="<?= ARX_CSS ?>/jquery.ui.css?v=1" />
+    <link rel="stylesheet" href="css/style.css?v=1" />
 </head>
-<body <?= $this->_body->attr ?>>
-	
-	<div class="container-fluid">
-	<ul class="nav nav-tabs" id="myTab">
-		<?php
-			foreach($this->aMenu as $key=>$v){
-					
-			}
-		?>
-	</ul>
-	 
-	<div class="tab-content">
-		<div class="tab-pane active" id="iframe">
+<body class="application">
+    
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <ul class="breadcrumb">
+                <li class="first"><i class="icon-sitemap"></i></li>
+                <li><a href="#">Home</a> <span class="divider">/</span></li>
+                <li><a href="#">Library</a> <span class="divider">/</span></li>
+                <li class="active">Data</li>
+            </ul>
+        </div>
 
-		</div>
-		<div class="tab-pane" id="add">
+        <div class="row-fluid">
+            <div id="sidebar">
+                <ul class="nav sortable">
+                    <li>
+                        <div class="accordion" id="id-parent">
+                            <div class="accordion-group">
+                                <div class="accordion-heading">
+                                    <a href="#id" class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#id-parent" data-tooltipmenu="#folder1" rel="tooltipmenu"><i class="icon-folder-close-alt"></i><i class="icon-folder-open-alt"></i> Features</a>
 
-		</div>
-		<div class="tab-pane" id="settings">
-		<?php
-		
-		?>
-		</div>
-	</div>
-	
-		<?php
-			
-		?>
-		
-		<?= $this->_body ?>
-	</div>
-<?= c_hook::output('js') ?>
-<script type="text/javascript">
-$(function () {
+                                    <ul id="folder1">
+                                        <li>
+                                            <a href="#move"><i class="icon-move"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#edit"><i class="icon-pencil"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="#delete"><i class="icon-trash"></i></a>
+                                        </li>
+                                    </ul>
 
-	$('#myTab a').click(function (e) {
-		e.preventDefault();
-		$(this).tab('show');
-	})
+                                    <div class="ui">
+                                        <i class="icon-caret-down"></i>
+                                    </div>
+                                </div>
+                                <div class="accordion-body collapse in" id="id">
+                                    <div class="accordion-inner">
+                                        <ul class="nav connectedSortable">
+                                            <li>
+                                                <a href="#file2" rel="tooltipmenu"><i class="icon-file-alt"></i> Users</a>
 
-	$('#myTab a:first').tab('show');
-	
-})
-</script>
+                                                <ul id="file2">
+                                                    <li>
+                                                        <a href="#move"><i class="icon-move"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#edit"><i class="icon-pencil"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#delete"><i class="icon-trash"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="#file3" rel="tooltipmenu"><i class="icon-file-alt"></i> Messages</a>
+
+                                                <ul id="file3">
+                                                    <li>
+                                                        <a href="#move"><i class="icon-move"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#edit"><i class="icon-pencil"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#delete"><i class="icon-trash"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#file1" rel="tooltipmenu"><i class="icon-file-alt"></i> Contact</a>
+                        <ul class="ui" id="file1">
+                            <li>
+                                <a href="#move"><i class="icon-move"></i></a>
+                            </li>
+                            <li>
+                                <a href="#edit"><i class="icon-pencil"></i></a>
+                            </li>
+                            <li>
+                                <a href="#delete"><i class="icon-trash"></i></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="application">
+                test
+            </div>
+        </div>
+
+     
+    <div class="tab-content">
+        <div class="tab-pane active" id="iframe">
+
+        </div>
+        <div class="tab-pane" id="add">
+
+        </div>
+        <div class="tab-pane" id="settings">
+        <?php
+        
+        ?>
+        </div>
+    </div>
+    
+        <?php
+            
+        ?>
+        
+        <?= $this->_body ?>
+    </div>
+
+    <script src="/admin/js/lib/jquery.min.js"></script>
+    <script src="/admin/js/lib/bootstrap.min.js"></script>
+    <script src="/admin/js/lib/bootstrap-tooltipmenu.min.js"></script>
+    <script src="<?= ARX_JS ?>/jquery-ui.js"></script>
+    <script type="text/javascript">
+    (function ($) {
+        'use strict';
+
+
+        $(function () {
+            $('[rel="tooltip"]').tooltip();
+            $('.collapse').collapse();
+            $('[rel="tooltipmenu"]').tooltipmenu();
+
+            $('.sortable').sortable({
+                items: 'li',
+                connectWith: '.connectedSortable',
+                placeholder: 'ui-state-highlight'
+            })
+            .disableSelection()
+            // .droppable({
+            //     accept: '.connectedSortable li',
+            //     hoverClass: 'ui-state-hover',
+            //     // drop: function (e, ui) {console.log(this);
+            //     //     var $item = $(this);
+            //     // }
+            // });
+
+            
+        });
+
+    } (jQuery));
+    </script>
 </body>
 </html>

@@ -1,0 +1,7 @@
+.clearfix{*zoom:1;}.clearfix:before,.clearfix:after{display:table;content:"";line-height:0;}
+.clearfix:after{clear:both;}
+.ui-state-highlight{display:block;min-height:28px;opacity:0.6;filter:alpha(opacity=60);}
+#sidebar .accordion .accordion-group .accordion-heading .accordion-toggle.collapsed i.icon-folder-close-alt{display:inline-block;}
+#sidebar .accordion .accordion-group .accordion-heading .accordion-toggle.collapsed i.icon-folder-open-alt{display:none;}
+#sidebar .accordion .accordion-group .accordion-heading .accordion-toggle i.icon-folder-close-alt{display:none;}
+#sidebar .accordion .accordion-group .accordion-heading .accordion-toggle i.icon-folder-open-alt{display:inline-block;}

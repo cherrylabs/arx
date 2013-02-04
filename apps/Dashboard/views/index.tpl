@@ -112,11 +112,9 @@
 	<?= $this->javascript ?>
 	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
 	<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
-	<script src="js/bootstrap.min.js"></script>
+	<script src="<?= ARX_JS.DS ?>bootstrap.min.js"></script>
 	
-	<?= c_load::js(ARX_JS.DS.'bootstrap-modal.js') ?>
-	
-	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="<?= ARX_JS.DS ?>jquery.datatable.js"></script>
 
 	<script type="text/javascript">
 		var oTable;

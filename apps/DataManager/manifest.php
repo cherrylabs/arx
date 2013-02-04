@@ -18,7 +18,7 @@ $manifest->title = "Content Manager";
 
 $manifest->description = "Lorem ipsum sic doloret";
 
-$manifest->icon = "icon-home";
+$manifest->icon = "icon-sitemap";
 
 $manifest->submenu[] = array("url" => "panels/users.php", "icon" => "icon-user");
 
