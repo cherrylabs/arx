@@ -24,6 +24,19 @@ global $app;
 
 $app = new arx();
 
+// autoload all php files in the web_root/models folder
+c_load::php(WEB_ROOT.DS.MODELS);
+
+// hook is usefull to hook any data in a GLOBALS (in your view page simply call c_hook::output('xxx') )
+c_hook::add('css', array(
+    ARX_CSS.'/bootstrap.css',
+    WEB_ROOT.'/libs/css/style.css'
+));
+
+c_hook::add('js', array(
+    ARX_JS.'/bootstrap.js'
+));
+
 // init the default root
 c_load::php(WEB_ROOT.DS.'index.php');
 
