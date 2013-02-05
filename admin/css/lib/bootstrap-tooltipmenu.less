@@ -1,0 +1,30 @@
+/**
+ * bootstrap-tooltipmenu.less v0.1
+ */
+
+@tooltipmenuColor: #000;
+
+.tooltipmenu {
+    .tooltip-inner {
+        background-color: @tooltipmenuColor;
+        .clearfix;
+        font-size: 12px !important;
+        padding: 0 5px;
+
+        a {
+            display: inline-block;
+            float: left;
+            font-size: 12px !important;
+            min-height: 15px;
+            width: 15px;
+        }
+    }
+
+    &.right {
+        margin-left: -6px;
+
+        .tooltip-arrow {
+            border-right-color: @tooltipmenuColor;
+        }
+    }
+}
