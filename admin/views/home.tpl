@@ -164,6 +164,28 @@
 	<script src="js/lib/bootstrap.min.js"></script>
 	<script src="js/lib/bootstrap-tooltipmenu.min.js"></script>
 	<script src="js/script.min.js"></script>
+	<script type="text/javascript">
+	(function ($) {
+		'use strict';
+
+		$(function () {
+			$('#sidebar .nav a:not(.accordion-toggle)')
+			.on('click', function (e) {
+				e.preventDefault();
+
+				var src = this.href;
+
+				$('#iframe-app').animate({opacity: 0.2}, 300, function () {
+					$(this)[0].src = src;
+				})
+				.off('load')
+				.on('load', function () {
+					$('#iframe-app').animate({opacity: 1}, 200);
+				});
+			});
+		});
+	} (jQuery));
+	</script>
 	
 </body>
 </html>
