@@ -210,6 +210,10 @@ a {
     }
 
     .nav {
+        height: 100%;
+        margin: 0;
+        min-height: 24px;
+
         li {
             line-height: 30px;
             position: relative;
@@ -249,6 +253,29 @@ a {
                     color: white;
                 }
             }
+
+
+            &.add {
+                display: none;
+                height: 20px;
+                line-height: 20px;
+                text-align: center;
+
+                a {
+                    background: @grayDarker;
+                    border: 1px solid @grayDark;
+                    color: @grayDark;
+                    display: block;
+                    padding: 5px;
+                    .transition(border-color ease-out 300ms);
+
+                    &:hover {
+                        border-color: @clientMiddle;
+                        color: @clientMiddle;
+                    }
+                }
+            }
+            
         }
     }
 
@@ -331,6 +358,15 @@ a {
             &.toggle {
                 background-color: black;
                 display: block;
+            }
+        }
+
+
+        .nav {
+            li {
+                &.add {
+                    display: block;
+                }
             }
         }
     }

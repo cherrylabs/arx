@@ -1096,11 +1096,12 @@ a:hover{-webkit-transition:color ease-out 300ms;-moz-transition:color ease-out 3
 #sidebar a.toggle{background:#222222 url(../img/blackorchid.png) repeat 0 0;display:none;height:30px;line-height:30px;position:absolute;right:-30px;text-align:center;top:0;width:30px;}#sidebar a.toggle i{color:#999999;}#sidebar a.toggle i.icon-arrow-right{display:none;}
 #sidebar a.toggle:hover{text-decoration:none;}#sidebar a.toggle:hover i{color:white;}
 #sidebar a:hover{color:white;}
-#sidebar .nav li{line-height:30px;position:relative;}#sidebar .nav li>a{color:#999999;padding:0 5px;}#sidebar .nav li>a:hover{background-color:black;color:#de1050;}
+#sidebar .nav{height:100%;margin:0;min-height:24px;}#sidebar .nav li{line-height:30px;position:relative;}#sidebar .nav li>a{color:#999999;padding:0 5px;}#sidebar .nav li>a:hover{background-color:black;color:#de1050;}
 #sidebar .nav li>a:active,#sidebar .nav li>a.active{color:white;}#sidebar .nav li>a:active:hover,#sidebar .nav li>a.active:hover{color:white;}
 #sidebar .nav li:hover>a{color:#de1050;}
 #sidebar .nav li:hover>.ui{display:block;}
 #sidebar .nav li:active,#sidebar .nav li.active{background-color:#59001d;}#sidebar .nav li:active>a,#sidebar .nav li.active>a{color:white;}
+#sidebar .nav li.add{display:none;height:20px;line-height:20px;text-align:center;}#sidebar .nav li.add a{background:#222222;border:1px solid #333333;color:#333333;display:block;padding:5px;-webkit-transition:border-color ease-out 300ms;-moz-transition:border-color ease-out 300ms;-o-transition:border-color ease-out 300ms;transition:border-color ease-out 300ms;}#sidebar .nav li.add a:hover{border-color:#b4053e;color:#b4053e;}
 #sidebar .accordion{margin:0;}#sidebar .accordion .accordion-group{border:0;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;margin:0;}#sidebar .accordion .accordion-group .accordion-heading .accordion-toggle{border-bottom:1px solid #8c002d;color:white;padding:0 5px;}#sidebar .accordion .accordion-group .accordion-heading .accordion-toggle:hover{background:black;color:white;text-decoration:none;}
 #sidebar .accordion .accordion-group .accordion-heading .accordion-toggle.collapsed{border:0;color:#999999;}#sidebar .accordion .accordion-group .accordion-heading .accordion-toggle.collapsed:hover{color:#de1050;}
 #sidebar .accordion .accordion-group .accordion-heading .ui{color:#999999;display:block;}
@@ -1108,6 +1109,7 @@ a:hover{-webkit-transition:color ease-out 300ms;-moz-transition:color ease-out 3
 #sidebar .accordion .accordion-group .accordion-body{background:#222222;}#sidebar .accordion .accordion-group .accordion-body .accordion-inner{border:0;padding:0;}#sidebar .accordion .accordion-group .accordion-body .accordion-inner .nav{margin:0;}#sidebar .accordion .accordion-group .accordion-body .accordion-inner .nav li{line-height:26px;}#sidebar .accordion .accordion-group .accordion-body .accordion-inner .nav li a{font-size:0.9em;}#sidebar .accordion .accordion-group .accordion-body .accordion-inner .nav li a [class^="icon-"],#sidebar .accordion .accordion-group .accordion-body .accordion-inner .nav li a [class*=" icon-"]{font-size:0.9em;}
 #sidebar .accordion .accordion-group .accordion-body.in{overflow:visible;}
 #sidebar:hover a.toggle{background-color:black;display:block;}
+#sidebar:hover .nav li.add{display:block;}
 #sidebar.closed{left:-210px;}#sidebar.closed a.toggle{display:block;opacity:0;filter:alpha(opacity=0);-webkit-transition:opacity ease-out 200ms;-moz-transition:opacity ease-out 200ms;-o-transition:opacity ease-out 200ms;transition:opacity ease-out 200ms;}#sidebar.closed a.toggle i.icon-arrow-left{display:none;}
 #sidebar.closed a.toggle i.icon-arrow-right{display:inline-block;}
 #sidebar.closed a.toggle:hover{opacity:1;filter:alpha(opacity=100);}

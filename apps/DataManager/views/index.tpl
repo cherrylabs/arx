@@ -102,6 +102,9 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="add">
+                        <a href="#add"><i class="icon-plus"></i></a>
+                    </li>
                 </ul>
             </div>
 
@@ -136,34 +139,6 @@
     <script src="/admin/js/lib/bootstrap.min.js"></script>
     <script src="/admin/js/lib/bootstrap-tooltipmenu.min.js"></script>
     <script src="<?= ARX_JS ?>/jquery-ui.js"></script>
-    <script type="text/javascript">
-    (function ($) {
-        'use strict';
-
-
-        $(function () {
-            $('[rel="tooltip"]').tooltip();
-            $('.collapse').collapse();
-            $('[rel="tooltipmenu"]').tooltipmenu();
-
-            $('.sortable').sortable({
-                items: 'li',
-                connectWith: '.connectedSortable',
-                placeholder: 'ui-state-highlight'
-            })
-            .disableSelection()
-            // .droppable({
-            //     accept: '.connectedSortable li',
-            //     hoverClass: 'ui-state-hover',
-            //     // drop: function (e, ui) {console.log(this);
-            //     //     var $item = $(this);
-            //     // }
-            // });
-
-            
-        });
-
-    } (jQuery));
-    </script>
+    <script src="js/script.min.js"></script>
 </body>
 </html>

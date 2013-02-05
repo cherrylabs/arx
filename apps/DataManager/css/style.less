@@ -1,3 +1,7 @@
+/**
+ * LESS File - DataManager v0.1
+ */
+
 // Clearfix
 // --------
 // For clearing floats like a boss h5bp.com/q
@@ -51,7 +55,7 @@
 
 .ui-state-highlight {
     display: block;
-    min-height: 28px;
+    min-height: 26px !important;
     .opacity(60);
 }
 
@@ -74,39 +78,44 @@
 }
 
 #sidebar {
-    .accordion {
-        .accordion-group {
-            .accordion-heading {
-                .accordion-toggle {
-                    &.collapsed {
-                        i {
-                            &.icon-folder-close-alt {
-                                display: inline-block;
+
+    .nav {
+        li {
+            .accordion {
+                .accordion-group {
+                    .accordion-heading {
+                        .accordion-toggle {
+                            &.collapsed {
+                                i {
+                                    &.icon-folder-close-alt {
+                                        display: inline-block;
+                                    }
+                                    &.icon-folder-open-alt {
+                                        display: none;
+                                    }
+                                }
                             }
-                            &.icon-folder-open-alt {
-                                display: none;
+
+                            i {
+                                &.icon-folder-close-alt {
+                                    display: none;
+                                }
+                                &.icon-folder-open-alt {
+                                    display: inline-block;
+                                }
                             }
                         }
                     }
 
-                    i {
-                        &.icon-folder-close-alt {
-                            display: none;
+                    .accordion-body {
+                        .accordion-inner {
+
                         }
-                        &.icon-folder-open-alt {
-                            display: inline-block;
+
+                        &.in {
+                            .accordion-inner {}
                         }
                     }
-                }
-            }
-
-            .accordion-body {
-                .accordion-inner {
-
-                }
-
-                &.in {
-                    .accordion-inner {}
                 }
             }
         }
