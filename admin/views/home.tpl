@@ -169,19 +169,30 @@
 		'use strict';
 
 		$(function () {
-			$('#sidebar .nav a:not(.accordion-toggle)')
+			$('#sidebar .nav a')
 			.on('click', function (e) {
 				e.preventDefault();
 
 				var src = this.href;
 
-				$('#iframe-app').animate({opacity: 0.2}, 300, function () {
-					$(this)[0].src = src;
-				})
-				.off('load')
-				.on('load', function () {
-					$('#iframe-app').animate({opacity: 1}, 200);
-				});
+				$('#sidebar .nav a').removeClass('active');
+
+				if (!$(this).is('.accordion-toggle')) {
+					$('.accordion-body').each(function () {
+						$(this).collapse('hide');
+						$('[href="#' + $(this).attr('id') + '"]').addClass('collapsed');
+					});
+
+					$(this).addClass('active');
+
+					$('#iframe-app').animate({opacity: 0.2}, 300, function () {
+						$(this)[0].src = src;
+					})
+					.off('load')
+					.on('load', function () {
+						$('#iframe-app').animate({opacity: 1}, 200);
+					});
+				}
 			});
 		});
 	} (jQuery));

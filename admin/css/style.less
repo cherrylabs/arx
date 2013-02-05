@@ -162,8 +162,6 @@ a {
     z-index: 98;
 
     a {
-        color: white;
-
         &.toggle {
             background: @bodyBackground url(../img/blackorchid.png) repeat 0 0;
             display: none;
@@ -191,6 +189,10 @@ a {
                 }
             }
         }
+
+        &:hover {
+            color: white;
+        }
     }
 
     .nav {
@@ -204,11 +206,15 @@ a {
 
                 &:hover {
                     background-color: black;
-                    color: white;
+                    color: @clientLight;
                 }
 
                 &:active, &.active {
-                    color: @clientDark;
+                    color: white;
+
+                    &:hover {
+                        color: white;
+                    }
                 }
             }
 
@@ -221,7 +227,7 @@ a {
 
             &:hover {
                 > a {
-                    color: white;
+                    color: @clientLight;
                 }
 
                 > .ui {
@@ -253,15 +259,19 @@ a {
                     color: white;
                     padding: 0 5px;
 
-                    &.collapsed {
-                        border: 0;
-                        color: @grayLight;
-                    }
-
                     &:hover {
                         background: black;
                         color: white;
                         text-decoration: none;
+                    }
+
+                    &.collapsed {
+                        border: 0;
+                        color: @grayLight;
+
+                        &:hover {
+                            color: @clientLight;
+                        }
                     }
                 }
 
