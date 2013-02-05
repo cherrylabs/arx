@@ -2,7 +2,6 @@
 
 require_once dirname(__FILE__).'/core.php';
 
-class m_nodes
+class aDataManager
 {
-	
 }

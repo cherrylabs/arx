@@ -45,7 +45,7 @@ define( 'CSS', 'css');
 define( 'JS', 'js');
 define( 'IMG', 'img');
 define( 'INC', 'inc');
-define( 'LIBS', 'libs');
+define( 'LIBS', 'assets');
 define( 'APPS', 'apps');
 define( 'ADMIN', 'arxmin');
 define( 'MODELS', 'models');

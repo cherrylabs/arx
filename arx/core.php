@@ -16,6 +16,8 @@
 // - Arx -> clean accessors
 // `requireaConfig` will be use in app, so maybe we have to put in into app interface
 
+namespace Arx;
+
 require_once dirname( __FILE__ ). '/config.php';
 
 // Minimum requirements:
@@ -311,8 +313,8 @@ function arx_autoload( $className ) {
 } // arx_autoload
 
 //if class is not found => call this function
-spl_autoload_register( 'arx_autoload' );
+spl_autoload_register( 'Arx\arx_autoload' );
 
 // Application Hook looks for every additionnal scripts to load in apps (by default load all appFiles
 // in DIR_APPS . APPS /inc/xxx.load.php, /css/xxx.load.css, /js/xxx.load.php)
-c_hook::preload();
+Arx\c_hook::preload();
