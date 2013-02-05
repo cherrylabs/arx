@@ -19,7 +19,7 @@
 	<link rel="shortcut icon" href="img/favicon.ico" />
 	<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
 	
-	<link rel="stylesheet" href="css/style.css?v=1" />
+	<link rel="stylesheet" href="<?= ARX_CSS ?>/arxmin.css?v=1" />
 	<!--[if lte IE 8]><link rel="stylesheet" href="css/style-ie.css" /><![endif]-->
 	
 	<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->

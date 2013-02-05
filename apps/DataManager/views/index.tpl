@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8" />
 
-    <link rel="stylesheet" href="/admin/css/style.css?v=1" />
+    <link rel="stylesheet" href="<?= ARX_CSS ?>/arxmin.css?v=1" />
     <link rel="stylesheet" href="<?= ARX_CSS ?>/jquery.ui.css?v=1" />
     <link rel="stylesheet" href="css/style.css?v=1" />
 </head>

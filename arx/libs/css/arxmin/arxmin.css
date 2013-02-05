@@ -1028,7 +1028,3 @@ a:hover{-webkit-transition:color ease-out 300ms;-moz-transition:color ease-out 3
 .application{background-color:#555555;}
 .application #sidebar{top:30px;}
 .application #application{top:30px;}
-.tooltipmenu .tooltip-inner{background-color:#000000;*zoom:1;font-size:12px !important;padding:0 5px;}.tooltipmenu .tooltip-inner:before,.tooltipmenu .tooltip-inner:after{display:table;content:"";line-height:0;}
-.tooltipmenu .tooltip-inner:after{clear:both;}
-.tooltipmenu .tooltip-inner a{color:#e6e6e6;display:inline-block;float:left;font-size:12px !important;min-height:15px;width:15px;}.tooltipmenu .tooltip-inner a:hover{color:#ffffff;text-decoration:none;}
-.tooltipmenu.right{margin-left:-6px;}.tooltipmenu.right .tooltip-arrow{border-right-color:#000000;}
