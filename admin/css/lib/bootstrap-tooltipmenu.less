@@ -2,21 +2,28 @@
  * bootstrap-tooltipmenu.less v0.1
  */
 
-@tooltipmenuColor: #000;
+@tooltipmenuBackground: #000;
+@tooltipmenuColor: #fff;
 
 .tooltipmenu {
     .tooltip-inner {
-        background-color: @tooltipmenuColor;
+        background-color: @tooltipmenuBackground;
         .clearfix;
         font-size: 12px !important;
         padding: 0 5px;
 
         a {
+            color: darken(@tooltipmenuColor, 10%);
             display: inline-block;
             float: left;
             font-size: 12px !important;
             min-height: 15px;
             width: 15px;
+
+            &:hover {
+                color: @tooltipmenuColor;
+                text-decoration: none;
+            }
         }
     }
 
@@ -24,7 +31,7 @@
         margin-left: -6px;
 
         .tooltip-arrow {
-            border-right-color: @tooltipmenuColor;
+            border-right-color: @tooltipmenuBackground;
         }
     }
 }

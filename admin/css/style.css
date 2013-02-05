@@ -1076,7 +1076,7 @@ ul.icons{list-style-type:none;text-indent:-0.75em;}ul.icons li [class^="icon-"],
 .icon-folder-open-alt:before{content:"\f115";}
 .tooltipmenu .tooltip-inner{background-color:#8c002d;*zoom:1;font-size:12px !important;padding:0 5px;}.tooltipmenu .tooltip-inner:before,.tooltipmenu .tooltip-inner:after{display:table;content:"";line-height:0;}
 .tooltipmenu .tooltip-inner:after{clear:both;}
-.tooltipmenu .tooltip-inner a{display:inline-block;float:left;font-size:12px !important;min-height:15px;width:15px;}
+.tooltipmenu .tooltip-inner a{color:#e6e6e6;display:inline-block;float:left;font-size:12px !important;min-height:15px;width:15px;}.tooltipmenu .tooltip-inner a:hover{color:#ffffff;text-decoration:none;}
 .tooltipmenu.right{margin-left:-6px;}.tooltipmenu.right .tooltip-arrow{border-right-color:#8c002d;}
 .container-fluid{padding:0;}
 .breadcrumb{background-color:#333333;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;margin-bottom:0;padding:5px 6px;}.breadcrumb li{text-shadow:none;}.breadcrumb li.first i{margin-right:5px;}
@@ -1092,12 +1092,12 @@ a:hover{-webkit-transition:color ease-out 300ms;-moz-transition:color ease-out 3
 #menu .navbar-inner .nav li a:hover{color:white;}
 #menu .navbar-inner .nav li:active,#menu .navbar-inner .nav li.active{background:transparent;}#menu .navbar-inner .nav li:active a,#menu .navbar-inner .nav li.active a{background:transparent;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;color:white;}
 #sidebar,#application{bottom:0;position:fixed;top:41px;}
-#sidebar{left:0;-webkit-transition:left ease-in 300ms;-moz-transition:left ease-in 300ms;-o-transition:left ease-in 300ms;transition:left ease-in 300ms;width:210px;z-index:98;}#sidebar a.toggle{background:#222222 url(../img/blackorchid.png) repeat 0 0;display:none;height:30px;line-height:30px;position:absolute;right:-30px;text-align:center;top:0;width:30px;}#sidebar a.toggle i{color:#999999;}#sidebar a.toggle i.icon-arrow-right{display:none;}
+#sidebar{left:0;-webkit-transition:left ease-in 300ms;-moz-transition:left ease-in 300ms;-o-transition:left ease-in 300ms;transition:left ease-in 300ms;width:210px;z-index:98;}#sidebar .ui{display:none;position:absolute;right:5px;top:0;}#sidebar .ui a{color:#999999;}
+#sidebar a.toggle{background:#222222 url(../img/blackorchid.png) repeat 0 0;display:none;height:30px;line-height:30px;position:absolute;right:-30px;text-align:center;top:0;width:30px;}#sidebar a.toggle i{color:#999999;}#sidebar a.toggle i.icon-arrow-right{display:none;}
 #sidebar a.toggle:hover{text-decoration:none;}#sidebar a.toggle:hover i{color:white;}
 #sidebar a:hover{color:white;}
 #sidebar .nav li{line-height:30px;position:relative;}#sidebar .nav li>a{color:#999999;padding:0 5px;}#sidebar .nav li>a:hover{background-color:black;color:#de1050;}
 #sidebar .nav li>a:active,#sidebar .nav li>a.active{color:white;}#sidebar .nav li>a:active:hover,#sidebar .nav li>a.active:hover{color:white;}
-#sidebar .nav li .ui{display:none;position:absolute;right:5px;top:0;}
 #sidebar .nav li:hover>a{color:#de1050;}
 #sidebar .nav li:hover>.ui{display:block;}
 #sidebar .nav li:active,#sidebar .nav li.active{background-color:#59001d;}#sidebar .nav li:active>a,#sidebar .nav li.active>a{color:white;}

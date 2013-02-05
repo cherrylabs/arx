@@ -11,9 +11,12 @@
 @bodyBackground:                @grayDarker;//#272727;
 @textColor:                     #f2f2f2;
 @linkColor:                     @clientLight;
+
 @navbarBackground:              @clientDark;
 @navbarBackgroundHighlight:     @clientMiddle;
-@tooltipmenuColor:              @clientDark;
+
+@tooltipmenuBackground:         @clientDark;
+@tooltipmenuColor:              #fff;
 
 @gridColumns:                   7;
 
@@ -161,6 +164,17 @@ a {
     width: 210px;
     z-index: 98;
 
+    .ui {
+        display: none;
+        position: absolute;
+        right: 5px;
+        top: 0;
+
+        a {
+            color: @grayLight;
+        }
+    }
+
     a {
         &.toggle {
             background: @bodyBackground url(../img/blackorchid.png) repeat 0 0;
@@ -216,13 +230,6 @@ a {
                         color: white;
                     }
                 }
-            }
-
-            .ui {
-                display: none;
-                position: absolute;
-                right: 5px;
-                top: 0;
             }
 
             &:hover {
