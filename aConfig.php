@@ -40,7 +40,7 @@ $aConfig = array(
 
     // Database
     'db_type' => 'sqlite', // mysql | sqlite
-    'db_name' => DIR_ROOT . '/libs/arx.sqlite', // database_name | database_filepath
+    'db_name' => DIR_ROOT . '/assets/arx.sqlite', // database_name | database_filepath
     'db_user' => '',
     'db_pass' => '',
     'db_host' => '',

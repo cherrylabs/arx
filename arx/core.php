@@ -159,6 +159,52 @@ class Arx {
         }
     } // __set
 
+    function inject_once( $mFiles = null ) {
+        if ( empty( $mFiles ) ) {
+            dd::notice( 'empty file' );
+        }
+
+        $sFilename = str_replace(
+            array( 'kohana_', 'classes_', 'c_', 'adapters_', 'a_', 'ctrl_', 'm_' )
+            , array( CLASSES.DS.'kohana'.DS, CLASSES.DS, CLASSES.DS, ADAPTERS.DS, ADAPTERS.DS, CTRL.DS, MODELS.DS.'m_' )
+            , $mFiles
+        ).EXT_PHP;
+
+        switch ( true ) {
+            //This function
+        case ( is_file( $sFilename ) ):
+            include_once $sFilename;
+            break;
+
+        case ( is_file( DIR_ROOT . DS . $sFilename ) ):
+            include_once DIR_ROOT . DS . $sFilename;
+            break;
+
+        case ( is_file( DIR_ARX . DS . $sFilename ) ):
+            include_once DIR_ARX . DS . $sFilename;
+            break;
+
+        default:
+            include_once $mFiles;
+        }
+    } // inject_once
+
+    function injects_once( $mArray ) {
+        try {
+            $aFiles = u::toArray( $mArray );
+
+            if ( is_array( $aFiles ) ) {
+                foreach ( $aFiles as $file ) {
+                    self::inject_once( $file );
+                }
+            } else {
+                self::inject_once( $mArray );
+            }
+        } catch ( Exception $e ) {
+            die( $e );
+        }
+    } // injects_once
+
     // --- Public methods
 
     public static function needs() {
@@ -190,7 +236,7 @@ class Arx {
     }
 
     public static function uses( $mFiles ) {
-        injects_once( $mFiles );
+        self::injects_once( $mFiles );
     } // uses
 
     /**
@@ -224,58 +270,6 @@ class Arx {
     private $_oInstance;
 
 } // class::arx
-
-/**
- * Arx injector => will add the script orderly in the same path, then in the root, then in the ARX directory
- *
- * @author Daniel Sum
- * @version 0.1
- */
-function inject_once( $mFiles = null ) {
-    if ( empty( $mFiles ) ) {
-        dd::notice( 'empty file' );
-    }
-
-    $sFilename = str_replace(
-        array( 'kohana_', 'classes_', 'c_', 'adapters_', 'a_', 'ctrl_', 'm_' )
-        , array( CLASSES.DS.'kohana'.DS, CLASSES.DS, CLASSES.DS, ADAPTERS.DS, ADAPTERS.DS, CTRL.DS, MODELS.DS.'m_' )
-        , $mFiles
-    ).EXT_PHP;
-
-    switch ( true ) {
-        //This function
-    case ( is_file( $sFilename ) ):
-        include_once $sFilename;
-        break;
-
-    case ( is_file( DIR_ROOT . DS . $sFilename ) ):
-        include_once DIR_ROOT . DS . $sFilename;
-        break;
-
-    case ( is_file( DIR_ARX . DS . $sFilename ) ):
-        include_once DIR_ARX . DS . $sFilename;
-        break;
-
-    default:
-        include_once $mFiles;
-    }
-} // inject_once
-
-function injects_once( $mArray ) {
-    try {
-        $aFiles = u::toArray( $mArray );
-
-        if ( is_array( $aFiles ) ) {
-            foreach ( $aFiles as $file ) {
-                inject_once( $file );
-            }
-        } else {
-            inject_once( $mArray );
-        }
-    } catch ( Exception $e ) {
-        die( $e );
-    }
-} // injects_once
 
 /*----- AUTOLOAD REGISTER -----*/
 
