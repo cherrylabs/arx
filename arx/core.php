@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * ARX
  * PHP File - /arx/core.php
@@ -18,7 +17,7 @@
 
 require_once dirname( __FILE__ ). '/config.php';
 
-// Minimum requirements:
+// Minimum classes requirements:
 require_once DIR_CLASSES . DS . 'utils.php';
 require_once DIR_CLASSES . DS . 'singleton.php';
 require_once DIR_CLASSES . DS . 'kohana.php';
@@ -277,31 +276,35 @@ function arx_autoload( $className ) {
     $className = strtolower( $className );
 
     $path = dirname( __FILE__ ) . DS . str_replace(
-        array( 'kohana_', 'classes_', 'c_', 'adapters_', 'a_', 'ctrl_' )
-        , array( CLASSES.DS.'kohana'.DS, CLASSES.DS, CLASSES.DS, ADAPTERS.DS, ADAPTERS.DS, CTRL.DS, CTRL.DS )
+        array( 'kohana_', 'classes_', 'c_', 'adapters_', 'a_', 'ctrl_', 'helpers_', 'h_' )
+        , array( CLASSES.DS.'kohana'.DS, CLASSES.DS, CLASSES.DS, ADAPTERS.DS, ADAPTERS.DS, CTRL.DS, HELPERS.DS, HELPERS.DS)
         , strtolower( $className ) ) . EXT_PHP;
 
     switch ( true ) {
-    case is_file( $path ):
-        include_once $path;
-        break;
+        case is_file( $path ):
+            include_once $path;
+            break;
 
-    case is_file( DIR_CTRL . DS. $className . EXT_PHP ):
-        include_once DIR_CTRL . DS. $className . EXT_PHP;
-        break;
+        case is_file( DIR_CTRL . DS. $className . EXT_PHP ):
+            include_once DIR_CTRL . DS. $className . EXT_PHP;
+            break;
 
-    case is_file( DIR_ADAPTERS . DS. $className . EXT_PHP ):
-        include_once DIR_ADAPTERS . DS. $className . EXT_PHP;
-        break;
+        case is_file( DIR_ADAPTERS . DS. $className . EXT_PHP ):
+            include_once DIR_ADAPTERS . DS. $className . EXT_PHP;
+            break;
 
-    case is_file( DIR_CLASSES . DS. $className . EXT_PHP ):
-        include_once DIR_CLASSES . DS. $className . EXT_PHP;
-        break;
+        case is_file( DIR_CLASSES . DS. $className . EXT_PHP ):
+            include_once DIR_CLASSES . DS. $className . EXT_PHP;
+            break;
 
-    case is_file( DIR_CLASSES . DS. 'kohana' .DS. strtolower( $className ). EXT_PHP ):
-        include_once DIR_CLASSES . DS. $className . EXT_PHP;
-        break;
+        case is_file( DIR_CLASSES . DS. 'kohana' .DS. strtolower( $className ). EXT_PHP ):
+            include_once DIR_CLASSES . DS. $className . EXT_PHP;
+            break;
+        case is_file( DIR_HELPERS . DS. $className . EXT_PHP ):
+            include_once DIR_HELPERS . DS. $className . EXT_PHP;
+            break;
     }
+
 } // arx_autoload
 
 //if class is not found => call this function

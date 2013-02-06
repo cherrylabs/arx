@@ -1,16 +1,14 @@
 <?php
 /**
- * ARX
- * PHP File - /arx/classes/load.php
- * @description 	Loader system
- * @var 			VAR, CSS, CORE, CACHE
- * @alias 			c_loader
- * @dependency 		/classes/utils.php, /classes/filemanager.php
- * @version 		0.1
- * @package       	arx
- * @author 			Daniel Sum
+ * c_load class
+ *
+ * @author Daniel Sum <daniel@cherrylabs.net>
+ * @link http://www.cherrylabs.net
+ * @copyright Copyright &copy; 2010-2012 cherrylabs.net
+ * @license http://www.cherrylabs.net/licence
+ * @package arx
+ * @since 1.0
  */
-
 require_once DIR_CLASSES . DS . 'filemanager.php';
 require_once DIR_CLASSES . DS . 'utils.php';
 
@@ -137,11 +135,6 @@ class c_load
     {
         return self::loadJS($sFiles, $mContext);
     } // js (alias of loadJS)
-
-    public static function jsDir($root = DIR_JS)
-    {
-        return self::loadJS('all', array('dir' => $root));
-    } // jsDir (alias of loadJS)
 
     /**
      * Load CSS scripts

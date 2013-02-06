@@ -32,8 +32,17 @@ define( 'URL_FILE', URL_ROOT.$_SERVER['REQUEST_URI'] );
 define( 'DS' , '/');
 
 define( 'PHP' , '.php' );
+define( 'CTL' , '.php' );
 define( 'TPL' , '.tpl');
-define( 'CTL' , '.php');
+
+// Prefix
+define( 'CTRL_' , 'ctrl_');
+define( 'M_' , 'm_');
+define( 'C_' , 'c_');
+define( 'A_' , 'a_');
+define( 'I_' , 'i_');
+define( 'H_' , 'h_');
+
 
 define( 'EXT_PHP' , PHP );
 
@@ -79,7 +88,7 @@ define( 'ARX_CLASSES' , DIR_ARX . DS . CLASSES);
 define( 'ARX_ADAPTERS' , DIR_ARX . DS . ADAPTERS);
 define( 'ARX_VIEWS' , DIR_ARX . DS . VIEWS);
 define( 'ARX_LIBS' , DIR_ARX . DS . LIBS);
-define( 'ARX_HELPERS' , ARX_VIEWS . DS . HELPERS);
+define( 'ARX_HELPERS' , DIR_ARX . DS . HELPERS);
 define( 'ARX_CSS' , URL_ROOT . DS. ARX . DS . LIBS . DS . CSS );
 define( 'ARX_JS' , URL_ROOT . DS. ARX . DS . LIBS . DS . JS);
 define( 'ARX_INC' , ARX_LIBS . DS . INC);

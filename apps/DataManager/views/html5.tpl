@@ -7,9 +7,8 @@
 <html lang="<?= ZE_LANG ?>" dir="ltr"><!--<![endif]-->
 <head>
     <meta charset="UTF-8" />
-    <base href="<?= APP_URL ?>/" />
-    <link rel="stylesheet" href="/admin/css/style.css?v=1" />
 
+    <link rel="stylesheet" href="/admin/css/style.css?v=1" />
     <link rel="stylesheet" href="<?= ARX_CSS ?>/jquery.ui.css?v=1" />
     <link rel="stylesheet" href="css/style.css?v=1" />
 </head>
@@ -19,8 +18,8 @@
         <div class="row-fluid">
             <ul class="breadcrumb">
                 <li class="first"><i class="icon-sitemap"></i></li>
-                <li><a href="#">Home</a> <span class="divider">></span></li>
-                <li><a href="#">Library</a> <span class="divider">></span></li>
+                <li><a href="#">Home</a> <span class="divider">/</span></li>
+                <li><a href="#">Library</a> <span class="divider">/</span></li>
                 <li class="active">Data</li>
             </ul>
         </div>
@@ -103,14 +102,11 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="add">
-                        <a href="#add"><i class="icon-plus"></i></a>
-                    </li>
                 </ul>
             </div>
 
             <div id="application">
-                <?= $this->page ?>
+                test
             </div>
         </div>
 
@@ -133,13 +129,41 @@
             
         ?>
         
-        
+        <?= $this->_body ?>
     </div>
 
     <script src="/admin/js/lib/jquery.min.js"></script>
     <script src="/admin/js/lib/bootstrap.min.js"></script>
     <script src="/admin/js/lib/bootstrap-tooltipmenu.min.js"></script>
     <script src="<?= ARX_JS ?>/jquery-ui.js"></script>
-    <script src="js/script.min.js"></script>
+    <script type="text/javascript">
+    (function ($) {
+        'use strict';
+
+
+        $(function () {
+            $('[rel="tooltip"]').tooltip();
+            $('.collapse').collapse();
+            $('[rel="tooltipmenu"]').tooltipmenu();
+
+            $('.sortable').sortable({
+                items: 'li',
+                connectWith: '.connectedSortable',
+                placeholder: 'ui-state-highlight'
+            })
+            .disableSelection()
+            // .droppable({
+            //     accept: '.connectedSortable li',
+            //     hoverClass: 'ui-state-hover',
+            //     // drop: function (e, ui) {console.log(this);
+            //     //     var $item = $(this);
+            //     // }
+            // });
+
+            
+        });
+
+    } (jQuery));
+    </script>
 </body>
 </html>

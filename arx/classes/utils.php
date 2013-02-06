@@ -2,9 +2,11 @@
 /**
  * Class arx utils
  */
+
+if(!defined('ARX_STARTTIME')){ define('ARX_STARTTIME', microtime(true)); }
+
 abstract class u
 {
-//[!a-Z] : // magic functions and function begin with symbols or numbers
 
     public function __call($name, $arguments)
     {
@@ -24,7 +26,7 @@ abstract class u
         }
     }
 
-//A :
+#A :
 
     public static function alias($aliasName, $callback)
     {
@@ -213,7 +215,7 @@ abstract class u
         else return $d;
     }
 
-//B :
+#B :
     public static function bbcode_to_html($s)
     {
         $b = array('[br]', '[h1]', '[/h1]', '[b]', '[/b]', '[strong]', '[/strong]', '[i]', '[/i]', '[em]', '[/em]', '&apos;', '&lt;', '&gt;', '&quot;');
@@ -244,7 +246,7 @@ abstract class u
         return http_build_query($aGet);
     }
 
-//C :
+#C :
 
     public static function check_email($mail)
     {
@@ -299,7 +301,7 @@ abstract class u
         return $return;
     }
 
-//D :
+#D :
     public static function diffMicrotime($mt_old, $mt_new)
     {
         list($old_usec, $old_sec) = explode(' ', $mt_old);
@@ -310,7 +312,7 @@ abstract class u
         return $new_mt - $old_mt;
     }
 
-//E :
+#E :
 
     public static function ecom($c='', $type = 'html')
     {
@@ -332,9 +334,9 @@ abstract class u
         return '<pre style="background: #fff;border: 1px solid grey;clear: both;color: black;display: block;margin: 5px;padding: 5px;position: relative;width: 50%;z-index: 9999;">'.print_r($v, true).'</pre>';
     }
 
-//F :
+#F :
 
-//G :
+#G :
 
     public static function genChar($size, $char = 'abcdefghijklmnopqrstuvxzkwyABCDEFGHIJKLMNOPQRSTUVXZKWY0123456789_')
     {
@@ -376,9 +378,11 @@ abstract class u
 
     public static function get_json($file, $as_array = false)
     {
-        if(!empty($file))
-
+        if(!empty($file)) {
             return json_decode(@file_get_contents(u::getURL($file)), $as_array);
+        }
+
+        return false;
     }
 
     public static function get_contents($file)
@@ -407,16 +411,28 @@ abstract class u
         return $_SERVER['HTTP_HOST'].str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
     }
 
+    /**
+     * Try to get the http url
+     * @param  [type] $file [description]
+     * @return [type]       [description]
+     */
     public static function getURL($file = null)
     {
 
-        if (is_file($file)) {
-            return str_replace(array(DIR_ROOT, DS), array(URL_ROOT, "/"), $file);
-        } elseif(is_dir($file))
+        if(!preg_match('/http/i', $file))
+        {
+            if (is_file($file)) {
+                return str_replace(array(DIR_ROOT, DS), array(URL_ROOT, "/"), $file);
+            } elseif(is_dir($file))
+            {
+                return str_replace(array(DIR_ROOT, DS), array(URL_ROOT, "/"), $file);
+            }
 
-            return str_replace(array(DIR_ROOT, DS), array(URL_ROOT, "/"), $file);
 
-        return str_replace(DS, "/", $_SERVER['HTTP_HOST'].str_replace('index.php', '', $_SERVER['SCRIPT_NAME']));
+            return str_replace(DS, "/", $_SERVER['HTTP_HOST'].str_replace('index.php', '', $_SERVER['SCRIPT_NAME']));
+        }
+
+        return $file;
     }
 
     public static function getBrowserLanguage()
@@ -424,7 +440,7 @@ abstract class u
         return substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
     }
 
-//H :
+#H :
     public static function hexToStr($hex)
     {
         $string = '';
@@ -442,7 +458,7 @@ abstract class u
         header($aHeader[$type]);
     }
 
-//I :
+#I :
 
     //Check if the $needle is in the string haystack separated by a defined separator
     public static function in_string($needle, $haystack, $sep = ',')
@@ -485,7 +501,7 @@ abstract class u
         }
     }
 
-//J :
+#J :
     public static function json_encode_string($s)
     {
         $a = json_encode(array($s));
@@ -499,7 +515,7 @@ abstract class u
         die(json_encode($array, true));
     }
 
-//K :
+#K :
 
     public static function k($string = '')
     {
@@ -523,7 +539,7 @@ abstract class u
         exit;
     }
 
-//L :
+#L :
 
     /**
      * Lazy parser
@@ -567,13 +583,13 @@ abstract class u
         return $array;
     }
 
-//M :
+#M :
 
     public static function multiexplode($l = array(), $s = '')
     {
         $tr[0] = explode($l[0], $s);
         $msg = array();
-        //TO DO : a more recursive function_exists
+        #TO DO : a more recursive function_exists
         foreach
         ($tr[0] as $key=>$t) {
             $r = explode($l[1], $t);
@@ -584,9 +600,9 @@ abstract class u
         return $msg;
     }
 
-//N :
+#N :
 
-//O :
+#O :
 
     public static function objectToArray($d)
     {
@@ -599,7 +615,7 @@ abstract class u
         else return $d;
     } // objectToArray
 
-//P :
+#P :
 
     public static function parseInt($string)
     {
@@ -625,8 +641,22 @@ abstract class u
 
             echo self::epre($value);
         }
+        
+        $aErrors = debug_backtrace();
 
-        die();
+        foreach ($aErrors as $key => $error) {
+            if ($error['function'] == 'predie' && !empty($error['line']) && !empty($error['file'])) {
+                $line = $error['line'];
+                $file = $error['file'];
+            }
+        }
+
+        $start = ARX_STARTTIME;
+
+        $time = microtime(true);
+        $total_time = ($time - $start);
+
+        die("Predie called @ $file line $line loaded in ".$total_time. " seconds");
     }
 
     /**
@@ -645,9 +675,9 @@ abstract class u
         return @file_put_contents($dest, json_encode($value));
     }
 
-//Q :
+#Q :
 
-//R :
+#R :
 
     public static function randGen($numb = 10, $c = '')
     {
@@ -842,7 +872,7 @@ abstract class u
         return $thumb_image_name;
     }
 
-//S :
+#S :
 
     /**
      * SendEmail
@@ -960,7 +990,7 @@ abstract class u
         return implode($sep, array_filter($array));
     }
 
-//T :
+#T :
 
     /**
      * Transform a string to array using json, or lazy encode
@@ -1026,17 +1056,17 @@ abstract class u
         return $str;
     }
 
-//U :
+#U :
 
-//V :
+#V :
 
-//W :
+#W :
 
-//X :
+#X :
 
-//Y :
+#Y :
 
-//Z :
+#Z :
 
 }
 

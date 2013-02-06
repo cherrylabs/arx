@@ -1,7 +1,7 @@
-set_exception_handler('App::exception'); // bootstrap
+<?php
 
 class c_route {
-  protected $_server = [];
+  protected $_server = array();
 
   public function __construct() {
     // skipped mocking here
@@ -24,8 +24,7 @@ class c_route {
     if ($this->_server['REQUEST_METHOD']!=$method) return;
 
     // convert URL parameter (e.g. ":id", "*") to regular expression
-    $regex = preg_replace('#:([\w]+)#', '(?<\\1>[^/]+)',
-      str_replace(['*', ')'], ['[^/]+', ')?'], $pattern));
+    $regex = preg_replace("#:([\w]+)#', '(?<\\1>[^/]+)", str_replace(['*', ')'], ['[^/]+', ')?'], $pattern));
     if (substr($pattern,-1)==='/') $regex .= '?';
 
     // extract parameter values from URL if route matches the current request
@@ -92,14 +91,3 @@ class c_route {
     return '';
   }
 }
-
-class AppJson extends App {
-  protected function _exec(&$callback, &$args) {
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(call_user_func_array($callback, $args));
-    throw new Halt(); // Exception instead of exit;
-  }
-}
-
-// use Halt-Exception instead of exit;
-class Halt extends Exception {}

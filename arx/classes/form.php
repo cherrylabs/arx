@@ -22,13 +22,16 @@ class c_form
     public function __construct($action = NULL, $attributes = NULL)
     {
         return $this->_form = Form::open($action, $attributes);
-
     }
 
     public function __call($name, $args)
     {
 
+        if($args[1] === true){
+            $this->_form .= $this->label($args[0], $args[0]);
+        }
         $this->_form .= call_user_func_array('Form::'.$name, $args);
+
     }
 
     public function __get($name)
@@ -43,9 +46,17 @@ class c_form
 
     }
 
+    public function add($str){
+        $this->_form .= $str;
+    }
+
+    public function br($br = '<br />'){
+        return $this->add($br);
+    }
+
     public static function open($action = null, $attributes = null)
     {
-            return Form::open($action, $attributes);
+        return Form::open($action, $attributes);
     }
 
     public static function close()
@@ -58,6 +69,8 @@ class c_form
             return Form::close();
         }
     }
+
+
 
     public function output($type = null)
     {

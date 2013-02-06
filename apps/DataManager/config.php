@@ -1,9 +1,14 @@
 <?php
 
-/*----- CONFIG -----*/
+c_load::php('models/m_data.php');
+c_load::php('models/m_datatree.php');
 
-define('T_DATA_TREE', 't_data_tree');
+arx::uses('a_idiorm');
+
+/*----- CONFIG -----*/
 
 define('T_DATA', 't_data');
 
-define('T_DATA_TYPE', 't_data_type');
+define('T_DATATREE', 't_datatree');
+
+define('T_DATATYPE', 't_datatype');

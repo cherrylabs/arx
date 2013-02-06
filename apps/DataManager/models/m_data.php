@@ -1,7 +1,26 @@
 <?php
 
-require_once dirname(__FILE__).'/core.php';
+namespace DataManager{
 
-class aDataManager
+class m_data
 {
+
+	public function test(){
+		predie(self::table());
+	}
+
+	public function get($id){
+		predie(self::table());
+	}
+
+	public function create($data, $opts){
+		
+	}
+
+	public function table(){
+		return \a_db::table(T_DATA);
+	}
+}
+
+	
 }
