@@ -1,6 +1,6 @@
 <?php
 
-$form = new c_form(APP_URL.'/save/data', array('class' => 'form-horizontal'));
+$form = new c_form(APP_URL.'/action/data', array('class' => 'form-horizontal'));
 
 // $form->label('name', 'Name');
 
