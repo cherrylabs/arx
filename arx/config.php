@@ -63,6 +63,7 @@ define( 'CTRL', 'controllers');
 define( 'ARX', 'arx');
 define( 'CLASSES', 'classes');
 define( 'ADAPTERS', 'adapters');
+define( 'VENDOR', 'vendor');
 define( 'HELPERS', 'helpers');
 
 define('DIR_ROOT', dirname(dirname(__FILE__)) );
@@ -83,6 +84,7 @@ define( 'DIR_ARX', DIR_ROOT . DS . ARX );
 define( 'DIR_CLASSES', DIR_ARX . DS . CLASSES);
 define( 'DIR_ADAPTERS', DIR_ARX . DS . ADAPTERS);
 define( 'DIR_HELPERS', DIR_ARX . DS . HELPERS);
+define( 'DIR_VENDOR', DIR_ROOT . DS . VENDOR);
 
 define( 'ARX_CLASSES' , DIR_ARX . DS . CLASSES);
 define( 'ARX_ADAPTERS' , DIR_ARX . DS . ADAPTERS);

@@ -16,7 +16,7 @@ require_once(dirname(__FILE__) . '/arx/core.php');
 arx::needs('WEB_ROOT');
 
 //Here is an example of autoloading some class and adapters c_xxx and a_xxx refers to arx/classes/xxx.php and arx/adapters/xxx.php
-arx::uses('c_form,a_vimeo');
+arx::uses('c_form');
 
 // get an arx instance
 

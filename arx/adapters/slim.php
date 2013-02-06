@@ -7,45 +7,8 @@
      * @comments :
 */
 
-require_once DIR_ADAPTERS. DS. 'Slim'.DS.'Slim'.EXT_PHP;
-
-class a_slim extends Slim
+class a_slim extends \Slim\Slim
 {
-     /***** SETTINGS *****/
-
-    /**
-     * Get default application settings
-     * @return array
-     */
-    public static function getDefaultSettings()
-    {
-        return array(
-            //Mode
-            'mode' => 'development',
-            //Debugging
-            'debug' => true,
-            //Logging
-            'log.writer' => null,
-            'log.level' => 4,
-            'log.enabled' => true,
-            //View
-            'templates.path' => './templates',
-            'view' => 'Slim_View',
-            //Cookies
-            'cookies.lifetime' => '20 minutes',
-            'cookies.path' => '/',
-            'cookies.domain' => null,
-            'cookies.secure' => false,
-            'cookies.httponly' => false,
-            //Encryption
-            'cookies.secret_key' => 'CHANGE_ME',
-            'cookies.cipher' => MCRYPT_RIJNDAEL_256,
-            'cookies.cipher_mode' => MCRYPT_MODE_CBC,
-            //HTTP
-            'http.version' => '1.1'
-        );
-    }
-
     /**
      * Error Handler
      *

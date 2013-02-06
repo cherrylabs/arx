@@ -27,13 +27,6 @@ if ( c_user::granted($_POST['login'], $_POST['password']) ) {
 
     $aMenu = array();
 
-    $menuTemplate = '<li class="{class}">
-                                        <a href="index.php?path={path}" title="{title}">
-                                            <span class="name">{name}</span>
-                                            <span class="image">{image}</span>
-                                        </a>
-                                    </li>';
-
     foreach ($aFound as $key => $oApp) {
 
         $path = u::getUrlPath($oApp);
@@ -52,13 +45,14 @@ if ( c_user::granted($_POST['login'], $_POST['password']) ) {
         if( empty( $r->icon ) )
             $r->icon = 'icon-cog';
 
-        $aMenu[] = u::strtr($menuTemplate, array(
+        $aMenu[] = array(
             'class' => (($path === $_GET['path']) ? 'active' : ''),
             'path' => str_replace(DIR_URL, '', $path),
             'title' => $r->description,
             'name' => $r->title,
-            'image' => '<i class="'. $r->icon .'"></i>'
-        ));
+            'image' => '<i class="'. $r->icon .'"></i>',
+            'submenu' => $r->submenu
+        );
 
         $aApps[ $key ] = array( 'title' => $r-title, 'description' => $r->description, 'path' => $path) ;
     }
@@ -76,7 +70,7 @@ if ( c_user::granted($_POST['login'], $_POST['password']) ) {
         break;
     }
 
-    $app->display( VIEWS.DS. 'arxmin.tpl', array('sidemenu' => $aMenu, 'apps' => $aApps));
+    $app->display( VIEWS.DS. 'home.tpl', array('sidemenu' => $aMenu, 'apps' => $aApps));
 
 } else {
     $app->display( VIEWS.DS. 'login.tpl' );

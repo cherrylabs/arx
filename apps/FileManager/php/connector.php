@@ -33,22 +33,8 @@ $opts = array(
     'roots' => array(
         array(
             'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
-            'path'          => DIR_ROOT.DS,         // path to files (REQUIRED)
-            'URL'           => URL_ROOT, // URL to files (REQUIRED)
-            'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
-
-        ),
-        array(
-            'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
-            'path'          => DIR_ROOT.DS.'img',         // path to files (REQUIRED)
-            'URL'           => URL_ROOT.'/img', // URL to files (REQUIRED)
-            'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
-
-        ),
-        array(
-            'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
-            'path'          => DIR_ROOT.DS.'libs',         // path to files (REQUIRED)
-            'URL'           => URL_ROOT.'/libs', // URL to files (REQUIRED)
+            'path'          => DIR_ROOT.DS.ASSETS,         // path to files (REQUIRED)
+            'URL'           => URL_ROOT.ASSETS, // URL to files (REQUIRED)
             'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
 
         )

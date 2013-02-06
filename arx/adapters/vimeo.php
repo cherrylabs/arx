@@ -11,7 +11,7 @@
  * @endcode
  */
 
-require_once DIR_ADAPTERS. DS. 'vimeo'.DS.'vimeo'.EXT_PHP;
+require_once DIR_VENDOR. DS. 'vimeo'.DS.'vimeo'.EXT_PHP;
 
 class a_vimeo extends phpVimeo
 {

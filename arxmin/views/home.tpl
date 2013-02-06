@@ -9,132 +9,194 @@
 	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" /><![endif]-->
 	<!--[if lt IE 7]><meta http-equiv="imagetoolbar" content="false" /><![endif]-->
 	
-	<title>ARX / Administration</title>
-
-	<!--BASE href="<?= u::getURLPath() ?>"-->
-	<link rel="stylesheet" href="css/reset.css" />
-	<link rel="stylesheet" href="css/bootstrap.min.css?v=1" />
-	<link rel="stylesheet" href="css/powa.css?v=1" />
-	<!--link rel="stylesheet" href="css/jquery.scroll.css?v=1" /-->
+	<title></title>
 	
-	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<meta name="author" content="Stéphan Zych" />
+	<meta name="Copyright" content="" />
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	
+	<link rel="shortcut icon" href="img/favicon.ico" />
+	<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+	
+	<link rel="stylesheet" href="<?= ARX_CSS ?>/arxmin.css?v=1" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="css/style-ie.css" /><![endif]-->
+	
+	<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body>
+	
+	<div class="container-fluid">
 
-	<div class="container">
-		
-		
-		<section class="arx-sidebar">
-			<header>
-				<h1><a class="arx-logo" href="#"><?= $this->title ?><small><em></em></small></a></h1>
-				<nav>
-					<a class="arx-back" href="#back"><i class="ico-white ico-chevron-left"></i></a>
-				</nav>
-			</header>
-			
-			<div class="arx-list">
-				<ul class="arx-sortable">
-				<?php
-					foreach($this->sidemenu as $key=>$m)
-					{
-						echo $m;
+		<div class="navbar navbar-fixed-top" id="menu">
+			<div class="navbar-inner">
+
+				<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+
+				<!-- Be sure to leave the brand out there if you want it shown -->
+				<a class="brand" href="#">Project name</a>
+
+				<!-- Everything you want hidden at 940px or less, place within here -->
+				<div class="nav-collapse">
+					<!-- .nav, .navbar-search, .navbar-form, etc -->
+					<ul class="nav">
+						<li class="active">
+							<a href="#dashboard"><i class="icon-home"></i> Dashboard</a>
+						</li>
+						<li>
+							<a href="#contact-form"><i class="icon-envelope"></i> Contact Form <span class="notif" title="2 new messages" data-placement="bottom" rel="tooltip">2</span></a>
+						</li>
+					</ul>
+
+					<form class="navbar-search pull-right">
+						<input type="text" class="search-query" placeholder="Search" value="" />
+					</form>
+				</div>
+
+			</div>
+		</div>
+<?php
+// predie($this->sidemenu);
+?>
+		<div class="row-fluid">
+			<div id="sidebar">
+				<a href="#sidebar" class="toggle"><i class="icon-arrow-left"></i><i class="icon-arrow-right"></i></a>
+				<ul class="nav">
+					<?php
+					$menuItem = '<li>
+						<a href="{path}">{image} {name} <span class="notif hide" title="" data-placement="bottom" rel="tooltip">{notification}</span></a>
+
+						<div class="ui">
+							<a href="#favori"><i class="icon-star"></i></a>
+							<a href="#settings"><i class="icon-cogs"></i></a>
+						</div>
+					</li>';
+
+					$menuItemSubmenu = '<li>
+						<a href="{path}">{image} {name} <span class="notif hide" title="" data-placement="bottom" rel="tooltip">{notification}</span></a>
+
+						<div class="ui">
+							<a href="#favori"><i class="icon-star"></i></a>
+							<a href="#settings"><i class="icon-cogs"></i></a>
+						</div>
+					</li>';
+
+					foreach ($this->sidemenu as $key => $value) {
+						if (isset($value['submenu'])) {
+							echo u::strtr($menuItemSubmenu, $value);
+						} else {
+							echo u::strtr($menuItem, $value);
+						}
 					}
-				?>
-				</ul><!--/.arx-list -->
-
-			</div><!--/.arx-sortable -->
-		</section><!--/.arx-sidebar -->
-			
-			
-		<section class="arx-content">
-
-			<nav class="app-menu clearfix">
-				<ul class="left clearfix">
+					?>
 					<li>
-						<a class="fullwidth" href="../" rel="external"><i class="icon-share-alt"></i> Go to the website</a>
+						<div class="accordion" id="id-parent">
+							<div class="accordion-group">
+								<div class="accordion-heading">
+									<a href="#id" class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#id-parent"><i class="icon-magic"></i> Application</a>
+
+									<div class="ui">
+										<i class="icon-caret-down"></i>
+									</div>
+								</div>
+								<div class="accordion-body collapse in" id="id">
+									<div class="accordion-inner">
+										<ul class="nav">
+											<li>
+												<a href="{path}"><i class="icon-group"></i> Users <span class="notif hide" title="" data-placement="bottom" rel="tooltip">{notification}</span></a>
+
+												<div class="ui">
+													<a href="#favori"><i class="icon-star"></i></a>
+													<a href="#settings"><i class="icon-cogs"></i></a>
+												</div>
+											</li>
+											<li>
+												<a href="{path}"><i class="icon-envelope"></i> Messages <span class="notif hide" title="" data-placement="bottom" rel="tooltip">{notification}</span></a>
+
+												<div class="ui">
+													<a href="#favori"><i class="icon-star"></i></a>
+													<a href="#settings"><i class="icon-cogs"></i></a>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a href="#appmenu" rel="tooltipmenu"><i class="icon-magic"></i> DataManager <span class="notif hide" title="" data-placement="bottom" rel="tooltip">0</span></a></a>
+
+						<ul id="appmenu">
+							<li>
+								<a href="#test"><i class="icon-bell"></i></a>
+							</li>
+							<li>
+								<a href="#test"><i class="icon-star"></i></a>
+							</li>
+							<li>
+								<a href="#test"><i class="icon-cogs"></i></a>
+							</li>
+						</ul>
 					</li>
 				</ul>
-
-				<ul class="right clearfix">
-					<li>
-						<a href="#"><i class="icon-calendar"></i><b class="app-notification">0</b></a>
-					</li>
-					<li>
-						<a  href="#myModal" role="button" class="arx-popup" data-footer="" data-header="" data-href="" data-toggle="modal"><i class="icon-wrench"></i></a>
-					</li>
-					<li>
-						<a class="fullwidth" href="?logout" title="Logout"><i class="icon-off"></i> 
-						<?= __('Hello ') . $this->user->firstname ?></a>
-					</li>
-				</ul>
-			</nav><!--/.app-menu -->
-
-			<div class="app-content">
-
-				<div class="this-app">
-					<iframe class="iframe-app scrollable" src="<?= ( !empty($_GET['path']) ) ? $_GET['path'] : $this->apps[0]['path'] ?>" width="100%" height="100%" frameborder="0">
-					</iframe>
-				</div><!--/.this-app -->
-
-			</div><!--/.app-content -->
-
-			<footer>
-				<span></span>
-			</footer>
-
-		</section><!--/.arx-content -->
-		
-		
-	</div>
-	
-	<!-- ARX MODAL ELEMENT -->
-	
-	<div class="modal hide fade">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>Modal header</h3>
+			</div>
+			<div id="application">
+				<!-- <iframe class="scrollable" src="<?= ( !empty($_GET['path']) ) ? $_GET['path'] : $this->apps[0]['path'] ?>" width="100%" height="100%" frameborder="0" id="iframe-app"></iframe> -->
+				<iframe class="scrollable" src="/apps/DataManager" width="100%" height="100%" frameborder="0" id="iframe-app"></iframe>
+			</div>
 		</div>
-		<div class="modal-body">
-			<p>One fine body…</p>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn">Close</a>
-			<a href="#" class="btn btn-primary">Save changes</a>
-		</div>
-	</div>
-	
+
+	</div><!--/ .container -->
 	
 	<!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6. - chromium.org/developers/how-tos/chrome-frame-getting-started -->
 	<!--[if lt IE 7]>
 	<script defer src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
 	<script defer>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
 	<![endif]-->
-	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="<?= LIBS_JS ?>js/bootstrap.min.js"></script>
-	<script>
-	function resize(minHeight, minWidth){
-		var max = {w: $(window).width(), h: $(window).height()}, sidebar = $('.arx-sidebar').outerWidth()
-		
-		$('.arx-content').css({
-			//height: (max.h >= s.min.h) ? max.h : s.min.h
-			width: (max.w - sidebar >= minWidth - sidebar) ? max.w - sidebar - 1 : minWidth - sidebar - 1
-		})
-		
-		$('.iframe-app').css({
-			height: (max.h >= minHeight) ? max.h - 55 : minHeight - 55,
-			width: (max.w - sidebar >= minWidth - sidebar) ? max.w - sidebar - 1 : minWidth - sidebar - 1
-		})
-	} // resize
+	
+	<script src="js/lib/jquery.min.js"></script>
+	<script src="js/lib/bootstrap.min.js"></script>
+	<script src="js/lib/bootstrap-tooltipmenu.min.js"></script>
+	<script src="js/script.min.js"></script>
+	<script type="text/javascript">
+	(function ($) {
+		'use strict';
 
-	$(function(){
-		$('a[href^="external"]').attr('target', '_blank')
+		$(function () {
+			$('#sidebar .nav a')
+			.on('click', function (e) {
+				e.preventDefault();
 
-		$(window).bind('resize.powa', function(){
-			resize.call(this, 400, 600)
-		}).trigger('resize')
-	})
+				var src = this.href;
+
+				$('#sidebar .nav a').removeClass('active');
+
+				if (!$(this).is('.accordion-toggle')) {
+					$('.accordion-body').each(function () {
+						$(this).collapse('hide');
+						$('[href="#' + $(this).attr('id') + '"]').addClass('collapsed');
+					});
+
+					$(this).addClass('active');
+
+					$('#iframe-app').animate({opacity: 0.2}, 300, function () {
+						$(this)[0].src = src;
+					})
+					.off('load')
+					.on('load', function () {
+						$('#iframe-app').animate({opacity: 1}, 200);
+					});
+				}
+			});
+		});
+	} (jQuery));
 	</script>
+	
 </body>
 </html>

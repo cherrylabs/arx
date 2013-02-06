@@ -13,5 +13,5 @@ class ctrl_action extends c_controller{
 				break;
 		}
 	}
-	
+
 }

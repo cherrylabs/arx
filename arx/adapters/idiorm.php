@@ -7,9 +7,6 @@
      * @comments :
 */
 
-require_once DIR_ADAPTERS. DS. 'Idiorm'.DS.'idiorm'.EXT_PHP;
-require_once DIR_ADAPTERS. DS. 'Idiorm'.DS.'paris'.EXT_PHP;
-
 if (ZE_DBTYPE == 'sqlite') {
 
     ORM::configure(ZE_DBTYPE.':'.ZE_DBNAME);
@@ -113,7 +110,6 @@ if (!class_exists('a_db')) {
 
         static function _update($table, $sets, $conditions, &$err)
         {
-            k();
             $query = "UPDATE $table SET ";
             $aClean = array();
             $aSets = array();
@@ -123,8 +119,6 @@ if (!class_exists('a_db')) {
             }
 
             $query .= explode($aSets);
-
-            predie($query);
 
             return ORM::for_table($table)->raw_query($query, $aClean);
         }

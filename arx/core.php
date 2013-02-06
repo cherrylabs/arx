@@ -29,6 +29,8 @@ require_once DIR_CLASSES . DS . 'hook.php';
 require_once DIR_CLASSES . DS . 'filemanager.php';
 require_once DIR_CLASSES . DS . 'debug.php';
 
+require DIR_ROOT . DS .'vendor/autoload.php';
+
 /**
  *
  *
@@ -204,7 +206,9 @@ class Arx {
         }
     } // injects_once
 
-    // --- Public methods
+    public static function autoload($value = array()){
+    
+    }
 
     public static function needs() {
 
