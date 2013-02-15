@@ -4,13 +4,13 @@ $form = new c_form(APP_URL.'/action/create/data', array('class' => 'form-horizon
 
 // $form->label('name', 'Name');
 
-$form->label('name', 'Titre');
+$form->label('title', 'Titre');
 
-$form->input('name', 'titre');
+$form->input('title', 'titre');
 
-$form->label('value', 'Description');
+$form->label('body', 'Description');
 
-$form->textarea('value', 'TEST');
+$form->textarea('body', 'TEST');
 
 $form->br();
 

@@ -435,6 +435,32 @@ abstract class u
         return $file;
     }
 
+    public static function getVideoEmbed($url, $width = 560, $height = 315)
+    {
+        switch(true)
+        {
+            case preg_match('/youtu/i', $url):
+                $url_string = parse_url($url, PHP_URL_QUERY);
+                parse_str($url_string, $args);
+                $id = isset($args['v']) ? $args['v'] : false;
+                
+                if(!empty($id))
+                    return '<iframe width="'.$width.'" height="'.$height.'" src="http://www.youtube.com/embed/'.$id.'?rel=0" frameborder="0" allowfullscreen></iframe>';
+                else
+                    return false;
+            break;
+            
+            case preg_match('/vimeo/', $url):
+                sscanf(parse_url($url, PHP_URL_PATH), '/%d', $id);
+                if(!empty($id))
+                    return '<iframe src="http://player.vimeo.com/video/'.$id.'?portrait=0" width="'.$width.'" height="'.$height.'" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+                else
+                    return false;
+            break;
+        }
+    
+    }
+
     public static function getBrowserLanguage()
     {
         return substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);

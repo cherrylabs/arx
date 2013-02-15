@@ -24,6 +24,7 @@ if (ZE_DBTYPE == 'sqlite') {
 }
 
 if (!class_exists('a_db')) {
+
     class a_db extends ORM
     {
 
@@ -124,6 +125,4 @@ if (!class_exists('a_db')) {
         }
 
     }
-} else {
-    c_debug::info('a_db class is already declared');
 }

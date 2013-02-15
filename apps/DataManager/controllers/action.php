@@ -5,7 +5,12 @@ class ctrl_action extends c_controller{
 	public function create($type = 'data'){
 		switch ($type) {
 			case 'data':
-				predie( DataManager\m_data::create($_POST) );
+				$response = \DataManager\m_data::create($_POST);
+
+				$this->response = $response;
+
+				predie($response);
+
 				break;
 			
 			default:
