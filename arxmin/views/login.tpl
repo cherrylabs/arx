@@ -10,9 +10,8 @@
 	<!--[if lt IE 7]><meta http-equiv="imagetoolbar" content="false" /><![endif]-->
 	
 	<title>ARX / Administration</title>
-	
-	<link rel="stylesheet" href="css/reset.css" />
-	<link rel="stylesheet" href="css/bootstrap.min.css?v=1" />
+	<base href="<?= URL_ROOT.DS.'arxmin/' ?>" />
+	<link rel="stylesheet" href="<?= ARX_CSS ?>/bootstrap.css?v=1" />
 	<link rel="stylesheet" type="text/css" href="css/login.css" />
 	
 	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->

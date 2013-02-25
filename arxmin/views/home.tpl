@@ -10,6 +10,8 @@
 	<!--[if lt IE 7]><meta http-equiv="imagetoolbar" content="false" /><![endif]-->
 	
 	<title></title>
+
+	<base href="<?= URL_ROOT.DS.'arxmin' ?>" />
 	
 	<meta name="author" content="Stéphan Zych" />
 	<meta name="Copyright" content="" />
@@ -20,7 +22,6 @@
 	<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
 	
 	<link rel="stylesheet" href="<?= ARX_CSS ?>/arxmin.css?v=1" />
-	<!--[if lte IE 8]><link rel="stylesheet" href="css/style-ie.css" /><![endif]-->
 	
 	<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
