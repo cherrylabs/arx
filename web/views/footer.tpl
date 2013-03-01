@@ -1,1 +1,0 @@
-<div class="center">Arx is a <a href="http://www.cherrylabs.net">Cherrylabs products</a> - ©2013</div>
