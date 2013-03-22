@@ -6,11 +6,18 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Symfony\\Component\\Yaml' => $vendorDir . '/symfony/yaml/',
-    'Symfony\\Component\\Console' => $vendorDir . '/symfony/console/',
-    'Slim' => $vendorDir . '/slim/slim/.',
-    'Doctrine\\ORM' => $vendorDir . '/doctrine/orm/lib/',
-    'Doctrine\\DBAL' => $vendorDir . '/doctrine/dbal/lib/',
-    'Doctrine\\Common' => $vendorDir . '/doctrine/common/lib/',
-    '' => $baseDir . '/entities',
+    'Symfony\\Component\\Translation\\' => $vendorDir . '/symfony/translation/',
+    'Symfony\\Component\\Routing\\' => $vendorDir . '/symfony/routing/',
+    'Symfony\\Component\\Process\\' => $vendorDir . '/symfony/process/',
+    'Symfony\\Component\\HttpKernel\\' => $vendorDir . '/symfony/http-kernel/',
+    'Symfony\\Component\\HttpFoundation\\' => $vendorDir . '/symfony/http-foundation/',
+    'Symfony\\Component\\Finder\\' => $vendorDir . '/symfony/finder/',
+    'Symfony\\Component\\EventDispatcher\\' => $vendorDir . '/symfony/event-dispatcher/',
+    'Symfony\\Component\\DomCrawler\\' => $vendorDir . '/symfony/dom-crawler/',
+    'Symfony\\Component\\CssSelector\\' => $vendorDir . '/symfony/css-selector/',
+    'Symfony\\Component\\Console\\' => $vendorDir . '/symfony/console/',
+    'Symfony\\Component\\BrowserKit\\' => $vendorDir . '/symfony/browser-kit/',
+    'Psr\\Log\\' => $vendorDir . '/psr/log/',
+    'Monolog' => $vendorDir . '/monolog/monolog/src/',
+    'Illuminate' => $vendorDir . '/laravel/framework/src/',
 );
