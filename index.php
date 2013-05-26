@@ -10,18 +10,8 @@
 ============================*/
 
 //load the arx core and the aConfig.php file
-require_once(dirname(__FILE__) . '/arx/core.php'); 
+require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
 
-//Here is an example of use arx to simply check if a param is defined in aConfig.php
-arx::needs('WEB_ROOT');
-
-//Here is an example of autoloading some class and adapters c_xxx and a_xxx refers to arx/classes/xxx.php and arx/adapters/xxx.php
-arx::uses('c_form');
-
-// get an arx instance
-
-global $app;
-
-$app = new arx();
+k();
 
 /*-----  End of INIT  ------*/
