@@ -1,0 +1,10 @@
+<?php
+
+New ARX 1.0;
+
+DIR_ARX => ARX_DIR
+URL_ARX => ARX_URL
+DIR_ROOT => ROOT_DIR
+URL_ROOT => ROOT_URL
+
+EXT_PHP => PHP

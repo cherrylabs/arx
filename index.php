@@ -10,8 +10,6 @@
 ============================*/
 
 //load the arx core and the aConfig.php file
-require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
-
-k();
+require_once dirname(__FILE__).'/vendor/autoload.php';
 
 /*-----  End of INIT  ------*/

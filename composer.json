@@ -1,7 +1,11 @@
 {
-    "autoload" : {
+    "require" : {
+
+    },
+    "autoload": {
         "psr-0" : {
-            "Arx"
+            "arx/core" : "vendor"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
