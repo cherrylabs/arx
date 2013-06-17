@@ -1,18 +1,6 @@
-[submodule "arx"]
-	path = arx
-	url = https://danielsum@github.com/cherrylabs/arx-core.git
-[submodule "bundles/LabelManager"]
-	path = bundles/LabelManager
-	url = https://danielsum@github.com/cherrylabs/arx-app-LabelManager.git
-[submodule "bundles/DataManager"]
-	path = bundles/DataManager
-	url = https://danielsum@github.com/danielsum/arx-app-DataManager.git
 [submodule "arxmin"]
 	path = arxmin
 	url = https://danielsum@github.com/cherrylabs/arx-arxmin.git
-[submodule "vendor/arx/core"]
-	path = vendor/arx/core
-	url = https://danielsum@github.com/cherrylabs/arx-core.git
 [submodule "_vendor/arx/core"]
 	path = _vendor/arx/core
 	url = https://danielsum@github.com/cherrylabs/arx-core.git

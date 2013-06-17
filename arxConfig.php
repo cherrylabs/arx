@@ -37,13 +37,13 @@ $arxConfig = array(
         'route' => 'Arx\c_route',
         'template' => 'Arx\c_template',
         'auth' => 'Arx\c_auth',
-        'db' => 'Arx\a_db'
+        'db' => 'Arx\c_db'
     ),
 
     // Database
     'database' => array(
         'driver' => 'sqlite', // mysql | sqlite
-        'database' => '', // database name || database filepath
+        'database' => '/files/db.sqlite', // database name || database filepath
         'username' => '',
         'password' => '',
         'host' => '',
@@ -59,14 +59,7 @@ $arxConfig = array(
 
     // Mail
     'mail' => array(
-        'ssl' => true,
-        'type' => 'smtp', //smtp|default
-        'port' => 25,
-        'host' => 'in.mailjet.com',
-        'login' => '3424a1003485e64aca37251a200bdfce',
-        'password' => 'a743e52303b6ae20920b728eb156a8bd',
-        'email' => 'aquascope@in.mailjet.com',
-        'name' => 'Aquascope'
+
     )
 );
 
@@ -141,3 +134,5 @@ define('ZE_DBTYPE', $arxConfig['db_type']);
 define('ZE_DBPREFIX', $arxConfig['db_prefix']);
 
 /*-----  End of CONSTANT CONFIG  ------*/
+
+return $arxConfig;

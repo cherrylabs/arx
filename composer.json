@@ -1,11 +1,22 @@
 {
     "require" : {
-
+        "php": ">=5.3.0",
+        "laravel/framework" : "*",
+        "silex/silex" : "*",
+        "raveren/kint" : "*",
+        "j4mie/idiorm" : "*",
+        "mustache/mustache" : "*",
+        "slim/slim" : "*",
+        "slim/extras" : "*",
+        "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
         "psr-0" : {
-            "arx/core" : "vendor"
-        }
+            "arx/core" : "_vendor"
+        },
+        "files" : [
+            "_vendor/arx/core/core.php"
+        ]
     },
     "minimum-stability": "dev"
 }
