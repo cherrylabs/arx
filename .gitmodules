@@ -13,3 +13,6 @@
 [submodule "vendor/arx/core"]
 	path = vendor/arx/core
 	url = https://danielsum@github.com/cherrylabs/arx-core.git
+[submodule "_vendor/arx/core"]
+	path = _vendor/arx/core
+	url = https://danielsum@github.com/cherrylabs/arx-core.git
