@@ -9,7 +9,3 @@ RewriteBase /
 	Order Deny,Allow
 	Deny From All
 </Files>
-
-# Allow any files or directories that exist to be displayed directly
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule .* index.php/$0 [PT]

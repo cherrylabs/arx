@@ -1,9 +1,8 @@
 {
     "require" : {
         "php": ">=5.3.0",
-        "laravel/framework" : "*",
-        "silex/silex" : "*",
         "raveren/kint" : "*",
+        "laravel/framework" : "*",
         "j4mie/idiorm" : "*",
         "mustache/mustache" : "*",
         "slim/slim" : "*",
