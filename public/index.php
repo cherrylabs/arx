@@ -1,5 +1,10 @@
-#!/usr/bin/env php
 <?php
+/**
+ * Laravel - A PHP Framework For Web Artisans
+ *
+ * @package  Laravel
+ * @author   Taylor Otwell <taylorotwell@gmail.com>
+ */
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +18,7 @@
 |
 */
 
-require __DIR__.'/bootstrap/autoload.php';
+require __DIR__.'/../bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -21,54 +26,37 @@ require __DIR__.'/bootstrap/autoload.php';
 |--------------------------------------------------------------------------
 |
 | We need to illuminate PHP development, so let's turn on the lights.
-| This bootstrap the framework and gets it ready for use, then it
+| This bootstraps the framework and gets it ready for use, then it
 | will load up this application so that we can run it and send
 | the responses back to the browser and delight these users.
 |
 */
 
-$app = require_once __DIR__.'/bootstrap/start.php';
-
-$app->boot();
+$app = require_once __DIR__.'/../bootstrap/start.php';
 
 /*
 |--------------------------------------------------------------------------
-| Load The Artisan Console Application
+| Run The Application
 |--------------------------------------------------------------------------
 |
-| We'll need to run the script to load and return the Artisan console
-| application. We keep this in its own script so that we will load
-| the console application independent of running commands which
-| will allow us to fire commands from Routes when we want to.
+| Once we have the application, we can simply call the run method,
+| which will execute the request and send the response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful applications we have created for them.
 |
 */
 
-$artisan = Illuminate\Console\Application::start($app);
-
-/*
-|--------------------------------------------------------------------------
-| Run The Artisan Application
-|--------------------------------------------------------------------------
-|
-| When we run the console application, the current CLI command will be
-| executed in this console and the response sent back to a terminal
-| or another output device for the developers. Here goes nothing!
-|
-*/
-
-$status = $artisan->run();
+$app->run();
 
 /*
 |--------------------------------------------------------------------------
 | Shutdown The Application
 |--------------------------------------------------------------------------
 |
-| Once Artisan has finished running. We will fire off the shutdown events
+| Once the app has finished running, we will fire off the shutdown events
 | so that any final work may be done by the application before we shut
 | down the process. This is the last thing to happen to the request.
 |
 */
 
 $app->shutdown();
-
-exit($status);

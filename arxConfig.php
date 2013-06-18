@@ -73,10 +73,9 @@ $arxConfig = array(
 
 if (preg_match('/loc|localhost/', $_SERVER['SERVER_NAME'])) {
 
-    $arxConfig['env'] = ZE_ENV;
     define('ZE_ENV', 'local');
     define('LEVEL_ENV', 0);
-    define('ROOT_URL', "http://loc.aquascope.be");
+    defined('ROOT_URL') or define('ROOT_URL', "http://loc.aquascope.be");
 
     ini_set('display_errors', 1);
     ini_set('log_errors', 1);
@@ -104,8 +103,8 @@ if (preg_match('/loc|localhost/', $_SERVER['SERVER_NAME'])) {
 
 } else {
 
-    define('ZE_ENV', 'www');
-    define('LEVEL_ENV', 3);
+    defined('ZE_ENV') or define('ZE_ENV', 'www');
+    defined('LEVEL_ENV') or define('LEVEL_ENV', 3);
     ini_set('display_errors', 0);
     ini_set('log_errors', 1);
 
@@ -117,21 +116,13 @@ if (preg_match('/loc|localhost/', $_SERVER['SERVER_NAME'])) {
 =            CONSTANT CONFIG            =
 =======================================*/
 
-define('ZE_LANG', $arxConfig['langs'][0]); // default language
-define('ZE_LANGS', json_encode($arxConfig['langs']));
+defined('ZE_LANG') or define('ZE_LANG', 'en'); // default language
+defined('ZE_LANGS') or define('ZE_LANGS', json_encode($arxConfig['langs']));
 
-define('ZE_SALT', 'hp[2d`I2+Z>[5l]@)q`.vc^X[DUcPIH8gY07#R}DL)L+NjwJ(1q0%C/!C)lpjc,T'); // https://api.wordpress.org/secret-key/1.1/salt/
-define('ZE_ALGO', 'sha1'); //sha1, sha256, md5 allowed
-define('ZE_ADMINLOGIN', 'admin');
-define('ZE_ADMINPWD', 'admin');
-
-define('ZE_DBNAME', $arxConfig['db_name']);
-define('ZE_DBUSER', $arxConfig['db_user']);
-define('ZE_DBPASSWORD', $arxConfig['db_pass']);
-define('ZE_DBHOST', $arxConfig['db_host']);
-define('ZE_DBCHARSET', $arxConfig['db_charset']);
-define('ZE_DBTYPE', $arxConfig['db_type']);
-define('ZE_DBPREFIX', $arxConfig['db_prefix']);
+defined('ZE_SALT') or define('ZE_SALT', 'hp[2d`I2+Z>[5l]@)q`.vc^X[DUcPIH8gY07#R}DL)L+NjwJ(1q0%C/!C)lpjc,T'); // https://api.wordpress.org/secret-key/1.1/salt/
+defined('ZE_ALGO') or define('ZE_ALGO', 'sha1'); //sha1, sha256, md5 allowed
+defined('ZE_ADMINLOGIN') or define('ZE_ADMINLOGIN', 'admin');
+defined('ZE_ADMINPWD') or define('ZE_ADMINPWD', 'admin');
 
 /*-----  End of CONSTANT CONFIG  ------*/
 

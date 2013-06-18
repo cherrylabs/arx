@@ -1,5 +1,7 @@
 <?php
 
+use Arx\c_view;
+
 class HomeController extends BaseController {
 
 	/*
@@ -17,7 +19,7 @@ class HomeController extends BaseController {
 
 	public function showWelcome()
 	{
-		return View::make('hello');
+        return c_view::fetch('html');
 	}
 
 }
