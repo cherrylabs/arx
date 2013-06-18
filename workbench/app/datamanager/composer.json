@@ -1,0 +1,21 @@
+{
+    "name": "app/datamanager",
+    "description": "",
+    "authors": [
+        {
+            "name": "Cherrylabs",
+            "email": "info@cherrylabs.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.1.x",
+        "arx/core" : "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "App\\Datamanager": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
