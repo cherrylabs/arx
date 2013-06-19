@@ -1,0 +1,9 @@
+{
+  "name": "arx",
+  "version": "1.2.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}

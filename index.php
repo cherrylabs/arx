@@ -14,7 +14,13 @@ require_once dirname(__FILE__).'/vendor/autoload.php';
 
 $app = new arx();
 
-$app->boot('codeigniter');
+$app->get('/', function() use ($app){
+
+    $app->content('Hello world !');
+
+    $app->display('html', array("menu" => array("test", "test 2")));
+});
+
 
 $app->run();
 
