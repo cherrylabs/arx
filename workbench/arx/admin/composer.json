@@ -12,6 +12,9 @@
         "illuminate/support": "4.1.x"
     },
     "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
         "psr-0": {
             "Arx\\Admin": "src/"
         }

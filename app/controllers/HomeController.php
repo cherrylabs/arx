@@ -19,7 +19,7 @@ class HomeController extends BaseController {
 
 	public function showWelcome()
 	{
-        return c_view::fetch('html');
+        return View::make('hello');
 	}
 
 }

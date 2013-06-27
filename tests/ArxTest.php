@@ -1,20 +1,13 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: danielsum
- * Date: 17/06/13
- * Time: 22:33
- * To change this template use File | Settings | File Templates.
+ * Class ArxTest
  */
-
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../_vendor/arx/core/core.php';
-
 class ArxTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testConfig()
     {
+        $app = new arx();
         global $arxConfig;
         $this->assertNotNull($arxConfig);
         $this->assertNotNull($arxConfig["system"]);
@@ -35,8 +28,6 @@ class ArxTest extends \PHPUnit_Framework_TestCase
     public function testLoading()
     {
         $app = new arx();
-
-        $this->assertTrue(is_object($app->h_widget()), "h_widget test is not an object");
         $this->assertTrue(is_object($app->c_finder()), "c_finder test is not an object");
     }
 }

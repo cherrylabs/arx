@@ -24,10 +24,10 @@
             "app/tests/TestCase.php"
         ],
         "psr-0" : {
-            "arx/core" : "_vendor"
+            "Arx" : "_vendor/arx/core/src"
         },
         "files" : [
-            "_vendor/arx/core/core.php"
+            "_vendor/arx/core/src/core.php"
         ]
     },
     "scripts": {

@@ -1,8 +1,8 @@
-<?php namespace App\Admin;
+<?php namespace App\Labelmanager;
 
 use Illuminate\Support\ServiceProvider;
 
-class AdminServiceProvider extends ServiceProvider {
+class LabelmanagerServiceProvider extends ServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -10,6 +10,16 @@ class AdminServiceProvider extends ServiceProvider {
 	 * @var bool
 	 */
 	protected $defer = false;
+
+	/**
+	 * Bootstrap the application events.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		$this->package('app/labelmanager');
+	}
 
 	/**
 	 * Register the service provider.

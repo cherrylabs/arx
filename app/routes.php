@@ -13,4 +13,4 @@
 
 Route::get('/', 'HomeController@showWelcome');
 
-Route::get('/admin', 'App\Admin\Controllers\HomeController@showWelcome');
+Route::get('/admin', 'HomeController@showWelcome');

@@ -21,6 +21,8 @@ $app->get('/', function() use ($app){
     $app->display('html', array("menu" => array("test", "test 2")));
 });
 
+$app->get('/admin+', 'ctrl_index');
+
 
 $app->run();
 
