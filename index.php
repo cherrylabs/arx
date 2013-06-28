@@ -12,7 +12,7 @@
 //load the arx core and the aConfig.php file
 require_once dirname(__FILE__).'/vendor/autoload.php';
 
-$app = new arx();
+$app = new arx\classes\App();
 
 $app->get('/', function() use ($app){
 

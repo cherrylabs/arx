@@ -1,8 +1,6 @@
 <?php
 
-use Arx\c_view;
-
-class HomeController extends BaseController {
+class HomeController extends \Arx\classes\Controller {
 
 	/*
 	|--------------------------------------------------------------------------
