@@ -15,6 +15,8 @@ return array(
 
 	'debug' => true,
 
+    'profiler' => true,
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application URL

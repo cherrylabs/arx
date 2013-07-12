@@ -4,6 +4,15 @@ RewriteEngine On
 # Installation directory
 RewriteBase /
 
+<IfModule mod_rewrite.c>
+    Options -MultiViews
+    RewriteEngine On
+
+	RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
 # Protect hidden files from being viewed
 <Files .*>
 	Order Deny,Allow

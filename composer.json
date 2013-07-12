@@ -5,11 +5,12 @@
         "laravel/framework" : "*",
         "j4mie/idiorm" : "*",
         "mustache/mustache" : "*",
+        "silex/silex": "~1.0",
+        "silex/web-profiler": "~1.0",
         "slim/slim" : "*",
         "slim/extras" : "*",
         "phpunit/phpunit": "3.7.*",
-        "way/generators": "dev-master",
-        "cartalyst/sentry": "2.0.*"
+        "symfony/dependency-injection" : "*"
     },
     "require-dev": {
         "way/generators": "dev-master"
@@ -24,28 +25,11 @@
             "app/tests/TestCase.php"
         ],
         "psr-0" : {
-            "Arx" : "_vendor/arx/core/src"
+            "Arx" : "_vendor/arx/core/src/"
         },
         "files" : [
-            "_vendor/arx/core/src/core.php"
+            "_vendor/arx/core/src/Arx/core.php"
         ]
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "php artisan optimize"
-        ],
-        "pre-update-cmd": [
-            "php artisan clear-compiled"
-        ],
-        "post-update-cmd": [
-            "php artisan optimize"
-        ],
-        "post-create-project-cmd": [
-            "php artisan key:generate"
-        ]
-    },
-    "config": {
-        "preferred-install": "dist"
     },
     "minimum-stability": "dev"
 }

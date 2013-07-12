@@ -1,5 +1,8 @@
 <?php
 
+use Arx\classes\App;
+use Arx\classes\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Application & Route Filters

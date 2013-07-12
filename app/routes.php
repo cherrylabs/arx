@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', 'HomeController@showWelcome');
-
-Route::get('/admin', 'HomeController@showWelcome');
+Route::get('/', function(){
+    return 'oki';
+});

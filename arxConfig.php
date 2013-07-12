@@ -19,7 +19,43 @@
 
 global $arxConfig;
 
-$arxConfig = arxConfig()->load(__DIR__.'/app/config');
+$arxConfig = array(
+
+    'project' => array(
+        'title' => 'Basta',
+        'licence' => 'http://cherrypulp.com/licence',
+        'url' => 'http://basta.oxfamsol.be',
+        'authors' => array(
+            "Daniel Sum" => 'daniel@cherrypulp.com',
+            "Stephan Zych" => 'stephan@cherrypulp.com',
+        ),
+    ),
+
+    // System
+    'system' => array(
+        'app' => 'Arx\c_app',
+        'route' => 'Arx\c_route',
+        'template' => 'Arx\c_template',
+        'auth' => 'Arx\c_auth',
+        'db' => 'Arx\a_db'
+    ),
+
+    // Database
+    'database' => array(
+        'driver' => 'mysql', // mysql | sqlite
+        'database' => 'basta', // database name || database filepath
+        'username' => 'basta',
+        'password' => 'VkRMtNjr',
+        'host' => 'localhost',
+        'charset' => 'utf8',
+        'prefix' => '',
+    ),
+
+    // Site
+    'langs' => array(
+        'fr' => 'Français'
+    )
+);
 
 /*-----  End of GLOABALS CONFIG  ------*/
 
