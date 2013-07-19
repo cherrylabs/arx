@@ -5,7 +5,7 @@ require dirname(__FILE__).'/vendor/autoload.php';
 $app = new arx();
 
 $app->get('/', function() use ($app){
-    $ctrl = new \Arx\ctrl_install();
+    $ctrl = new \Arx\controllers\install();
     $ctrl->setup();
 });
 

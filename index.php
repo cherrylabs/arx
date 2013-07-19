@@ -15,11 +15,6 @@ require_once dirname(__FILE__).'/vendor/autoload.php';
 use Arx\Classes\Request;
 use Arx\classes\View;
 
-class adapterRoute extends \Arx\facades\Route{
-
-}
-
-
 $app = new Arx();
 
 $app->before(function(){
@@ -30,6 +25,7 @@ $app->after(function(){
 });
 
 $app->get('/', function() use ($app){
+
     return View::make('index', array(
         'content' => 'test'
     ));
