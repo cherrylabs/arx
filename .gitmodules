@@ -1,9 +1,6 @@
 [submodule "arxmin"]
 	path = arxmin
 	url = https://danielsum@github.com/cherrylabs/arx-arxmin.git
-[submodule "_vendor/arx/core"]
-	path = _vendor/arx/core
-	url = https://danielsum@github.com/cherrylabs/arx-core.git
 [submodule "docs"]
 	path = docs
 	url = https://danielsum@github.com/cherrylabs/arx-docs.git
