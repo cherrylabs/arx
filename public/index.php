@@ -4,8 +4,8 @@ require __DIR__.'/../vendor/autoload.php';
 
 $app = new arx();
 
-include_once '../app/routes.php';
-
-include_once '../app/filter.php';
+$app->bootstrap();
 
 $app->run();
+
+$app->shutdown();

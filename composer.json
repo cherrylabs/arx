@@ -3,12 +3,6 @@
         "php": ">=5.3.0",
         "raveren/kint" : "*",
         "laravel/framework" : "*",
-        "j4mie/idiorm" : "*",
-        "mustache/mustache" : "*",
-        "slim/slim" : "*",
-        "slim/extras" : "*",
-        "phpunit/phpunit": "3.7.*",
-        "way/generators": "dev-master",
         "cartalyst/sentry": "2.0.*"
     },
     "require-dev": {
@@ -24,10 +18,10 @@
             "app/tests/TestCase.php"
         ],
         "psr-0" : {
-            "Arx" : "_vendor/arx/core/src"
+            "Arx" : "workbench/arx/core/src"
         },
         "files" : [
-            "_vendor/arx/core/src/core.php"
+            "workbench/arx/core/src/core.php"
         ]
     },
     "scripts": {

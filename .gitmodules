@@ -4,3 +4,9 @@
 [submodule "docs"]
 	path = docs
 	url = https://danielsum@github.com/cherrylabs/arx-docs.git
+[submodule "workbench/arx/core"]
+	path = workbench/arx/core
+	url = https://danielsum@github.com/cherrylabs/arx-core.git
+[submodule "workbench/arx/arxmin"]
+	path = workbench/arx/arxmin
+	url = https://danielsum@github.com/cherrylabs/arx-arxmin.git
