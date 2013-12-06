@@ -12,5 +12,3 @@
 */
 
 Route::get('/', 'HomeController@showWelcome');
-
-Route::get('/admin', 'HomeController@showWelcome');

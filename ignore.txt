@@ -1,4 +1,0 @@
-composer.lock
-.quarantine
-.tmb
-.svn

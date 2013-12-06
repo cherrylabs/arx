@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'url' => 'http://loc.arx.xxx',
+	'url' => 'http://localhost',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -60,12 +60,12 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| This key is used by the Illuminate encrypter service and should be set
-	| to a random, long string, otherwise these encrypted values will not
-	| be safe. Make sure to change it before deploying any application!
+	| to a random, 32 character string, otherwise these encrypted strings
+	| will not be safe. Please do this before deploying an application!
 	|
 	*/
 
-	'key' => 'vgOQCccHVu2g3RpRg4MbpQGAKFVecLSp',
+	'key' => 'AcHT0LIf3A3hpxfSRSiG5nsVaPuvjOAK',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -79,7 +79,7 @@ return array(
 	*/
 
 	'providers' => array(
-
+        # Default Laravel providers
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
@@ -111,10 +111,14 @@ return array(
 		'Illuminate\Foundation\Providers\TinkerServiceProvider',
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
-		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-        'Way\Generators\GeneratorsServiceProvider',
-        'Cartalyst\Sentry\SentryServiceProvider'
+        'Arx\classes\View',
+
+        # Third partys harders
+        'Arx\CoreServiceProvider',
+        'Cartalyst\Sentry\SentryServiceProvider',
+        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+        'Barryvdh\Debugbar\ServiceProvider',
 
 	),
 
@@ -179,9 +183,8 @@ return array(
 		'Str'             => 'Illuminate\Support\Str',
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
-		'View'            => 'Illuminate\Support\Facades\View',
-        'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry'
-
+        'View'            => 'Arx\facades\View',
+        'Hook'            => 'Arx\classes\Hook'
 	),
 
 );

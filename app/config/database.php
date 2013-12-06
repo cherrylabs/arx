@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'sqlite',
+	'default' => 'mysql',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -48,14 +48,14 @@ return array(
 
 		'sqlite' => array(
 			'driver'   => 'sqlite',
-			'database' => __DIR__.'/../database/production.sqlite',
+			'database' => '/../database/production.sqlite',
 			'prefix'   => '',
 		),
 
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => '{your_database}',
+			'database'  => 'arxdemo',
 			'username'  => 'root',
 			'password'  => 'root',
 			'charset'   => 'utf8',
@@ -82,6 +82,15 @@ return array(
 			'password' => '',
 			'prefix'   => '',
 		),
+
+        'mongoDB' => array(
+            'driver'   => 'mongoDB',
+            'host'     => 'localhost',
+            'database' => 'database',
+            'username' => 'root',
+            'password' => '',
+            'prefix'   => '',
+        )
 
 	),
 

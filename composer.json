@@ -1,12 +1,13 @@
 {
-    "require" : {
-        "php": ">=5.3.0",
-        "raveren/kint" : "*",
-        "laravel/framework" : "*",
-        "cartalyst/sentry": "2.0.*"
+    "name": "arx/project",
+    "description": "Clean starter project for Arx",
+    "keywords": ["arx", "framework", "starter kit"],
+    "require": {
+        "arx/core" : "*"
     },
+    "license": "MIT",
     "require-dev": {
-        "way/generators": "dev-master"
+
     },
     "autoload": {
         "classmap": [
@@ -15,21 +16,15 @@
             "app/models",
             "app/database/migrations",
             "app/database/seeds",
-            "app/tests/TestCase.php"
-        ],
-        "psr-0" : {
-            "Arx" : "workbench/arx/core/src"
-        },
-        "files" : [
-            "workbench/arx/core/src/core.php"
+            "app/tests"
         ]
     },
     "scripts": {
         "post-install-cmd": [
-            "php artisan optimize"
+
         ],
         "pre-update-cmd": [
-            "php artisan clear-compiled"
+
         ],
         "post-update-cmd": [
             "php artisan optimize"

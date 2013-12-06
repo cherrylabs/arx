@@ -1,7 +1,5 @@
 <?php
 
-use Arx\c_view;
-
 class HomeController extends BaseController {
 
 	/*
@@ -17,9 +15,16 @@ class HomeController extends BaseController {
 	|
 	*/
 
+    // See {arx/core}/views/layouts/starter
+
+    protected $layout = 'arx::layouts.starter';
+
 	public function showWelcome()
 	{
-        return View::make('hello');
+
+        $this->layout->nav = Lang::get('nav');
+
+        $this->layout->content = View::make('home');
 	}
 
 }
