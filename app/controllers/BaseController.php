@@ -15,4 +15,8 @@ class BaseController extends Controller {
 		}
 	}
 
+    public function setContent($template, $data = array()){
+        return $this->layout->content = View::make($template, $data);
+    }
+
 }

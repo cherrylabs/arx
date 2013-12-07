@@ -116,7 +116,8 @@ return array(
 
         # Third partys harders
         'Arx\CoreServiceProvider',
-        'Cartalyst\Sentry\SentryServiceProvider',
+
+        // Usefull helper
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
 

@@ -15,8 +15,7 @@ class HomeController extends BaseController {
 	|
 	*/
 
-    // See {arx/core}/views/layouts/starter
-
+    // See {vendor/arx/core}/views/layouts/starter
     protected $layout = 'arx::layouts.starter';
 
 	public function showWelcome()

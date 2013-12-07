@@ -28,6 +28,7 @@ class PublishCommand extends Command {
     /**
      * The asset publisher instance.
      *
+     *
      * @var \Illuminate\Foundation\AssetPublisher
      */
     protected $assets;
