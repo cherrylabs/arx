@@ -2,7 +2,7 @@
 
 @section('head')
     @parent
-    <link rel="stylesheet" href="<% asset('/packages/arx/dist/css/arx-combined.css') ?>" />
+    <link rel="stylesheet" href="<% asset('/packages/arx/dist/css/arx-combined.css') %>" />
     <% Hook::output('css') %>
 @stop
 
