@@ -7,7 +7,7 @@ return array(
     ),
     array(
         'name' => 'Examples',
-        'link' => url('exemple/carousel')
+        'link' => url('example/carousel')
     ),
     array(
         'name' => 'CRUD',
