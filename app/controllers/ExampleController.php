@@ -10,9 +10,9 @@ class ExampleController extends BaseController {
 
     public function anyIndex(){
 
-        $project  = __('project');
+        $project  = Lang::get('project');
 
-        $nav = __('nav');
+        $nav = Lang::get('nav');
 
         $content = \Arx\classes\Dummy::text(256); // or here you can add your content
 
@@ -26,9 +26,9 @@ class ExampleController extends BaseController {
      */
     public function anyStarter(){
 
-        $project  = __('project');
+        $project  = Lang::get('project');
 
-        $nav = __('nav');
+        $nav = Lang::get('nav');
 
         $content = \Arx\classes\Dummy::text(256); // or here you can add your content
 
@@ -37,9 +37,9 @@ class ExampleController extends BaseController {
 
     public function anyCarousel(){
 
-        $project  = __('project');
+        $project  = Lang::get('project');
 
-        $nav = __('nav');
+        $nav = Lang::get('nav');
 
         $content = \Arx\classes\Dummy::text(256);
 
@@ -48,9 +48,9 @@ class ExampleController extends BaseController {
 
     public function anyPage(){
 
-        $project  = __('project');
+        $project  = Lang::get('project');
 
-        $nav = __('nav');
+        $nav = Lang::get('nav');
 
         $content = \Arx\classes\Dummy::text(256);
 
@@ -61,9 +61,9 @@ class ExampleController extends BaseController {
 
     public function anyAngular(){
 
-        $project  = __('project');
+        $project  = Lang::get('project');
 
-        $nav = __('nav');
+        $nav = Lang::get('nav');
 
         $content = \Arx\classes\Dummy::text(256);
 

@@ -23,6 +23,8 @@ class HomeController extends BaseController {
 
         $this->layout->nav = Lang::get('nav');
 
+        $this->layout->project = Lang::get('project');
+
         $this->layout->content = View::make('home');
 	}
 

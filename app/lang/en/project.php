@@ -1,5 +1,6 @@
 <?php //
 
 return array(
-    'name' => 'Arx Starter'
+    'name' => 'Arx Demo project',
+    'link' => url('/')
 );
