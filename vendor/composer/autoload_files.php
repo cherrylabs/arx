@@ -11,7 +11,5 @@ return array(
     $vendorDir . '/laravel/framework/src/Illuminate/Support/helpers.php',
     $vendorDir . '/kriswallsmith/assetic/src/functions.php',
     $vendorDir . '/raveren/kint/Kint.class.php',
-    $vendorDir . '/orchestra/debug/src/Orchestra/Debug/helpers.php',
-    $vendorDir . '/orchestra/foundation/src/helpers.php',
     $vendorDir . '/arx/core/src/Arx/core.php',
 );

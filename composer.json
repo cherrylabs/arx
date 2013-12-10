@@ -3,7 +3,7 @@
     "description": "Clean starter project for Arx",
     "keywords": ["arx", "framework", "starter kit"],
     "require": {
-        "arx/core" : "*"
+        "arx/core" : "dev-master"
     },
     "license": "MIT",
     "require-dev": {
@@ -27,7 +27,7 @@
 
         ],
         "post-update-cmd": [
-            "php artisan optimize"
+
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"
