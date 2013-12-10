@@ -50,11 +50,9 @@ If you don't have it, you can run in the terminal (at the root of your project)
 
 Then you will get access to your project via : http://localhost:8000
 
-## What's bundled here ?
+This is a 'ready-to-learn' packages of Arx. It includes examples of how to use Arx and arx template inside [/app/controllers/ExampleController.php](https://github.com/cherrylabs/arx/blob/master/app/controllers/ExampleController.php).
 
-This is a 'ready-to-learn' packages of Arx. It includes examples of how to use Arx and arx template inside '/app/controllers/ExampleController.php.
-
-/!\ this is not a package for production purpose, you may prefer to use https://github.com/cherrylabs/arx-project if you want to start with a clean starter project.
+/!\ this is not a package for production purpose, you may prefer to use [https://github.com/cherrylabs/arx-project](https://github.com/cherrylabs/arx-project) if you want to start with a clean starter project.
 
 ## How to report a bug or suggestion ?
 
