@@ -10,6 +10,7 @@
         "tests"
     ],
     "dependencies": {
+        "arx-ui" : "*",
         "jquery": "1.10.2",
         "html5shiv": "*",
         "bootstrap": "~3.0.0-rc1",
