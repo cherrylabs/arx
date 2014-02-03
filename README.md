@@ -29,7 +29,6 @@ Arx project propose a clean startup project template to start with Laravel, Boot
     - ide-helper generator
     - laravel debug-bar
     - way generators
-    - orchestra admin system
 
 
 ## How to install ?
