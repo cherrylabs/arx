@@ -41,7 +41,7 @@ Simply extract https://github.com/cherrylabs/arx/archive/master.zip to your loca
 
 ## How to run ?
 
-If you have Mamp\Wamp or you have simply run to the localhost/{path to your project}
+If you have Mamp\Wamp or you have simply run to the localhost/{path to your project}/public
 
 If you don't have it, you can run in the terminal (at the root of your project)
 
