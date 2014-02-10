@@ -105,8 +105,26 @@ abstract class Date
      *
      * @return  string
      */
-    public static function humanTimeDiff($from, $to = '')
+    public static function humanTimeDiff($from, $to = '', $params = array(
+        'min'   => 'min',
+        'hour'  => 'hour',
+        'day'   => 'day',
+        'mins'  => 'mins',
+        'hours' => 'hours',
+        'days'  => 'days',
+    ))
     {
+        $defaults =  array(
+            'min'   => 'min',
+            'hour'  => 'hour',
+            'day'   => 'day',
+            'mins'  => 'mins',
+            'hours' => 'hours',
+            'days'  => 'days',
+        );
+
+        $params = Arr::merge($defaults, $params);
+
         if (empty($to)) {
             $to = time();
         }
@@ -121,9 +139,9 @@ abstract class Date
             }
 
             if ($mins === 1) {
-                $since = sprintf('%s min', $mins);
+                $since = sprintf('%s ' . $params['min'], $mins);
             } else {
-                $since = sprintf('%s mins', $mins);
+                $since = sprintf('%s ' . $params['mins'], $mins);
             }
         } else if (($diff <= 86400) && ($diff > 3600)) {
             $hours = round($diff / 3600);
@@ -133,9 +151,9 @@ abstract class Date
             }
 
             if ($hours === 1) {
-                $since = sprintf('%s hour', $hours);
+                $since = sprintf('%s ' . $params['hour'], $hours);
             } else {
-                $since = sprintf('%s hours', $hours);
+                $since = sprintf('%s ' . $params['hours'], $hours);
             }
         } elseif ($diff >= 86400) {
             $days = round($diff / 86400);
@@ -145,9 +163,9 @@ abstract class Date
             }
 
             if ($days === 1) {
-                $since = sprintf('%s day', $days);
+                $since = sprintf('%s ' . $params['day'], $days);
             } else {
-                $since = sprintf('%s days', $days);
+                $since = sprintf('%s ' . $params['days'], $days);
             }
         }
 
