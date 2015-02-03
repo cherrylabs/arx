@@ -21,6 +21,7 @@ class Utf8
 {
     protected static
 
+    $pathPrefix,
     $commonCaseFold = array(
         array('µ','ſ',"\xCD\x85",'ς',"\xCF\x90","\xCF\x91","\xCF\x95","\xCF\x96","\xCF\xB0","\xCF\xB1","\xCF\xB5","\xE1\xBA\x9B","\xE1\xBE\xBE"),
         array('μ','s','ι',       'σ','β',       'θ',       'φ',       'π',       'κ',       'ρ',       'ε',       "\xE1\xB9\xA1",'ι'           )
@@ -89,6 +90,30 @@ class Utf8
         return $s;
     }
 
+    static function wrapPath($path = '')
+    {
+        if (null === static::$pathPrefix)
+        {
+            if (extension_loaded('wfio'))
+            {
+                static::$pathPrefix = 'wfio://';
+            }
+            else if ('\\' === DIRECTORY_SEPARATOR && class_exists('COM', false))
+            {
+                static::$pathPrefix = 'utf8'.mt_rand();
+                stream_wrapper_register(static::$pathPrefix, 'Patchwork\Utf8\WindowsStreamWrapper');
+                static::$pathPrefix .= '://';
+            } else {
+                if ('\\' === DIRECTORY_SEPARATOR) {
+                    trigger_error('The `wfio` or `com_dotnet` extension is required to handle UTF-8 filesystem access on Windows');
+                }
+                static::$pathPrefix = 'file://';
+            }
+        }
+
+        return static::$pathPrefix . $path;
+    }
+
     static function filter($var, $normalization_form = 4 /* n::NFC */, $leading_combining = '◌')
     {
         switch (gettype($var))
@@ -111,15 +136,15 @@ class Utf8
 
             if (preg_match('/[\x80-\xFF]/', $var))
             {
-                if (n::isNormalized($var, $normalization_form)) $n = '';
+                if (n::isNormalized($var, $normalization_form)) $n = '-';
                 else
                 {
                     $n = n::normalize($var, $normalization_form);
-                    if (false === $n) $var = static::utf8_encode($var);
-                    else $var = $n;
+                    if (isset($n[0])) $var = $n;
+                    else $var = static::utf8_encode($var);
                 }
 
-                if ($var[0] >= "\x80" && false !== $n && isset($leading_combining[0]) && preg_match('/^\p{Mn}/u', $var))
+                if ($var[0] >= "\x80" && isset($n[0], $leading_combining[0]) && preg_match('/^\p{Mn}/u', $var))
                 {
                     // Prevent leading combining chars
                     // for NFC-safe concatenations.
@@ -257,65 +282,54 @@ class Utf8
 
     static function wordwrap($s, $width = 75, $break = "\n", $cut = false)
     {
-        // This implementation could be extended to handle unicode word boundaries,
-        // but that's enough work for today (see http://www.unicode.org/reports/tr29/)
+        if (false === wordwrap('-', $width, $break, $cut)) return false;
 
-        $width = (int) $width;
+        is_string($break) or $break = (string) $break;
+
+        $w = '';
         $s = explode($break, $s);
-
         $iLen = count($s);
-        $result = array();
-        $line = '';
-        $lineLen = 0;
+        $chars = array();
+
+        if (1 === $iLen && '' === $s[0])
+            return '';
 
         for ($i = 0; $i < $iLen; ++$i)
         {
-            $words = explode(' ', $s[$i]);
-            $line && $result[] = $line;
-            $lineLen = grapheme_strlen($line);
-            $jLen = count($words);
-
-            for ($j = 0; $j < $jLen; ++$j)
+            if ($i)
             {
-                $w = $words[$j];
-                $wLen = grapheme_strlen($w);
+                $chars[] = $break;
+                $w .= '#';
+            }
 
-                if ($lineLen + $wLen < $width)
-                {
-                    if ($j) $line .= ' ';
-                    $line .= $w;
-                    $lineLen += $wLen + 1;
-                }
-                else
-                {
-                    if ($j || $i) $result[] = $line;
-                    $line = '';
-                    $lineLen = 0;
+            $c = $s[$i];
+            unset($s[$i]);
 
-                    if ($cut && $wLen > $width)
-                    {
-                        $w = self::str_split($w);
-
-                        do
-                        {
-                            $result[] = implode('', array_slice($w, 0, $width));
-                            $line = implode('', $w = array_slice($w, $width));
-                            $lineLen = $wLen -= $width;
-                        }
-                        while ($wLen > $width);
-
-                        $w = implode('', $w);
-                    }
-
-                    $line = $w;
-                    $lineLen = $wLen;
-                }
+            foreach (self::str_split($c) as $c)
+            {
+                $chars[] = $c;
+                $w .= ' ' === $c ? ' ' : '?';
             }
         }
 
-        $line && $result[] = $line;
+        $s = '';
+        $j = 0;
+        $b = $i = -1;
+        $w = wordwrap($w, $width, '#', $cut);
 
-        return implode($break, $result);
+        while (false !== $b = strpos($w, '#', $b+1))
+        {
+            for (++$i; $i < $b; ++$i)
+            {
+                $s .= $chars[$j];
+                unset($chars[$j++]);
+            }
+
+            if ($break === $chars[$j] || ' ' === $chars[$j]) unset($chars[$j++]);
+            $s .= $break;
+        }
+
+        return $s . implode('', $chars);
     }
 
     static function chr($c)
@@ -585,6 +599,30 @@ class Utf8
         return utf8_decode($s);
     }
 
+    static function strwidth($s)
+    {
+        if (false !== strpos($s, "\r"))
+        {
+            $s = str_replace("\r\n", "\n", $s);
+            $s = strtr($s, "\r", "\n");
+        }
+        $width = 0;
+
+        foreach (explode("\n", $s) as $s)
+        {
+            $s = preg_replace('/\x1B\[[\d;]*m/', '', $s);
+            $c = substr_count($s, "\xAD") - substr_count($s, "\x08");
+            $s = preg_replace('/[\x00\x05\x07\p{Mn}\p{Me}\p{Cf}\x{1160}-\x{11FF}\x{200B}]+/u', '', $s);
+            preg_replace('/[\x{1100}-\x{115F}\x{2329}\x{232A}\x{2E80}-\x{303E}\x{3040}-\x{A4CF}\x{AC00}-\x{D7A3}\x{F900}-\x{FAFF}\x{FE10}-\x{FE19}\x{FE30}-\x{FE6F}\x{FF00}-\x{FF60}\x{FFE0}-\x{FFE6}\x{20000}-\x{2FFFD}\x{30000}-\x{3FFFD}]/u', '', $s, -1, $wide);
+
+            if ($width < $c = iconv_strlen($s, 'UTF-8') + $wide + $c)
+            {
+                $width = $c;
+            }
+        }
+
+        return $width;
+    }
 
     protected static function rxClass($s, $class = '')
     {

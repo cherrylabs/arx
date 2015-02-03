@@ -1,6 +1,6 @@
 <?php
 
-class BaseController extends Controller {
+class BaseController extends \Arx\BaseController {
 
 	/**
 	 * Setup the layout used by the controller.
@@ -14,9 +14,5 @@ class BaseController extends Controller {
 			$this->layout = View::make($this->layout);
 		}
 	}
-
-    public function setContent($template, $data = array()){
-        return $this->layout->content = View::make($template, $data);
-    }
 
 }

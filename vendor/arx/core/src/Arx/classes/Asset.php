@@ -1,107 +1,31 @@
-<?php
-/**
- * Assets class fork of Fuel
- *
- * @package     Arx
- * @version     1.6
- * @author      Fuel Development Team
- * @author      Daniel Sum <daniel@cherrypulp.com>
- * @license     MIT License
- */
+<?php namespace Arx\classes;
 
-namespace Arx\classes;
-
-use Assetic\Asset\AssetCollection;
-use Assetic\Asset\FileAsset;
-use Assetic\Asset\GlobAsset;
-use Assetic\AssetManager;
-use Assetic\Filter\LessFilter;
-use Assetic\Filter\Yui;
+use Arx;
 
 /**
- * Class Asset
+ * Class Assets
  *
- * Asset class based on Assetic class
+ * Smarter assets handler => if production js and css will be compiled on the fly
+ *
+ * @todo choose compilation flow
  *
  * @package Arx\classes
  */
-class Asset
-{
+class Asset extends singleton {
 
-    /**
-     *
-     * Dump an array of stylesheets or css
-     *
-     * @param       $mAsset
-     * @param array $param (available
-     *              'filters' => array(),
-     *              'sourceRoot' => null,
-     *              'vars' => array()
-     * @see https://github.com/kriswallsmith/assetic for more informations about available params
-     * @return string
-     */
-    public static function dump($mAsset, $param = array())
-    {
-        $aCleaned = self::format($mAsset, $param);
+    protected $_aInstances = array();
 
-        $ac = new AssetCollection($aCleaned[0], $aCleaned[1], $aCleaned[2], $aCleaned[3]);
+    public static function js($data = array(), $param = array(
+            'compiled' => false
+        )){
 
-        return $ac->dump();
+        return Load::js($data);
     }
 
+    public static function css($data = array(), $param = array(
+            'compiled' => false
+        )){
 
-    /**
-     * Format array to the Assetic format
-     *
-     * @param       $mAsset
-     * @param array $param
-     *
-     * @return array
-     */
-    public static function format($mAsset, $param = array())
-    {
-
-        $defParam = array(
-            'filters' => array(),
-            'sourceRoot' => Composer::getRootPath(),
-            'vars' => array()
-        );
-
-        $aAssets = array();
-
-        $param = array_merge($defParam, $param);
-
-        if (is_string($mAsset)) {
-            $mAsset = array($mAsset);
-            $aAssets[] =  self::resolve($mAsset);
-        } else {
-            foreach ($mAsset as $asset) {
-                $aAssets[] = self::resolve($asset);
-            }
-        }
-
-        return $result = array($aAssets, $param['filters'], $param['sourceRoot'], $param['vars']);
+        return Load::css($data);
     }
-
-    /**
-     * Resolve path according to the Assetic Asset
-     *
-     * @param $mVar
-     *
-     * @return object
-     */
-    public static function resolve($mVar)
-    {
-        if (is_string($mVar) && strpos($mVar, '*')) {
-            $mVar = array($mVar);
-            return Utils::call_user_obj_array('\Assetic\Asset\GlobAsset', $mVar);
-        } elseif (is_array($mVar) && strpos($mVar[0], '*')) {
-            return Utils::call_user_obj_array('\Assetic\Asset\GlobAsset', $mVar);
-        } else {
-            if(is_string($mVar)){
-                $mVar = array($mVar);
-            }
-            return Utils::call_user_obj_array('\Assetic\Asset\FileAsset', $mVar);
-        }
-    }
-}
+} 

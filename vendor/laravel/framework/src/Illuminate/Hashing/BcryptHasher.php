@@ -5,9 +5,9 @@ class BcryptHasher implements HasherInterface {
 	/**
 	 * Default crypt cost factor.
 	 *
-	 * @var bool
+	 * @var int
 	 */
-	protected $rounds = 8;
+	protected $rounds = 10;
 
 	/**
 	 * Hash the given value.
@@ -15,6 +15,8 @@ class BcryptHasher implements HasherInterface {
 	 * @param  string  $value
 	 * @param  array   $options
 	 * @return string
+	 *
+	 * @throws \RuntimeException
 	 */
 	public function make($value, array $options = array())
 	{
@@ -55,6 +57,17 @@ class BcryptHasher implements HasherInterface {
 		$cost = isset($options['rounds']) ? $options['rounds'] : $this->rounds;
 
 		return password_needs_rehash($hashedValue, PASSWORD_BCRYPT, array('cost' => $cost));
+	}
+
+	/**
+	 * Set the default crypt cost factor.
+	 *
+	 * @param  int  $rounds
+	 * @return void
+	 */
+	public function setRounds($rounds)
+	{
+		$this->rounds = (int) $rounds;
 	}
 
 }

@@ -1,10 +1,12 @@
 <?php namespace Illuminate\Html;
 
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Html\HtmlBuilder as Html;
 use Illuminate\Session\Store as Session;
+use Illuminate\Support\Traits\MacroableTrait;
 
 class FormBuilder {
+
+	use MacroableTrait;
 
 	/**
 	 * The HTML builder instance.
@@ -47,13 +49,6 @@ class FormBuilder {
 	 * @var array
 	 */
 	protected $labels = array();
-
-	/**
-	 * The registered form builder macros.
-	 *
-	 * @var array
-	 */
-	protected $macros = array();
 
 	/**
 	 * The reserved form open attributes.
@@ -115,7 +110,7 @@ class FormBuilder {
 		// different method than it actually is, for convenience from the forms.
 		$append = $this->getAppendage($method);
 
-		if (isset($options['files']) and $options['files'])
+		if (isset($options['files']) && $options['files'])
 		{
 			$options['enctype'] = 'multipart/form-data';
 		}
@@ -149,6 +144,17 @@ class FormBuilder {
 		$this->model = $model;
 
 		return $this->open($options);
+	}
+
+	/**
+	 * Set the model instance on the form builder.
+	 *
+	 * @param  mixed  $model
+	 * @return void
+	 */
+	public function setModel($model)
+	{
+		$this->model = $model;
 	}
 
 	/**
@@ -229,7 +235,7 @@ class FormBuilder {
 			$value = $this->getValueAttribute($name, $value);
 		}
 
-		// Once we have the type, value, and ID we can marge them into the rest of the
+		// Once we have the type, value, and ID we can merge them into the rest of the
 		// attributes array so we can convert them into their HTML attribute format
 		// when creating the HTML element. Then, we will return the entire input.
 		$merge = compact('type', 'value', 'id');
@@ -383,6 +389,19 @@ class FormBuilder {
 	}
 
 	/**
+	 * Create a number input field.
+	 *
+	 * @param  string  $name
+	 * @param  string|null  $value
+	 * @param  array  $options
+	 * @return string
+	 */
+	public function number($name, $value = null, $options = array())
+	{
+		return $this->input('number', $name, $value, $options);
+	}
+
+	/**
 	 * Create a select box field.
 	 *
 	 * @param  string  $name
@@ -400,7 +419,7 @@ class FormBuilder {
 
 		$options['id'] = $this->getIdAttribute($name, $options);
 
-		$options['name'] = $name;
+		if ( ! isset($options['name'])) $options['name'] = $name;
 
 		// We will simply loop through the options and build an HTML value for each of
 		// them until we have an array of HTML declarations. Then we will join them
@@ -460,15 +479,16 @@ class FormBuilder {
 	 * @param  string  $name
 	 * @param  string  $selected
 	 * @param  array   $options
+	 * @param  string  $format
 	 * @return string
 	 */
-	public function selectMonth($name, $selected = null, $options = array())
+	public function selectMonth($name, $selected = null, $options = array(), $format = '%B')
 	{
 		$months = array();
 
 		foreach (range(1, 12) as $month)
 		{
-			$months[$month] = strftime('%B', mktime(0, 0, 0, $month, 1));
+			$months[$month] = strftime($format, mktime(0, 0, 0, $month, 1));
 		}
 
 		return $this->select($name, $months, $selected, $options);
@@ -602,7 +622,7 @@ class FormBuilder {
 	 * @param  string  $name
 	 * @param  mixed   $value
 	 * @param  bool    $checked
-	 * @return void
+	 * @return bool
 	 */
 	protected function getCheckedState($type, $name, $value, $checked)
 	{
@@ -629,7 +649,7 @@ class FormBuilder {
 	 */
 	protected function getCheckboxCheckedState($name, $value, $checked)
 	{
-		if ( ! $this->oldInputIsEmpty() and is_null($this->old($name))) return false;
+		if (isset($this->session) && ! $this->oldInputIsEmpty() && is_null($this->old($name))) return false;
 
 		if ($this->missingOldAndModel($name)) return $checked;
 
@@ -661,7 +681,7 @@ class FormBuilder {
 	 */
 	protected function missingOldAndModel($name)
 	{
-		return (is_null($this->old($name)) and is_null($this->getModelValueAttribute($name)));
+		return (is_null($this->old($name)) && is_null($this->getModelValueAttribute($name)));
 	}
 
 	/**
@@ -712,24 +732,12 @@ class FormBuilder {
 	 */
 	public function button($value = null, $options = array())
 	{
-		if ( ! array_key_exists('type', $options) )
+		if ( ! array_key_exists('type', $options))
 		{
 			$options['type'] = 'button';
 		}
 
 		return '<button'.$this->html->attributes($options).'>'.$value.'</button>';
-	}
-
-	/**
-	 * Register a custom form macro.
-	 *
-	 * @param  string    $name
-	 * @param  callable  $macro
-	 * @return void
-	 */
-	public function macro($name, $macro)
-	{
-		$this->macros[$name] = $macro;
 	}
 
 	/**
@@ -937,7 +945,7 @@ class FormBuilder {
 	 */
 	public function oldInputIsEmpty()
 	{
-		return (isset($this->session) and count($this->session->getOldInput()) == 0);
+		return (isset($this->session) && count($this->session->getOldInput()) == 0);
 	}
 
 	/**
@@ -965,30 +973,13 @@ class FormBuilder {
 	 * Set the session store implementation.
 	 *
 	 * @param  \Illuminate\Session\Store  $session
-	 * @return \Illuminate\Html\FormBuilder
+	 * @return $this
 	 */
 	public function setSessionStore(Session $session)
 	{
 		$this->session = $session;
 
 		return $this;
-	}
-
-	/**
-	 * Dynamically handle calls to the form builder.
-	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
-	 * @return mixed
-	 */
-	public function __call($method, $parameters)
-	{
-		if (isset($this->macros[$method]))
-		{
-			return call_user_func_array($this->macros[$method], $parameters);
-		}
-
-		throw new \BadMethodCallException("Method {$method} does not exist.");
 	}
 
 }

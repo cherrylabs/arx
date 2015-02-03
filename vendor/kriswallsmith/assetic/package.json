@@ -8,6 +8,8 @@
     "typescript": "*",
     "less": "*",
     "handlebars": "*",
-    "uglify-js": "*"
+    "uglify-js": "*",
+    "autoprefixer": "*",
+    "roole": "*"
   }
 }

@@ -6,15 +6,16 @@
 
 namespace Whoops\Provider\Phalcon;
 
-use Whoops\Run;
-use Whoops\Handler\PrettyPageHandler;
 use Phalcon\DI;
 use Phalcon\DI\Exception;
+use Whoops\Handler\JsonResponseHandler;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 class WhoopsServiceProvider
 {
     /**
-     * @param Phalcon\DI $di
+     * @param DI $di
      */
     public function __construct(DI $di = null)
     {
@@ -23,8 +24,15 @@ class WhoopsServiceProvider
         }
 
         // There's only ever going to be one error page...right?
-        $di->setShared('whoops.error_page_handler', function() {
-            return new PrettyPageHandler;
+        $di->setShared('whoops.pretty_page_handler', function () {
+            return new PrettyPageHandler();
+        });
+
+        // There's only ever going to be one error page...right?
+        $di->setShared('whoops.json_response_handler', function () {
+            $jsonHandler = new JsonResponseHandler();
+            $jsonHandler->onlyForAjaxRequests(true);
+            return $jsonHandler;
         });
 
         // Retrieves info on the Phalcon environment and ships it off
@@ -32,7 +40,7 @@ class WhoopsServiceProvider
         // This works by adding a new handler to the stack that runs
         // before the error page, retrieving the shared page handler
         // instance, and working with it to add new data tables
-        $phalcon_info_handler = function() use($di) {
+        $phalcon_info_handler = function () use ($di) {
             try {
                 $request = $di['request'];
             } catch (Exception $e) {
@@ -42,11 +50,11 @@ class WhoopsServiceProvider
             }
 
             // Request info:
-            $di['whoops.error_page_handler']->addDataTable('Phalcon Application (Request)', array(
+            $di['whoops.pretty_page_handler']->addDataTable('Phalcon Application (Request)', array(
                 'URI'         => $request->getScheme().'://'.$request->getServer('HTTP_HOST').$request->getServer('REQUEST_URI'),
                 'Request URI' => $request->getServer('REQUEST_URI'),
                 'Path Info'   => $request->getServer('PATH_INFO'),
-                'Query String'=> $request->getServer('QUERY_STRING') ?: '<none>',
+                'Query String' => $request->getServer('QUERY_STRING') ?: '<none>',
                 'HTTP Method' => $request->getMethod(),
                 'Script Name' => $request->getServer('SCRIPT_NAME'),
                 //'Base Path'   => $request->getBasePath(),
@@ -57,10 +65,11 @@ class WhoopsServiceProvider
             ));
         };
 
-        $di->setShared('whoops', function() use($di, $phalcon_info_handler) {
-            $run = new Run;
-            $run->pushHandler($di['whoops.error_page_handler']);
+        $di->setShared('whoops', function () use ($di,$phalcon_info_handler) {
+            $run = new Run();
+            $run->pushHandler($di['whoops.pretty_page_handler']);
             $run->pushHandler($phalcon_info_handler);
+            $run->pushHandler($di['whoops.json_response_handler']);
             return $run;
         });
 

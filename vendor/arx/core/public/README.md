@@ -1,20 +1,7 @@
-# arx-ui
+# Arx-ui 
 
-UI elements for ARX
+Dist and examples only to minimize arx/core size.
 
+If you want the full source file see : 
 
-
-
-## Installation
-
-Install Dev dependencies:
-
-    $ npm install
-
-Install Plugins dependencies:
-
-    $ bower install
-
-Use [grunt](http://gruntjs.com/ "Grunt") to compile less and js:
-
-    $ grunt dev
+[https://github.com/cherrylabs/arx-ui](https://github.com/cherrylabs/arx-ui)

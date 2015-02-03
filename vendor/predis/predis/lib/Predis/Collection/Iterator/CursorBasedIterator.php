@@ -43,8 +43,8 @@ abstract class CursorBasedIterator implements Iterator
 
     /**
      * @param ClientInterface $client Client connected to Redis.
-     * @param string $match Pattern to match during the server-side iteration.
-     * @param int $count Hints used by Redis to compute the number of results per iteration.
+     * @param string          $match  Pattern to match during the server-side iteration.
+     * @param int             $count  Hints used by Redis to compute the number of results per iteration.
      */
     public function __construct(ClientInterface $client, $match = null, $count = null)
     {
@@ -60,8 +60,8 @@ abstract class CursorBasedIterator implements Iterator
      * command required to fetch elements from the server to perform
      * the iteration.
      *
-     * @param ClientInterface Client connected to Redis.
-     * @param string $commandID Command ID.
+     * @param ClientInterface $client    Client connected to Redis.
+     * @param string          $commandID Command ID.
      */
     protected function requiredCommand(ClientInterface $client, $commandID)
     {
@@ -109,7 +109,7 @@ abstract class CursorBasedIterator implements Iterator
      *
      * @return array
      */
-    protected abstract function executeCommand();
+    abstract protected function executeCommand();
 
     /**
      * Populates the local buffer of elements fetched from the
@@ -166,16 +166,18 @@ abstract class CursorBasedIterator implements Iterator
      */
     public function next()
     {
-        if (!$this->elements && $this->fetchmore) {
-            $this->fetch();
-        }
+        tryFetch: {
+            if (!$this->elements && $this->fetchmore) {
+                $this->fetch();
+            }
 
-        if ($this->elements) {
-            $this->extractNext();
-        } else if ($this->cursor) {
-            $this->next();
-        } else {
-            $this->valid = false;
+            if ($this->elements) {
+                $this->extractNext();
+            } elseif ($this->cursor) {
+                goto tryFetch;
+            } else {
+                $this->valid = false;
+            }
         }
     }
 

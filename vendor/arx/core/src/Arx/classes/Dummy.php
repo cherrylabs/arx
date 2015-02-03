@@ -1,14 +1,12 @@
-<?php
+<?php namespace Arx\classes;
+
 /**
- * A Dummy class generator
+ * Class Dummy
  *
- * @project : ARX
- * @author  : Daniel Sum <daniel@cherrypulp.com>
+ * A dummy text, image, video, title class
+ *
+ * @package Arx\classes
  */
-
-namespace Arx\classes;
-
-
 class Dummy
 {
 
@@ -103,5 +101,14 @@ class Dummy
         return '<iframe ' . Html::attributes($param) . '></iframe>';
 
     }
+
+	/**
+	 * Generate random email
+	 *
+	 * @return string
+	 */
+	public static function email(){
+		return Utils::randEmail();
+	}
 
 }

@@ -2,13 +2,19 @@
 
 use Illuminate\View\ViewServiceProvider;
 use Arx\classes\view\FileViewFinder;
-use Arx\classes\view\Environment;
 use Arx\classes\view\engines\CompilerEngine;
 use Arx\classes\view\engines\PhpEngine;
-use Arx\classes\view\engines\blade\BladeCompiler;
+use Illuminate\View\Compilers\BladeCompiler;
 use Arx\classes\view\engines\tpl\TplCompiler;
 
-class View extends ViewServiceProvider{
+/**
+ * Class View
+ *
+ * @todo make it usable outside a Laravel Project
+ *
+ * @package Arx\classes
+ */
+class View extends ViewServiceProvider {
 
     /**
      * Register the PHP engine implementation.

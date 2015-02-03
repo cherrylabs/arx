@@ -20,23 +20,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Tests\Logger;
 
 /**
- * ExceptionListenerTest
+ * ExceptionListenerTest.
  *
  * @author Robert Schönthal <seroscho@googlemail.com>
  */
 class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-        if (!class_exists('Symfony\Component\EventDispatcher\EventDispatcher')) {
-            $this->markTestSkipped('The "EventDispatcher" component is not available');
-        }
-
-        if (!class_exists('Symfony\Component\HttpFoundation\Request')) {
-            $this->markTestSkipped('The "HttpFoundation" component is not available');
-        }
-    }
-
     public function testConstruct()
     {
         $logger = new TestLogger();
@@ -56,8 +45,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleWithoutLogger($event, $event2)
     {
-        // store the current error_log, and disable it temporarily
-        $errorLog = ini_set('error_log', file_exists('/dev/null') ? '/dev/null' : 'nul');
+        $this->iniSet('error_log', file_exists('/dev/null') ? '/dev/null' : 'nul');
 
         $l = new ExceptionListener('foo');
         $l->onKernelException($event);
@@ -69,9 +57,6 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
         } catch (\Exception $e) {
             $this->assertSame('foo', $e->getMessage());
         }
-
-        // restore the old error_log
-        ini_set('error_log', $errorLog);
     }
 
     /**
@@ -108,7 +93,7 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
         $event2 = new GetResponseForExceptionEvent(new TestKernelThatThrowsException(), $request, 'foo', $exception);
 
         return array(
-            array($event, $event2)
+            array($event, $event2),
         );
     }
 

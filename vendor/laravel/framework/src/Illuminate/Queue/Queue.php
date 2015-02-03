@@ -3,6 +3,7 @@
 use Closure;
 use DateTime;
 use Illuminate\Container\Container;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\SerializableClosure;
 
 abstract class Queue {
@@ -10,14 +11,14 @@ abstract class Queue {
 	/**
 	 * The IoC container instance.
 	 *
-	 * @var \Illuminate\Container
+	 * @var \Illuminate\Container\Container
 	 */
 	protected $container;
 
 	/**
 	 * Marshal a push queue request and fire the job.
 	 *
-	 * @return Illuminate\Http\Response
+	 * @throws \RuntimeException
 	 */
 	public function marshal()
 	{
@@ -25,10 +26,10 @@ abstract class Queue {
 	}
 
 	/**
-	 * Push a new an array of jobs onto the queue.
+	 * Push an array of jobs onto the queue.
 	 *
-	 * @param  array  $jobs
-	 * @param  mixed  $data
+	 * @param  array   $jobs
+	 * @param  mixed   $data
 	 * @param  string  $queue
 	 * @return mixed
 	 */
@@ -45,32 +46,46 @@ abstract class Queue {
 	 *
 	 * @param  string  $job
 	 * @param  mixed   $data
+	 * @param  string  $queue
 	 * @return string
 	 */
-	protected function createPayload($job, $data = '')
+	protected function createPayload($job, $data = '', $queue = null)
 	{
 		if ($job instanceof Closure)
 		{
 			return json_encode($this->createClosurePayload($job, $data));
 		}
-		else
-		{
-			return json_encode(array('job' => $job, 'data' => $data));
-		}
+
+		return json_encode(array('job' => $job, 'data' => $data));
 	}
 
 	/**
 	 * Create a payload string for the given Closure job.
 	 *
 	 * @param  \Closure  $job
-	 * @param  mixed  $data
+	 * @param  mixed     $data
 	 * @return string
 	 */
 	protected function createClosurePayload($job, $data)
 	{
-		$closure = serialize(new SerializableClosure($job));
+		$closure = $this->crypt->encrypt(serialize(new SerializableClosure($job)));
 
 		return array('job' => 'IlluminateQueueClosure', 'data' => compact('closure'));
+	}
+
+	/**
+	 * Set additional meta on a payload string.
+	 *
+	 * @param  string  $payload
+	 * @param  string  $key
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected function setMeta($payload, $key, $value)
+	{
+		$payload = json_decode($payload, true);
+
+		return json_encode(array_set($payload, $key, $value));
 	}
 
 	/**
@@ -85,10 +100,8 @@ abstract class Queue {
 		{
 			return max(0, $delay->getTimestamp() - $this->getTime());
 		}
-		else
-		{
-			return intval($delay);
-		}
+
+		return (int) $delay;
 	}
 
 	/**
@@ -104,12 +117,23 @@ abstract class Queue {
 	/**
 	 * Set the IoC container instance.
 	 *
-	 * @param  \Illuminate\Container  $container
+	 * @param  \Illuminate\Container\Container  $container
 	 * @return void
 	 */
 	public function setContainer(Container $container)
 	{
 		$this->container = $container;
+	}
+
+	/**
+	 * Set the encrypter instance.
+	 *
+	 * @param  \Illuminate\Encryption\Encrypter  $crypt
+	 * @return void
+	 */
+	public function setEncrypter(Encrypter $crypt)
+	{
+		$this->crypt = $crypt;
 	}
 
 }

@@ -1,11 +1,8 @@
 <?php namespace Arx\classes\view\engines;
 
-use Arx\classes\Container;
 use Arx\classes\Bag;
-use Illuminate\View\Exception;
-use Illuminate\View\Environment;
+use Illuminate\View\Engines;
 use Illuminate\View\Engines\EngineInterface;
-use Arx\classes\Utils as u;
 
 /**
  * Class PhpEngine
@@ -22,6 +19,14 @@ class PhpEngine implements EngineInterface {
         }
 
         return false;
+    }
+
+    /**
+     * Help debug method
+     */
+    public function help()
+    {
+        ddd($this->_data->__var);
     }
 
     /**
@@ -66,6 +71,11 @@ class PhpEngine implements EngineInterface {
         return ob_get_clean();
     }
 
+    /**
+     * Transform Data variable to a Bag object
+     *
+     * @param $data
+     */
     protected function bag($data){
         $this->_data = new Bag($data);
     }

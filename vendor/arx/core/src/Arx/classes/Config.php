@@ -57,8 +57,6 @@ class Config extends Container
 
         $rules = self::get('env');
 
-        $host = getenv('SERVER_NAME');
-
         $request = $request ? $request : Request::createFromGlobals();
 
         $host = $request->getHost();
@@ -72,7 +70,7 @@ class Config extends Container
             }
         }
 
-        static::loadEnvironment($env);
+        static::loadEnvironment(static::$env);
 
         return static::$env;
     }
@@ -152,6 +150,7 @@ class Config extends Container
         }
 
         foreach ($aFiles as $sFilePath) {
+
             $pathinfo = pathinfo($sFilePath);
             $key = !is_null($sNamespace) ? $sNamespace . '.' . $pathinfo['filename'] : $pathinfo['filename'];
 

@@ -24,6 +24,7 @@ abstract class AbstractPubSubContext implements \Iterator
     const PUNSUBSCRIBE = 'punsubscribe';
     const MESSAGE      = 'message';
     const PMESSAGE     = 'pmessage';
+    const PONG         = 'pong';
 
     const STATUS_VALID       = 1;	// 0b0001
     const STATUS_SUBSCRIBED  = 2;	// 0b0010
@@ -43,8 +44,8 @@ abstract class AbstractPubSubContext implements \Iterator
     /**
      * Checks if the specified flag is valid in the state of the context.
      *
-     * @param int $value Flag.
-     * @return Boolean
+     * @param  int  $value Flag.
+     * @return bool
      */
     protected function isFlagSet($value)
     {
@@ -52,11 +53,22 @@ abstract class AbstractPubSubContext implements \Iterator
     }
 
     /**
+     * PING the server with an optional payload that will be echoed as a
+     * PONG message in the pub/sub loop.
+     *
+     * @param string $payload Optional PING payload.
+     */
+    public function ping($payload = null)
+    {
+        $this->writeCommand('PING', array($payload));
+    }
+
+    /**
      * Subscribes to the specified channels.
      *
-     * @param mixed $arg,... One or more channel names.
+     * @param mixed $channel,... One or more channel names.
      */
-    public function subscribe(/* arguments */)
+    public function subscribe($channel /*, ... */)
     {
         $this->writeCommand(self::SUBSCRIBE, func_get_args());
         $this->statusFlags |= self::STATUS_SUBSCRIBED;
@@ -65,9 +77,9 @@ abstract class AbstractPubSubContext implements \Iterator
     /**
      * Unsubscribes from the specified channels.
      *
-     * @param mixed $arg,... One or more channel names.
+     * @param string ... One or more channel names.
      */
-    public function unsubscribe(/* arguments */)
+    public function unsubscribe(/* ... */)
     {
         $this->writeCommand(self::UNSUBSCRIBE, func_get_args());
     }
@@ -75,9 +87,9 @@ abstract class AbstractPubSubContext implements \Iterator
     /**
      * Subscribes to the specified channels using a pattern.
      *
-     * @param mixed $arg,... One or more channel name patterns.
+     * @param mixed $pattern,... One or more channel name patterns.
      */
-    public function psubscribe(/* arguments */)
+    public function psubscribe($pattern /* ... */)
     {
         $this->writeCommand(self::PSUBSCRIBE, func_get_args());
         $this->statusFlags |= self::STATUS_PSUBSCRIBED;
@@ -86,9 +98,9 @@ abstract class AbstractPubSubContext implements \Iterator
     /**
      * Unsubscribes from the specified channels using a pattern.
      *
-     * @param mixed $arg,... One or more channel name patterns.
+     * @param string ... One or more channel name patterns.
      */
-    public function punsubscribe(/* arguments */)
+    public function punsubscribe(/* ... */)
     {
         $this->writeCommand(self::PUNSUBSCRIBE, func_get_args());
     }
@@ -98,8 +110,8 @@ abstract class AbstractPubSubContext implements \Iterator
      * Optionally, the context can be forcefully closed by dropping the
      * underlying connection.
      *
-     * @param Boolean $force Forcefully close the context by closing the connection.
-     * @return Boolean Returns false if there are no pending messages.
+     * @param  bool $force Forcefully close the context by closing the connection.
+     * @return bool Returns false if there are no pending messages.
      */
     public function closeContext($force = false)
     {
@@ -125,15 +137,15 @@ abstract class AbstractPubSubContext implements \Iterator
     /**
      * Closes the underlying connection on forced disconnection.
      */
-    protected abstract function disconnect();
+    abstract protected function disconnect();
 
     /**
      * Writes a Redis command on the underlying connection.
      *
-     * @param string $method ID of the command.
-     * @param array $arguments List of arguments.
+     * @param string $method    ID of the command.
+     * @param array  $arguments List of arguments.
      */
-    protected abstract function writeCommand($method, $arguments);
+    abstract protected function writeCommand($method, $arguments);
 
     /**
      * {@inheritdoc}
@@ -177,7 +189,7 @@ abstract class AbstractPubSubContext implements \Iterator
     /**
      * Checks if the the context is still in a valid state to continue.
      *
-     * @return Boolean
+     * @return bool
      */
     public function valid()
     {
@@ -202,5 +214,5 @@ abstract class AbstractPubSubContext implements \Iterator
      *
      * @return array
      */
-    protected abstract function getValue();
+    abstract protected function getValue();
 }

@@ -1,6 +1,17 @@
 <?php namespace Arx\classes;
 
-class Hash implements \Illuminate\Hashing\HasherInterface {
+use Illuminate\Hashing\HasherInterface;
+
+/**
+ * Class Hash
+ *
+ * compatible with sha1 (used for retro-compatibility 5.3.2)
+ *
+ * @package Arx\classes
+ */
+class Hash implements HasherInterface {
+
+    protected static $_algo = 'sha1';
 
     /**
      * Hash the given value.
@@ -10,7 +21,7 @@ class Hash implements \Illuminate\Hashing\HasherInterface {
      * @return string
      */
     public function make($value, array $options = array()) {
-        return hash('sha1', $value);
+        return hash(self::$_algo, $value);
     }
 
     /**

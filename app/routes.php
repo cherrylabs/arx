@@ -11,7 +11,4 @@
 |
 */
 
-
-Route::controller('/example', 'ExampleController');
-
-Route::get('/', 'HomeController@showWelcome');
+Route::controller('/', 'HomeController');

@@ -1,30 +1,8 @@
 <?php namespace Arx\classes;
 
-use Closure;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Router;
-use Illuminate\Config\FileLoader;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Events\EventServiceProvider;
-use Illuminate\Foundation\ProviderRepository;
-use Illuminate\Routing\RoutingServiceProvider;
-use Illuminate\Exception\ExceptionServiceProvider;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Illuminate\Support\Contracts\ResponsePreparerInterface;
-use Symfony\Component\Debug\Exception\FatalErrorException;
-use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use \Illuminate\Foundation\Application as ParentClass;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirect;
 use Exception;
-use Arx\classes\Config;
 
 
 /**
@@ -39,12 +17,12 @@ use Arx\classes\Config;
  * @license  http://opensource.org/licenses/MIT MIT License
  * @link     http://www.arx.io/arx/core/src/Arx/classes
  */
-class App extends \Illuminate\Foundation\Application
+class App extends ParentClass
 {
 
     // --- Constants
 
-    const VERSION = '1.0';
+    const VERSION = '4.2';
 
     const CODENAME = 'Lupa';
 
@@ -117,122 +95,25 @@ class App extends \Illuminate\Foundation\Application
      *
      * @throws \Whoops\Example\Exception
      */
-    public function bootstrap($config = null, $file = 'default.php'){
+    public function bootstrap($file = 'start.php', $config = null){
+
         global $app;
 
         $app = $this;
 
-        // Inject special ARX Config to APP
-        $this['arxconfig'] = Config::load(__DIR__.'/../config/');
-
         if($config){
             $this['arxconfig'] = Config::load($config);
+        } else {
+            // Inject special ARX Config to APP
+            $this['arxconfig'] = Config::load(__DIR__.'/../config/');
         }
 
         if(is_file($file)){
             require_once $file;
-        } elseif(is_file($file = __DIR__.'/../bootstrap/'.$file)){
+        } elseif(is_file($file = __DIR__.'/../../bootstrap/'.$file)){
             require_once $file;
         } else{
-            Throw new Exception('Whoops, there is no file boot');
-        }
-    }
-
-
-    /**
-     * Autoload an undefined class and add more resolving case for the workbench environment
-     *
-     * Example : if in your workbench package you call a class with xxxController, xxxModel, xxxClass at the end, it
-     * will try to resolve the class by searching inside the controllers folder
-     *
-     * /!\ you must always add a classmap in your composer.json file !
-     *
-     * @param       $className
-     * @param array $aParam
-     *
-     * @return void
-     *
-     * @todo clean this function
-     */
-    static function autoload($className, $aParam = array())
-    {
-        $instance = self::getInstance();
-
-        $aAutoload = Config::get('autoload');
-
-        $className = ltrim($className, '\\');
-        $fileName = '';
-        $namespace = '';
-        $vendorName = '';
-        $packageName = '';
-        $routeName = '';
-        $composerName = '';
-        $supposedPath = ''; # Supposed path if class have a autoload structure in workbench
-
-        if ($lastNsPos = strrpos($className, '\\')) {
-            $namespace = substr($className, 0, $lastNsPos);
-            $className = substr($className, $lastNsPos + 1);
-            $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
-
-            $aExplode = explode('\\', $namespace);
-            $iExplode = count($aExplode);
-
-            if($iExplode === 1){
-                $packageName = $aExplode[0];
-            } elseif($iExplode === 2){
-                list($vendorName, $packageName) = $aExplode;
-                $composerName = $vendorName.'/'.$packageName;
-            } elseif($iExplode >= 3){
-                $vendorName = array_shift($aExplode);
-                $packageName = array_shift($aExplode);
-                $composerName = $vendorName.'/'.$packageName;
-                $routeName = implode('/', $aExplode);
-            }
-        }
-        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
-        $aNamespaces = Composer::getNamespaces();
-
-
-        if (in_array($namespace, array_keys($aNamespaces))) {
-
-        } elseif(in_array($composerName, array_keys($aNamespaces))){
-
-            $paths = $aNamespaces[$composerName];
-
-            foreach($paths as $path){
-                if(is_file($fileName = $path.'/'.$fileName)){
-                    include $fileName;
-                }
-            }
-        }
-
-        if(isset($aNamespaces[$packageName]) && !empty($aNamespaces[$packageName])){
-
-            if(preg_match('/Controller$/', $className)){
-
-                $supposedPath = end($aNamespaces[$packageName]) . DS. str_replace('\\', DS, $namespace) . DS.  'controllers' . DS . $className . '.php';
-            }
-
-            if(preg_match('/Model$/', $className)){
-
-                $supposedPath = end($aNamespaces[$packageName]) . DS . str_replace('\\', DS, $namespace) . DS. 'models' . DS . $className . '.php';
-            }
-
-            if(preg_match('/Class$/', $className)){
-                $supposedPath = end($aNamespaces[$packageName]) . DS . str_replace('\\', DS, $namespace) . DS. 'classes' . DS . $className . '.php';
-            }
-
-        }
-
-        if(is_file($fileName = Config::get('paths.workbench') . DS . strtolower($composerName) .DS. 'src' . DS . $fileName)){
-            include $fileName;
-        } elseif(is_file($fileName = Config::get('paths.workbench') . DS . $fileName)){
-            include $fileName;
-        } elseif (is_array($aAutoload) and array_key_exists($className, $aAutoload) and is_file($aAutoload[$className])) {
-            include $aAutoload[$className];
-        } elseif(is_file($supposedPath) ) {
-            include $supposedPath;
+            Throw new Exception('Whoops, there is no file to boot...');
         }
     }
 
@@ -251,23 +132,6 @@ class App extends \Illuminate\Foundation\Application
         }
 
         return self::$_aInstances[$sClass];
-    }
-
-    /**
-     * resolve a conflict with the Laravel method
-     *
-     * @return null|SymfonyRedirect|void
-     */
-    public function redirectIfTrailingSlash()
-    {
-        if ($this->runningInConsole()) {
-            return;
-        }
-        $path = $this['request']->getPathInfo();
-        if ($path != '/' and ends_with($path, '/') and !ends_with($path, '//')) {
-            with(new SymfonyRedirect($this['request']->fullUrl(), 301))->send();
-            die;
-        }
     }
 
 } // class::App

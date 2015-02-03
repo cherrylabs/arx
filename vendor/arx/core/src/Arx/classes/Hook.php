@@ -1,28 +1,27 @@
 <?php namespace Arx\classes;
 
-/**
- * Hook class
- *
- * Class helper to manage easily a hook flow
- * @example
- *  Hook::add('{name}', array('{link}');
- * @category Hook
- * @package  Arx
- * @author   Daniel Sum <daniel@cherrypulp.com>
- * @author   Stéphan Zych <stephan@cherrypulp.com>
- * @license  http://opensource.org/licenses/MIT MIT License
- * @link     http://arx.xxx/doc/Hook
- */
+if(!defined('ARX_HOOK')) define('ARX_HOOK', 'ARX_HOOK');
 
-class Hook
+/**
+ * Class Hook
+ *
+ * Little class to add easily a hook system to any kind of project
+ *
+ * @package Arx\classes
+ */
+class Hook extends \ArrayObject
 {
-    public static $pref = "hooked_";
+    public static $pref = "";
 
     public static $logs = array();
 
+    public static $callback = array();
+    
+    public static $debug = true;
+
     public function __get($name)
     {
-        return $GLOBALS[self::$pref.$name];
+        return $GLOBALS[ARX_HOOK][$name];
     }
 
     public function __set($name, $value)
@@ -30,12 +29,25 @@ class Hook
         return self::add($name, $value);
     }
 
-    public function __construct(){
-
+    public static function register($name, $callback = null){
+        $GLOBALS[ARX_HOOK][$name] = array();
+        self::$callback[$name] = array($callback);
     }
 
-    public static function register($name, $callback = null){
-        $GLOBALS[self::$pref.$name] = array();
+    public static function log($action, $name, $params = array()){
+
+        if(!isset($logs[$action])){
+            self::$logs[$action] = array();
+        }
+
+        self::$logs[$action][$name][] = array(
+            'params' => $params,
+            'debug' => debug_backtrace(),
+        );
+    }
+
+    public static function logs(){
+        return self::$logs;
     }
 
     /**
@@ -44,26 +56,69 @@ class Hook
      *
      * @return mixed
      */
-    public static function add($name, $mValue)
+    public static function add($name, $mValue, $merge = null)
     {
-
-        if (!isset($GLOBALS['hooked_'.$name])) {
-            $GLOBALS['hooked_'.$name] = array();
+        if (is_string($mValue)) {
+            $mValue = array($mValue);
         }
 
-        if (is_array($mValue)) {
+        if ($pos = strpos($name, '.')) {
+            $dots = substr($name, $pos + 1);
+            $name = substr($name, 0, $pos);
+        }
+
+        if (!isset($GLOBALS[ARX_HOOK][$name])) {
+            $GLOBALS[ARX_HOOK][$name] = array();
+            self::log('add', $name, func_get_args());
+        }
+
+        if($merge === null && !Arr::is_sequential($mValue)){
+            $merge = true;
+        }
+
+        if(isset($dots)){
+            Arr::set($GLOBALS[ARX_HOOK][$name], $dots, $mValue);
+        } elseif ($merge) {
+            $GLOBALS[ARX_HOOK][$name] =  Arr::merge($GLOBALS[ARX_HOOK][$name], $mValue);
+        } elseif (is_array($mValue)) {
             foreach ($mValue as $v) {
-                if(!in_array($v, $GLOBALS['hooked_'.$name]))
-                    $GLOBALS['hooked_'.$name][] = $v;
+                if(!in_array($v, $GLOBALS[ARX_HOOK][$name])){
+                    $GLOBALS[ARX_HOOK][$name][] = $v;
+                }
             }
-
-            return $GLOBALS['hooked_'.$name];
         } else {
-            if(!in_array($mValue, $GLOBALS['hooked_'.$name]))
-
-                return $GLOBALS['hooked_'.$name][] = $mValue;
+            if(!in_array($mValue, $GLOBALS[ARX_HOOK][$name])){
+                $GLOBALS[ARX_HOOK][$name][] = $mValue;
+            }
         }
 
+        return $GLOBALS[ARX_HOOK][$name];
+    }
+
+    /**
+     * Set a new hook
+     *
+     * @deprecated will be removed
+     * @param $name
+     * @param array $mValue
+     */
+    public static function set($name, $mValue = array()){
+        return self::add($name, $mValue);
+    }
+
+    /**
+     * Put data
+     *
+     * @param $name
+     * @param array $mValue
+     * @return mixed
+     */
+    public static function put($name, $mValue = array()){
+        return self::add($name, $mValue);
+    }
+
+    public static function putJsVars($mValue = array(), $name = 'gVars'){
+        return self::add('gVars', $mValue);
     }
 
     /**
@@ -75,11 +130,7 @@ class Hook
      */
     public static function js($name = 'js')
     {
-
-        if(is_string($value)){
-            $value = array($value);
-        }
-        return self::add('js', $value);
+        return Asset::js(Hook::get($name));
     }
 
     /**
@@ -91,10 +142,14 @@ class Hook
      */
     public static function css($name = 'css')
     {
-        $t = self::getInstance();
-
+        return Asset::css(Hook::get($name));
     }
 
+    /**
+     * Output content as HTML
+     *
+     * @param string $name
+     */
     public static function html($name = 'html'){
 
     }
@@ -106,9 +161,9 @@ class Hook
      * @package arx
      * @comments :
      */
-    public static function get_js($value)
+    public static function getJs($name = 'js')
     {
-        $output = Load::JS($GLOBALS[self::$pref.$c]);
+        $output = Load::JS($GLOBALS[self::$pref.$name]);
 
         return $output;
     }
@@ -120,9 +175,9 @@ class Hook
      * @package arx
      * @comments :
      */
-    public static function get_css($value)
+    public static function getCss($name = 'css')
     {
-        $output = Load::CSS($GLOBALS[self::$pref.$c]);
+        $output = Load::CSS($GLOBALS[self::$pref.$name]);
 
         return $output;
     }
@@ -134,11 +189,16 @@ class Hook
      * @package arx
      * @comments :
      */
-    public static function getAll($c = null)
+    public static function getAll()
     {
-        return $GLOBALS['all_hooked_name'];
+        return $GLOBALS[ARX_HOOK];
     }
 
+    /**
+     * Output hook
+     *
+     * @return bool
+     */
     public static function output()
     {
         
@@ -155,7 +215,6 @@ class Hook
 
                     break;
                 case ($c == 'css'):
-
                     $output = Asset::dump($GLOBALS[self::$pref.$c]);
                     break;
                 default:
@@ -171,36 +230,88 @@ class Hook
         return $output;
     }
 
-    public function get($c){
-        return self::output($c);
+    /**
+     * Get registered hook
+     *
+     * @param $name
+     * @param array $param
+     * @return bool
+     */
+    public static function get($name, $default = null){
+
+        $dots = null;
+
+        if ($pos = strpos($name, '.')) {
+            $dots = substr($name, $pos + 1);
+            $name = substr($name, 0, $pos);
+        }
+
+        if(isset($GLOBALS[ARX_HOOK][$name])){
+
+            if ($dots) {
+                return Arr::get($GLOBALS[ARX_HOOK][$name], $dots, $default);
+            }
+
+            return $GLOBALS[ARX_HOOK][$name];
+        }
+
+        if ($default) {
+            return $default;
+        }
+
+        return false;
     }
 
-    public function eput($c){
+    /**
+     * Output json type
+     *
+     * @param $name
+     * @param $default
+     */
+    public static function getJson($name, $default){
+        return json_encode(self::get($name, $default));
+    }
+
+    public static function eput($c){
         echo self::output($c);
     }
 
     /**
      * Start method put your output in memory cache until you end
-     * @param $str
+     *
+     * @param $name
+     * @param null $key
+     *
      */
-    public function start($name){
-        $GLOBALS[self::$pref.$name] = '';
+    public static  function start($name, $key = null){
+        if ($key) {
+            $GLOBALS[ARX_HOOK][$name][$key] = '';
+        } else {
+            $GLOBALS[ARX_HOOK][$name] = '';
+        }
         ob_start();
     }
 
     /**
      * End your cached data and save it in a globals
      * @param $name
+     * @param null $key
      */
-    public function end($name){
-        $GLOBALS[self::$pref.$name] .= ob_get_contents();
+    public static function end($name, $key = null){
+
+        if ($key) {
+            $GLOBALS[ARX_HOOK][$name][$key] = ob_get_contents();
+        } else {
+            $GLOBALS[ARX_HOOK][$name] = ob_get_contents();
+        }
+
         ob_end_clean();
     }
 } // class::Hook
 
 /**
- * Init the global arx_hook
+ * Init a global arx_hook element
  */
-if (!isset($GLOBALS['arx_hook'])) {
-    $GLOBALS['arx_hook'] = new Hook();
+if (!isset($GLOBALS[ARX_HOOK])) {
+    $GLOBALS[ARX_HOOK] = new Hook();
 }

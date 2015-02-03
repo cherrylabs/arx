@@ -9,30 +9,33 @@ class BeanstalkdJob extends Job {
 	/**
 	 * The Pheanstalk instance.
 	 *
-	 * @var Pheanstalk
+	 * @var \Pheanstalk_Pheanstalk
 	 */
 	protected $pheanstalk;
 
 	/**
 	 * The Pheanstalk job instance.
 	 *
-	 * @var Pheanstalk_Job
+	 * @var \Pheanstalk_Job
 	 */
 	protected $job;
 
 	/**
 	 * Create a new job instance.
 	 *
-	 * @param  \Illuminate\Container  $container
-	 * @param  Pheanstalk  $pheanstalk
-	 * @param  Pheanstalk_Job  $job
+	 * @param  \Illuminate\Container\Container  $container
+	 * @param  \Pheanstalk_Pheanstalk  $pheanstalk
+	 * @param  \Pheanstalk_Job  $job
+	 * @param  string  $queue
 	 * @return void
 	 */
 	public function __construct(Container $container,
                                 Pheanstalk $pheanstalk,
-                                Pheanstalk_Job $job)
+                                Pheanstalk_Job $job,
+                                $queue)
 	{
 		$this->job = $job;
+		$this->queue = $queue;
 		$this->container = $container;
 		$this->pheanstalk = $pheanstalk;
 	}
@@ -44,7 +47,17 @@ class BeanstalkdJob extends Job {
 	 */
 	public function fire()
 	{
-		$this->resolveAndFire(json_decode($this->job->getData(), true));
+		$this->resolveAndFire(json_decode($this->getRawBody(), true));
+	}
+
+	/**
+	 * Get the raw body string for the job.
+	 *
+	 * @return string
+	 */
+	public function getRawBody()
+	{
+		return $this->job->getData();
 	}
 
 	/**
@@ -54,6 +67,8 @@ class BeanstalkdJob extends Job {
 	 */
 	public function delete()
 	{
+		parent::delete();
+
 		$this->pheanstalk->delete($this->job);
 	}
 
@@ -68,6 +83,16 @@ class BeanstalkdJob extends Job {
 		$priority = Pheanstalk::DEFAULT_PRIORITY;
 
 		$this->pheanstalk->release($this->job, $priority, $delay);
+	}
+
+	/**
+	 * Bury the job in the queue.
+	 *
+	 * @return void
+	 */
+	public function bury()
+	{
+		$this->pheanstalk->bury($this->job);
 	}
 
 	/**
@@ -95,7 +120,7 @@ class BeanstalkdJob extends Job {
 	/**
 	 * Get the IoC container instance.
 	 *
-	 * @return \Illuminate\Container
+	 * @return \Illuminate\Container\Container
 	 */
 	public function getContainer()
 	{
@@ -105,7 +130,7 @@ class BeanstalkdJob extends Job {
 	/**
 	 * Get the underlying Pheanstalk instance.
 	 *
-	 * @return Pheanstalk
+	 * @return \Pheanstalk_Pheanstalk
 	 */
 	public function getPheanstalk()
 	{
@@ -115,7 +140,7 @@ class BeanstalkdJob extends Job {
 	/**
 	 * Get the underlying Pheanstalk job.
 	 *
-	 * @return Pheanstalk_Job
+	 * @return \Pheanstalk_Job
 	 */
 	public function getPheanstalkJob()
 	{

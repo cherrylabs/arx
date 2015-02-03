@@ -3,7 +3,9 @@
     "description": "Clean starter project for Arx",
     "keywords": ["arx", "framework", "starter kit"],
     "require": {
-        "arx/core" : "dev-master"
+        "arx/core" : "4.2.x",
+        "barryvdh/laravel-ide-helper": "1.*",
+        "barryvdh/laravel-debugbar": "1.*"
     },
     "license": "MIT",
     "require-dev": {

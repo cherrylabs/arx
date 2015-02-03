@@ -46,22 +46,25 @@ class DocBlock implements \Reflector
     /** @var Location Information about the location of this DocBlock. */
     protected $location = null;
 
+    /** @var bool Is this DocBlock (the start of) a template? */
+    protected $isTemplateStart = false;
+
+    /** @var bool Does this DocBlock signify the end of a DocBlock template? */
+    protected $isTemplateEnd = false;
+
     /**
      * Parses the given docblock and populates the member fields.
      *
      * The constructor may also receive namespace information such as the
      * current namespace and aliases. This information is used by some tags
-     * (e.g. @return, @param, etc.) to turn a relative Type into a FQCN.
+     * (e.g. return, param, etc.) to turn a relative Type into a FQCN.
      *
-     * @param \Reflector|string $docblock A docblock comment (including
-     *     asterisks) or reflector supporting the getDocComment method.
-     * @param Context           $context  The context in which the DocBlock
-     *     occurs.
-     * @param Location          $location The location within the file that this
-     *     DocBlock occurs in.
-     *
-     * @throws \InvalidArgumentException if the given argument does not have the
+     * @param \Reflector|string $docblock A docblock comment (including asterisks) or reflector supporting the
      *     getDocComment method.
+     * @param Context           $context  The context in which the DocBlock occurs.
+     * @param Location          $location The location within the file that this DocBlock occurs in.
+     *
+     * @throws \InvalidArgumentException if the given argument does not have the getDocComment method.
      */
     public function __construct(
         $docblock,
@@ -71,8 +74,7 @@ class DocBlock implements \Reflector
         if (is_object($docblock)) {
             if (!method_exists($docblock, 'getDocComment')) {
                 throw new \InvalidArgumentException(
-                    'Invalid object passed; the given reflector must support '
-                    . 'the getDocComment method'
+                    'Invalid object passed; the given reflector must support the getDocComment method'
                 );
             }
 
@@ -81,7 +83,9 @@ class DocBlock implements \Reflector
 
         $docblock = $this->cleanInput($docblock);
 
-        list($short, $long, $tags) = $this->splitDocBlock($docblock);
+        list($templateMarker, $short, $long, $tags) = $this->splitDocBlock($docblock);
+        $this->isTemplateStart = $templateMarker === '#@+';
+        $this->isTemplateEnd = $templateMarker === '#@-';
         $this->short_description = $short;
         $this->long_description = new DocBlock\Description($long, $this);
         $this->parseTags($tags);
@@ -119,74 +123,86 @@ class DocBlock implements \Reflector
     }
 
     /**
-     * Splits the DocBlock into a short description, long description and
-     * block of tags.
+     * Splits the DocBlock into a template marker, summary, description and block of tags.
      *
      * @param string $comment Comment to split into the sub-parts.
      *
-     * @author RichardJ Special thanks to RichardJ for the regex responsible
-     *     for the split.
+     * @author Richard van Velzen (@_richardJ) Special thanks to Richard for the regex responsible for the split.
+     * @author Mike van Riel <me@mikevanriel.com> for extending the regex with template marker support.
      *
-     * @return string[] containing the short-, long description and an element
-     *     containing the tags.
+     * @return string[] containing the template marker (if any), summary, description and a string containing the tags.
      */
     protected function splitDocBlock($comment)
     {
+        // Performance improvement cheat: if the first character is an @ then only tags are in this DocBlock. This
+        // method does not split tags so we return this verbatim as the fourth result (tags). This saves us the
+        // performance impact of running a regular expression
         if (strpos($comment, '@') === 0) {
-            $matches = array('', '', $comment);
-        } else {
-            // clears all extra horizontal whitespace from the line endings
-            // to prevent parsing issues
-            $comment = preg_replace('/\h*$/Sum', '', $comment);
-
-            /*
-             * Splits the docblock into a short description, long description and
-             * tags section
-             * - The short description is started from the first character until
-             *   a dot is encountered followed by a newline OR
-             *   two consecutive newlines (horizontal whitespace is taken into
-             *   account to consider spacing errors)
-             * - The long description, any character until a new line is
-             *   encountered followed by an @ and word characters (a tag).
-             *   This is optional.
-             * - Tags; the remaining characters
-             *
-             * Big thanks to RichardJ for contributing this Regular Expression
-             */
-            preg_match(
-                '/
-        \A (
-          [^\n.]+
-          (?:
-            (?! \. \n | \n{2} ) # disallow the first seperator here
-            [\n.] (?! [ \t]* @\pL ) # disallow second seperator
-            [^\n.]+
-          )*
-          \.?
-        )
-        (?:
-          \s* # first seperator (actually newlines but it\'s all whitespace)
-          (?! @\pL ) # disallow the rest, to make sure this one doesn\'t match,
-          #if it doesn\'t exist
-          (
-            [^\n]+
-            (?: \n+
-              (?! [ \t]* @\pL ) # disallow second seperator (@param)
-              [^\n]+
-            )*
-          )
-        )?
-        (\s+ [\s\S]*)? # everything that follows
-        /ux',
-                $comment,
-                $matches
-            );
-            array_shift($matches);
+            return array('', '', '', $comment);
         }
 
-        while (count($matches) < 3) {
+        // clears all extra horizontal whitespace from the line endings to prevent parsing issues
+        $comment = preg_replace('/\h*$/Sum', '', $comment);
+
+        /*
+         * Splits the docblock into a template marker, short description, long description and tags section
+         *
+         * - The template marker is empty, #@+ or #@- if the DocBlock starts with either of those (a newline may
+         *   occur after it and will be stripped).
+         * - The short description is started from the first character until a dot is encountered followed by a
+         *   newline OR two consecutive newlines (horizontal whitespace is taken into account to consider spacing
+         *   errors). This is optional.
+         * - The long description, any character until a new line is encountered followed by an @ and word
+         *   characters (a tag). This is optional.
+         * - Tags; the remaining characters
+         *
+         * Big thanks to RichardJ for contributing this Regular Expression
+         */
+        preg_match(
+            '/
+            \A
+            # 1. Extract the template marker
+            (?:(\#\@\+|\#\@\-)\n?)?
+
+            # 2. Extract the summary
+            (?:
+              (?! @\pL ) # The summary may not start with an @
+              (
+                [^\n.]+
+                (?:
+                  (?! \. \n | \n{2} )     # End summary upon a dot followed by newline or two newlines
+                  [\n.] (?! [ \t]* @\pL ) # End summary when an @ is found as first character on a new line
+                  [^\n.]+                 # Include anything else
+                )*
+                \.?
+              )?
+            )
+
+            # 3. Extract the description
+            (?:
+              \s*        # Some form of whitespace _must_ precede a description because a summary must be there
+              (?! @\pL ) # The description may not start with an @
+              (
+                [^\n]+
+                (?: \n+
+                  (?! [ \t]* @\pL ) # End description when an @ is found as first character on a new line
+                  [^\n]+            # Include anything else
+                )*
+              )
+            )?
+
+            # 4. Extract the tags (anything that follows)
+            (\s+ [\s\S]*)? # everything that follows
+            /ux',
+            $comment,
+            $matches
+        );
+        array_shift($matches);
+
+        while (count($matches) < 4) {
             $matches[] = '';
         }
+
         return $matches;
     }
 
@@ -209,20 +225,16 @@ class DocBlock implements \Reflector
                 );
             }
             foreach (explode("\n", $tags) as $tag_line) {
-                if (trim($tag_line) === '') {
-                    continue;
-                }
-
                 if (isset($tag_line[0]) && ($tag_line[0] === '@')) {
                     $result[] = $tag_line;
                 } else {
-                    $result[count($result) - 1] .= PHP_EOL . $tag_line;
+                    $result[count($result) - 1] .= "\n" . $tag_line;
                 }
             }
 
             // create proper Tag objects
             foreach ($result as $key => $tag_line) {
-                $result[$key] = Tag::createInstance($tag_line, $this);
+                $result[$key] = Tag::createInstance(trim($tag_line), $this);
             }
         }
 
@@ -250,18 +262,17 @@ class DocBlock implements \Reflector
     }
 
     /**
-     * Set the text portion of the doc block.
+     * Set the text portion of the DocBlock.
      * 
-     * Sets the text portion (short and long description combined) of the doc
-     * block.
+     * Sets the text portion (short and long description combined) of the DocBlock.
      *
-     * @param string $docblock The new text portion of the doc block.
+     * @param string $comment The new text portion of the DocBlock.
      * 
-     * @return $this This doc block.
+     * @return $this
      */
     public function setText($comment)
     {
-        list($short, $long) = $this->splitDocBlock($comment);
+        list(,$short, $long) = $this->splitDocBlock($comment);
         $this->short_description = $short;
         $this->long_description = new DocBlock\Description($long, $this);
         return $this;
@@ -284,6 +295,44 @@ class DocBlock implements \Reflector
     public function getLongDescription()
     {
         return $this->long_description;
+    }
+
+    /**
+     * Returns whether this DocBlock is the start of a Template section.
+     *
+     * A Docblock may serve as template for a series of subsequent DocBlocks. This is indicated by a special marker
+     * (`#@+`) that is appended directly after the opening `/**` of a DocBlock.
+     *
+     * An example of such an opening is:
+     *
+     * ```
+     * /**#@+
+     *  * My DocBlock
+     *  * /
+     * ```
+     *
+     * The description and tags (not the summary!) are copied onto all subsequent DocBlocks and also applied to all
+     * elements that follow until another DocBlock is found that contains the closing marker (`#@-`).
+     *
+     * @see self::isTemplateEnd() for the check whether a closing marker was provided.
+     *
+     * @return boolean
+     */
+    public function isTemplateStart()
+    {
+        return $this->isTemplateStart;
+    }
+
+    /**
+     * Returns whether this DocBlock is the end of a Template section.
+     *
+     * @see self::isTemplateStart() for a more complete description of the Docblock Template functionality.
+     *
+     * @return boolean
+     */
+    public function isTemplateEnd()
+    {
+        return $this->isTemplateEnd;
     }
 
     /**

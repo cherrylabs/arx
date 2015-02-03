@@ -12,7 +12,6 @@
 namespace Predis\Replication;
 
 use PredisTestCase;
-use Predis\Command\CommandInterface;
 use Predis\Profile\ServerProfile;
 
 /**
@@ -118,7 +117,6 @@ class ReplicationStrategyTest extends PredisTestCase
                 ->method('getId')
                 ->will($this->returnValue('CMDTEST'));
 
-
         $strategy->setCommandReadOnly('CMDTEST', true);
         $this->assertTrue($strategy->isReadOperation($command));
     }
@@ -134,7 +132,6 @@ class ReplicationStrategyTest extends PredisTestCase
         $command->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue('CMDTEST'));
-
 
         $strategy->setCommandReadOnly('CMDTEST', false);
         $this->assertFalse($strategy->isReadOperation($command));
@@ -235,14 +232,13 @@ class ReplicationStrategyTest extends PredisTestCase
     /**
      * Returns the list of expected supported commands.
      *
-     * @param string $type Optional type of command (based on its keys)
+     * @param  string $type Optional type of command (based on its keys)
      * @return array
      */
     protected function getExpectedCommands($type = null)
     {
         $commands = array(
             /* commands operating on the connection */
-            'EXISTS'                => 'read',
             'AUTH'                  => 'read',
             'SELECT'                => 'read',
             'ECHO'                  => 'read',
@@ -290,6 +286,7 @@ class ReplicationStrategyTest extends PredisTestCase
             'GETSET'                => 'write',
             'INCR'                  => 'write',
             'INCRBY'                => 'write',
+            'INCRBYFLOAT'           => 'write',
             'SETBIT'                => 'write',
             'SETEX'                 => 'write',
             'MSET'                  => 'write',
@@ -345,6 +342,9 @@ class ReplicationStrategyTest extends PredisTestCase
             'ZREVRANK'              => 'read',
             'ZSCORE'                => 'read',
             'ZSCAN'                 => 'read',
+            'ZLEXCOUNT'             => 'read',
+            'ZRANGEBYLEX'           => 'read',
+            'ZREMRANGEBYLEX'        => 'write',
 
             /* commands operating on hashes */
             'HDEL'                  => 'write',
@@ -360,6 +360,11 @@ class ReplicationStrategyTest extends PredisTestCase
             'HSETNX'                => 'write',
             'HVALS'                 => 'read',
             'HSCAN'                 => 'read',
+
+            /* commands operating on HyperLogLog */
+            'PFADD'                 => 'write',
+            'PFMERGE'               => 'write',
+            'PFCOUNT'               => 'read',
 
             /* scripting */
             'EVAL'                  => 'write',

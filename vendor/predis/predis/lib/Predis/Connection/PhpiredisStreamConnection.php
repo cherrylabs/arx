@@ -37,6 +37,7 @@ use Predis\Command\CommandInterface;
  *  - scheme: it can be either 'tcp' or 'unix'.
  *  - host: hostname or IP address of the server.
  *  - port: TCP port of the server.
+ *  - path: path of a UNIX domain socket when scheme is 'unix'.
  *  - timeout: timeout to perform the connection.
  *  - read_write_timeout: timeout of read / write operations.
  *  - async_connect: performs the connection asynchronously.
@@ -96,6 +97,52 @@ class PhpiredisStreamConnection extends StreamConnection
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function tcpStreamInitializer(ConnectionParametersInterface $parameters)
+    {
+        $uri = "tcp://{$parameters->host}:{$parameters->port}";
+        $flags = STREAM_CLIENT_CONNECT;
+        $socket = null;
+
+        if (isset($parameters->async_connect) && $parameters->async_connect) {
+            $flags |= STREAM_CLIENT_ASYNC_CONNECT;
+        }
+
+        if (isset($parameters->persistent) && $parameters->persistent) {
+            $flags |= STREAM_CLIENT_PERSISTENT;
+            $uri .= strpos($path = $parameters->path, '/') === 0 ? $path : "/$path";
+        }
+
+        $resource = @stream_socket_client($uri, $errno, $errstr, $parameters->timeout, $flags);
+
+        if (!$resource) {
+            $this->onConnectionError(trim($errstr), $errno);
+        }
+
+        if (isset($parameters->read_write_timeout) && function_exists('socket_import_stream')) {
+            $rwtimeout = (float) $parameters->read_write_timeout;
+            $rwtimeout = $rwtimeout > 0 ? $rwtimeout : -1;
+
+            $timeout = array(
+                'sec'  => $timeoutSeconds = floor($rwtimeout),
+                'usec' => ($rwtimeout - $timeoutSeconds) * 1000000,
+            );
+
+            $socket = $socket ?: socket_import_stream($resource);
+            @socket_set_option($socket, SOL_SOCKET, SO_SNDTIMEO, $timeout);
+            @socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, $timeout);
+        }
+
+        if (isset($parameters->tcp_nodelay) && function_exists('socket_import_stream')) {
+            $socket = $socket ?: socket_import_stream($resource);
+            socket_set_option($socket, SOL_TCP, TCP_NODELAY, (int) $parameters->tcp_nodelay);
+        }
+
+        return $resource;
+    }
+
+    /**
      * Initializes the protocol reader resource.
      */
     protected function initializeReader()
@@ -132,7 +179,6 @@ class PhpiredisStreamConnection extends StreamConnection
     /**
      * Gets the handler used by the protocol reader to handle Redis errors.
      *
-     * @param Boolean $throw_errors Specify if Redis errors throw exceptions.
      * @return \Closure
      */
     protected function getErrorHandler()
@@ -151,11 +197,10 @@ class PhpiredisStreamConnection extends StreamConnection
         $reader = $this->reader;
 
         while (PHPIREDIS_READER_STATE_INCOMPLETE === $state = phpiredis_reader_get_state($reader)) {
-            $buffer = fread($socket, 4096);
+            $buffer = stream_socket_recvfrom($socket, 4096);
 
             if ($buffer === false || $buffer === '') {
                 $this->onConnectionError('Error while reading bytes from the server');
-                return;
             }
 
             phpiredis_reader_feed($reader, $buffer);

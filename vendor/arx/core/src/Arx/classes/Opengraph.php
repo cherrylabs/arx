@@ -1,21 +1,31 @@
 <?php namespace Arx\classes;
-/**
- * Class OpenGraph
- *
- * Adaptation of the Scott MacVicar class
- *
- * @author Scott MacVicar
- * @author Daniel Sum
- * @licence Apache 2.0/MIT
- *
- * @package Arx\classes
- *
- */
 
 use Iterator, DOMXPath, DOMDocument;
 
+/**
+ * Class Opengraph
+ *
+ * Usefull Opengraph class
+ *
+ * @author Scott MacVicar
+ * @author Daniel Sum
+ *
+ * @package Arx\classes
+ */
 class Opengraph implements Iterator
 {
+
+
+	/**
+	 * Iterator code
+	 */
+	private $_position = 0;
+	public function rewind() { reset($this->_values); $this->_position = 0; }
+	public function current() { return current($this->_values); }
+	public function key() { return key($this->_values); }
+	public function next() { next($this->_values); ++$this->_position; }
+	public function valid() { return $this->_position < sizeof($this->_values); }
+
     /**
      * There are base schema's based on type, this is just
      * a map so that the schema can be obtained
@@ -61,6 +71,8 @@ class Opengraph implements Iterator
         curl_close($curl);
 
         if (!empty($response)) {
+
+            $response = utf8_decode($response);
             return self::_parse($response);
         } else {
             return false;
@@ -209,14 +221,4 @@ class Opengraph implements Iterator
         }
         return $valid_address;
     }
-
-    /**
-     * Iterator code
-     */
-    private $_position = 0;
-    public function rewind() { reset($this->_values); $this->_position = 0; }
-    public function current() { return current($this->_values); }
-    public function key() { return key($this->_values); }
-    public function next() { next($this->_values); ++$this->_position; }
-    public function valid() { return $this->_position < sizeof($this->_values); }
 }

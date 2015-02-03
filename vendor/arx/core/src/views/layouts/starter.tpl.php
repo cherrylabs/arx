@@ -1,8 +1,21 @@
 @extends('arx::layouts.bootstrap')
 
-@section('body')
-<body class="page-starter">
+@section('css')
+    @parent
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .starter-template {
+            padding: 20px 0;
+        }
+    </style>
+@stop
 
+<?php
+$body['attributes']['class'] = 'page-starter '.$this->body['attributes']['class'];
+?>
+@section('body')
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -17,8 +30,8 @@
             <div class="collapse navbar-collapse">
                     @section('nav')
                     <?php
-                        echo  \Arx\helpers\Bootstrap::nav(
-                        $nav,
+                        echo  \Arx\BootstrapHelper::nav(
+                        $this->nav ?: Lang::get('arx::example.nav'),
                         array('parent@' => array('class' => 'nav navbar-nav')));
                     ?>
                     @show
@@ -41,5 +54,4 @@
         ?>
         @show
     </div> <!-- /container -->
-</body>
 @stop
