@@ -1,19 +1,22 @@
-<?php
+<?php namespace Arx\classes;
 
 /**
  * Helper.php.
  *
  * @project : arx
- * @todo make helper logic
  * @author : Daniel Sum <daniel@cherrypulp.com>
  */
-namespace Arx\classes;
+abstract class Helper extends Container {
 
+	public $data = [];
 
-class Helper extends Container {
+	/**
+	 * @param array $data
+	 */
+	public function __construct($data = array())
+	{
+		$this->data = array_merge($this->data, get_defined_vars());
 
-	public static function info( ){
-
+		return $this->data;
 	}
-
 }

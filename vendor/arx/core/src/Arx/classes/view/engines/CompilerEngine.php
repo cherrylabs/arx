@@ -21,8 +21,7 @@ class CompilerEngine extends PhpEngine {
     /**
      * Create a new Blade view engine instance.
      *
-     * @param  \Illuminate\View\Compilers\CompilerInterface  $compiler
-     * @return void
+     * @param  \Illuminate\View\Compilers\CompilerInterface $compiler
      */
     public function __construct(CompilerInterface $compiler)
     {
@@ -37,19 +36,23 @@ class CompilerEngine extends PhpEngine {
         $this->ngCtrl = $ngCtrl;
     }
 
-    public function bodyAttribute($attr, $value = null){
+    public function bodyAttributes($attr, $value = null){
 
         if (!isset($this->body['attributes'])) {
             $this->body['attributes'] = array();
         }
 
+        $body = $this->body;
+
         if (is_array($attr)) {
             foreach ($attr as $k => $value) {
-                $this->body['attributes'][$k] = $value;
+                $body['attributes'][$k] = $value;
             }
         } else {
-            $this->body['attributes'][$attr] = $value;
+            $body['attributes'][$attr] = $value;
         }
+
+        $this->body = $body;
     }
 
     /**
@@ -106,4 +109,13 @@ class CompilerEngine extends PhpEngine {
         return $this->_data->__var;
     }
 
+    public function toArray()
+    {
+        $toArray = json_decode(json_encode($this->_data->data), true);
+
+        unset($toArray['__env']);
+        unset($toArray['app']);
+
+        return $toArray;
+    }
 }

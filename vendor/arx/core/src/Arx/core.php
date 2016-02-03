@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHP File - /core.php
  *
@@ -50,7 +49,7 @@ defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 require_once __DIR__ . DS . 'classes' . DS . 'Singleton.php';
 require_once __DIR__ . DS . 'classes' . DS . 'Container.php';
 require_once __DIR__ . DS . 'classes' . DS . 'Arr.php';
-require_once __DIR__ . DS . 'classes' . DS . 'Strings.php';
+require_once __DIR__ . DS . 'classes' . DS . 'Str.php';
 require_once __DIR__ . DS . 'classes' . DS . 'Utils.php';
 
 
@@ -100,9 +99,10 @@ if(!class_exists('Arx')){
          * @param null $value
          * @return string
          */
-        public static function path($value = null){
+        public static function getPath($value = null){
             return __DIR__.($value ? DS. $value : '');
         }
+
 
         /**
          * Auto-detect environment
@@ -158,12 +158,11 @@ if(!class_exists('Arx')){
          */
         public static function autoload($className, $aParam = array())
         {
-
             $className = ltrim($className, '\\');
             $fileName = '';
             $namespace = '';
             $composerName = '';
-            $supposedPath = ''; # Supposed path if class have a autoload structure in workbench
+            $supposedPath = null;
 
             if ($lastNsPos = strrpos($className, '\\')) {
                 $namespace = substr($className, 0, $lastNsPos);
@@ -187,7 +186,32 @@ if(!class_exists('Arx')){
 
             $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
+
             $aNamespaces = Arx\classes\Composer::getNamespaces();
+
+            foreach($aNamespaces as $key => $paths){
+
+                if(substr($key,-1) == '\\'){
+                    $key = substr($key,0,-1);
+                }
+
+                foreach($paths as $i => $path){
+                    $aNamespaces[$key][$i] = $path . DS . str_replace('\\', DS, $namespace);
+                }
+            }
+
+            $aNamespacesPSR4 = Arx\classes\Composer::getNamespacesPSR4();
+
+            foreach($aNamespacesPSR4 as $key => $paths){
+
+                if(substr($key,-1) == '\\'){
+                    $key = substr($key,0,-1);
+                }
+
+                foreach($paths as $i => $path){
+                    $aNamespaces[$key][$i] = $path;
+                }
+            }
 
 
             if (in_array($namespace, array_keys($aNamespaces))) {
@@ -206,21 +230,21 @@ if(!class_exists('Arx')){
             if(isset($aNamespaces[$composerName]) && !empty($aNamespaces[$composerName])){
 
                 if(preg_match('/Controller$/', $className)){
-                    $supposedPath = end($aNamespaces[$composerName]) . DS. str_replace('\\', DS, $namespace) . DS.  'controllers' . DS . $className . '.php';
+                    $supposedPath = end($aNamespaces[$composerName]) . DS.  'controllers' . DS . $className . '.php';
                 } elseif(preg_match('/Model$/', $className)){
-                    $supposedPath = end($aNamespaces[$composerName]) . DS . str_replace('\\', DS, $namespace) . DS. 'models' . DS . $className . '.php';
+                    $supposedPath = end($aNamespaces[$composerName]) . DS. 'models' . DS . $className . '.php';
                 } elseif(preg_match('/Class$/', $className)){
-                    $supposedPath = end($aNamespaces[$composerName]) . DS . str_replace('\\', DS, $namespace) . DS. 'classes' . DS . $className . '.php';
+                    $supposedPath = end($aNamespaces[$composerName]) . DS. 'classes' . DS . $className . '.php';
                 } elseif(preg_match('/Command$/', $className)){
-                    $supposedPath = end($aNamespaces[$composerName]) . DS . str_replace('\\', DS, $namespace) . DS. 'commands' . DS . $className . '.php';
+                    $supposedPath = end($aNamespaces[$composerName]) . DS. 'commands' . DS . $className . '.php';
                 } elseif(preg_match('/Provider$/', $className)){
-                    $supposedPath = end($aNamespaces[$composerName]) . DS . str_replace('\\', DS, $namespace) . DS. 'providers' . DS . $className . '.php';
+                    $supposedPath = end($aNamespaces[$composerName]) . DS. 'providers' . DS . $className . '.php';
                 } elseif(preg_match('/Facade$/', $className)){
-                    $supposedPath = end($aNamespaces[$composerName]) . DS . str_replace('\\', DS, $namespace) . DS. 'facades' . DS . $className . '.php';
+                    $supposedPath = end($aNamespaces[$composerName]) . DS. 'facades' . DS . $className . '.php';
                 } elseif(preg_match('/Helper$/', $className)){
-                    $supposedPath = end($aNamespaces[$composerName]) . DS . str_replace('\\', DS, $namespace) . DS. 'helpers' . DS . $className . '.php';
+                    $supposedPath = end($aNamespaces[$composerName]) . DS. 'helpers' . DS . $className . '.php';
                 } elseif(preg_match('/Interface$/', $className)){
-                    $supposedPath = end($aNamespaces[$composerName]) . DS . str_replace('\\', DS, $namespace) . DS. 'interfaces' . DS . $className . '.php';
+                    $supposedPath = end($aNamespaces[$composerName]) . DS. 'interfaces' . DS . $className . '.php';
                 }
 
             }
@@ -238,21 +262,20 @@ if(!class_exists('Arx')){
                     include $fileName;
                 } elseif(is_file($supposedPath) ) {
                     include $supposedPath;
-                } elseif(isset($aNamespaces[$composerName]) && is_file(end($aNamespaces[$composerName]) . DS . str_replace('\\', DS, $namespace) . DS. 'models' . DS . $className . '.php')){
-                    include end($aNamespaces[$composerName]) . DS . str_replace('\\', DS, $namespace) . DS. 'models' . DS . $className . '.php';
+                } elseif(isset($aNamespaces[$composerName]) && is_file(end($aNamespaces[$composerName]) . DS. 'models' . DS . $className . '.php')){
+                    include end($aNamespaces[$composerName]) . DS. 'models' . DS . $className . '.php';
                 }
             } catch (Exception $e) {
-                #trigger_error($e);
+
             }
         }
     }
-
 }
 
 /**
  * Spl class register
  *
- * If a class is not found it will trigger arx::autoload method defined in classes/app.php
+ * If a class is not found it will trigger arx::autoload method defined in Arx Class to resolve the class
  *
  */
 spl_autoload_register('Arx::autoload');

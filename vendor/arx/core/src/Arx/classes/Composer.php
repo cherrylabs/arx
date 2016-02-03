@@ -4,6 +4,7 @@
  *
  * Helps to resolve and find Composer paths
  *
+ * @compatibility php
  * @package Arx\classes
  */
 class Composer extends Container
@@ -57,6 +58,27 @@ class Composer extends Container
     {
         $t = self::getInstance();
         $response = (array) include $t->path . DS . 'autoload_namespaces.php';
+
+        if($flip){
+            return array_flip($response);
+        } else {
+            return $response;
+        }
+    }
+
+    /**
+     * Get the array of namespace defined in composer
+     *
+     * It includes a array_flip function to add a more easy way to handle the array
+     *
+     * @param null $flip
+     *
+     * @return array|mixed
+     */
+    public static function getNamespacesPSR4($flip = null)
+    {
+        $t = self::getInstance();
+        $response = (array) include $t->path . DS . 'autoload_psr4.php';
 
         if($flip){
             return array_flip($response);

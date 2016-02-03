@@ -1,5 +1,6 @@
-<?php namespace Arx;
+<?php namespace Arx\controllers;
 
+use Arx\classes\Convert;
 use Assetic\Asset\FileAsset, Assetic\Asset\AssetCollection;
 use Response, App, View, Arx\classes\Composer;
 use Symfony\Component\HttpFoundation\File\File;
@@ -7,7 +8,7 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * Class AssetsController
  *
- * Can resolve assets access when assets come from vendors or workbench or when you need to protect your assets
+ * Can resolve assets access when assets come from vendors or workbench or when you need to protect your assets from public
  *
  * @package Arx
  */
@@ -27,7 +28,10 @@ class AssetsController extends BaseController {
      */
     public function missingMethod($parameters = array())
     {
-        $parameters = implode('/', $parameters);
+
+        if (is_array($parameters)) {
+            $parameters = implode('/', $parameters);
+        }
 
         # If parameters is a file
         if ($file = $this->path($parameters)) {
@@ -56,7 +60,11 @@ class AssetsController extends BaseController {
             } else {
                 $file = new File($file);
                 $mime = $file->getMimeType();
-                $headers['Content-Type'] = $mime;
+                if ($mime) {
+                    $headers['Content-Type'] = $mime;
+                } else {
+                    $headers['Content-Type'] = 'text/html';
+                }
             }
 
             return Response::make($response, 200, $headers);
@@ -69,7 +77,6 @@ class AssetsController extends BaseController {
     /**
      * Check file from registered path
      *
-     * @todo better way to handle paths
      * @param null $file
      * @return string
      */
@@ -100,5 +107,11 @@ class AssetsController extends BaseController {
 
         return false;
     }
+
+}
+
+namespace Arx;
+
+class AssetsController extends controllers\AssetsController{
 
 }

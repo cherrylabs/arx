@@ -1,11 +1,51 @@
 <?php namespace Arx;
 
+require_once __DIR__ . '/core.php';
+require_once __DIR__ . '/traits/ServiceProviderTrait.php';
+
 use Arx\classes\view\engines\CompilerEngine;
-use View,Config,Lang,Arx;
+use Arx;
 
 use Illuminate\Support\ServiceProvider;
 
 class CoreServiceProvider extends ServiceProvider {
+
+    use ServiceProviderTrait;
+
+    /**
+     * The providers autoloaded by this module
+     *
+     * @var array
+     */
+    public $providers = [
+        'Collective\Html\HtmlServiceProvider'
+    ];
+
+    /**
+     * The facades that will be autoloaded
+     *
+     * @var array
+     */
+    public $facades = [
+        # Missing Facades helpers
+        'Controller' => 'Illuminate\Routing\Controller',
+        'HTML' => 'Collective\Html\HtmlFacade',
+        'Form' => 'Collective\Html\FormFacade',
+        'Input' => '\Illuminate\Support\Facades\Input',
+        # Arx
+        'Asset' => 'Arx\classes\Asset',
+        'Shortcode' => 'Arx\facades\Shortcode',
+        'Arr' => 'Arx\classes\Arr',
+        'Hook' => 'Arx\classes\Hook',
+        'Dummy' => 'Arx\classes\Dummy',
+        'Utils' => 'Arx\classes\Utils',
+    ];
+
+    public $commands = [
+        'make:js' => 'Arx\\JsCommand',
+        'make:angular' => 'Arx\\AngularCommand',
+        'arx:publish-assets' => 'Arx\\PublishCommand',
+    ];
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -23,18 +63,9 @@ class CoreServiceProvider extends ServiceProvider {
     {
         Arx::ignite();
 
-        $this->package('arx/core');
-
-        // Add namespace package so you can access to views, lang and config with arx::
-        \View::addNamespace('arx', __DIR__.'/../views');
-        \Lang::addNamespace('arx', __DIR__.'/../lang');
-        \Config::addNamespace('arx', __DIR__.'/../config');
-
-        require_once __DIR__.'/start/artisan.php';
-        require_once __DIR__.'/start/global.php';
+        $this->loadViewsFrom(__DIR__.'/../views', 'arx');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'arx');
         require_once __DIR__.'/helpers.php';
-        require_once __DIR__.'/filters.php';
-        require_once __DIR__.'/routes.php';
     }
 
     /**
@@ -46,29 +77,31 @@ class CoreServiceProvider extends ServiceProvider {
     {
         $app = $this->app;
 
-        $this->app['command.arx.gen'] = $this->app->share(function()
-        {
-            return new GenCommand();
-        });
+        // Add Custom Tpl extension (.tpl)
+        $this->app['view']->addExtension('tpl.php',
+            'tpl',
+            function() use ($app) {
+                $cache = $app['path.storage'].'/framework/views';
 
-        $this->commands('command.arx.gen');
+                $compiler = new Arx\classes\view\engines\tpl\TplCompiler($app['files'], $cache);
 
-        $app['view']->addExtension('tpl.php', 'tpl', function() use ($app)
-        {
-            $cache = $app['path.storage'].'/views';
+                return new CompilerEngine($compiler);
+            }
+        );
 
-            // The Compiler engine requires an instance of the CompilerInterface, which in
-            // this case will be the Blade compiler, so we'll first create the compiler
-            // instance to pass into the engine so it can compile the views properly.
-            $compiler = new Arx\classes\view\engines\tpl\TplCompiler($app['files'], $cache);
-
-            return new CompilerEngine($compiler);
-        });
-
+        // Add Shortcode handler
         $this->app['shortcode'] = $this->app->share(function($app)
         {
             return new Arx\classes\Shortcode();
         });
+
+        $this->app->singleton('notify', function () {
+            return $this->app->make('Arx\classes\Notify');
+        });
+
+        $this->registerFacades();
+        $this->registerProviders();
+        $this->registerCommands();
     }
 
     /**
@@ -79,7 +112,8 @@ class CoreServiceProvider extends ServiceProvider {
     public function provides()
     {
         return array(
-            'shortcode'
+            'shortcode',
+            'notify'
         );
     }
 

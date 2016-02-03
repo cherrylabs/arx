@@ -96,7 +96,6 @@ $_kintSettings['hideSequentialKeys'] = true;
 /** @var string name of theme for rich view */
 $_kintSettings['theme'] = 'original';
 
-
 /**
  * @var callback filters array/object keys before outputting; return false if you do not wish to see it in the output
  *

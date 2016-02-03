@@ -3,7 +3,6 @@
 namespace Faker\ORM\CakePHP;
 
 use Cake\ORM\TableRegistry;
-use Faker\Guesser\Name as NameGuesser;
 
 class EntityPopulator
 {
@@ -17,11 +16,17 @@ class EntityPopulator
         $this->class = $class;
     }
 
+    /**
+     * @param string $name
+     */
     public function __get($name)
     {
         return $this->{$name};
     }
 
+    /**
+     * @param string $name
+     */
     public function __set($name, $value)
     {
         $this->{$name} = $value;
@@ -37,6 +42,9 @@ class EntityPopulator
         $this->modifiers = array_merge($this->modifiers, $modifiers);
     }
 
+    /**
+     * @return array
+     */
     public function guessColumnFormatters($populator)
     {
         $formatters = [];
@@ -71,7 +79,10 @@ class EntityPopulator
         return $formatters;
     }
 
-    public function guessModifiers($populator)
+    /**
+     * @return array
+     */
+    public function guessModifiers()
     {
         $modifiers = [];
         $table = $this->getTable($this->class);
@@ -81,8 +92,24 @@ class EntityPopulator
             $modifiers['belongsTo' . $assoc->name()] = function ($data, $insertedEntities) use ($assoc) {
                 $table = $assoc->target();
                 $foreignModel = $table->alias();
-                $foreignKey = $insertedEntities[$foreignModel][array_rand($insertedEntities[$foreignModel])];
-                $primaryKey = $table->primaryKey();
+
+                $foreignKeys = [];
+                if (!empty($insertedEntities[$foreignModel])) {
+                    $foreignKeys = $insertedEntities[$foreignModel];
+                } else {
+                    $foreignKeys = $table->find('all')
+                    ->select(['id'])
+                    ->map(function ($row) {
+                        return $row->id;
+                    })
+                    ->toArray();
+                }
+
+                if (empty($foreignKeys)) {
+                    throw new \Exception(sprintf('%s belongsTo %s, which seems empty at this point.', $this->getTable($this->class)->table(), $assoc->table()));
+                }
+
+                $foreignKey = $foreignKeys[array_rand($foreignKeys)];
                 $data[$assoc->foreignKey()] = $foreignKey;
                 return $data;
             };
@@ -93,6 +120,9 @@ class EntityPopulator
         return $modifiers;
     }
 
+    /**
+     * @param array $options
+     */
     public function execute($class, $insertedEntities, $options = [])
     {
         $table = $this->getTable($class);
@@ -113,7 +143,11 @@ class EntityPopulator
         }
 
         $pk = $table->primaryKey();
-        return $entity->{$pk};
+        if (is_string($pk)) {
+            return $entity->{$pk};
+        }
+
+        return $entity->{$pk[0]};
     }
 
     public function setConnection($name)

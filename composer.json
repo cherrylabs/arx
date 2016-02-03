@@ -1,27 +1,46 @@
 {
     "name": "arx/project",
-    "description": "Clean starter project for Arx",
-    "keywords": ["arx", "framework", "starter kit"],
-    "require": {
-        "arx/core" : "4.2.x",
-        "barryvdh/laravel-ide-helper": "1.*",
-        "barryvdh/laravel-debugbar": "1.*"
-    },
+    "description": "Arx Starter Project Template",
+    "keywords": ["framework", "laravel", "Saas", "Starter Kit"],
     "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=5.5.9",
+        "laravel/framework": "5.2.*",
+        "arx/core": "5.2.*",
+        "arx/arxmin": "~5.2.1"
+    },
     "require-dev": {
-
+        "fzaninotto/faker": "~1.4",
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~4.0",
+        "symfony/css-selector": "2.8.*|3.0.*",
+        "symfony/dom-crawler": "2.8.*|3.0.*"
     },
     "autoload": {
         "classmap": [
-            "app/commands",
-            "app/controllers",
-            "app/models",
-            "app/database/migrations",
-            "app/database/seeds",
-            "app/tests"
+            "database",
+            "modules"
+        ],
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files" : [
+            "bootstrap/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
         ]
     },
     "scripts": {
+        "post-root-package-install": [
+            "php -r \"copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+
+        ],
         "post-install-cmd": [
 
         ],
@@ -30,13 +49,10 @@
         ],
         "post-update-cmd": [
 
-        ],
-        "post-create-project-cmd": [
-            "php artisan key:generate"
         ]
     },
     "config": {
         "preferred-install": "dist"
     },
-    "minimum-stability": "dev"
+    "minimum-stability" : "dev"
 }

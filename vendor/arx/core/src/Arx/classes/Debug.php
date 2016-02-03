@@ -1,11 +1,11 @@
 <?php namespace Arx\classes;
 
+use Arx\classes\debug\Kint;
 use DebugBar\StandardDebugBar;
 use App;
-use Arx\classes\debug\Kint;
 
 /**
- * Class Debug handler
+ * Class Debug handler using Kint
  *
  * extends the DebugBar\StandardDebugBar class
  *
@@ -52,6 +52,15 @@ class Debug extends Singleton
      */
     public static function trace($data = null){
         Kint::trace($data);
+    }
+
+    /**
+     * Define Debug deep level
+     *
+     * @param $i
+     */
+    public static function level($level){
+        Kint::$maxLevels = $level;
     }
 
 } // class::Debug
